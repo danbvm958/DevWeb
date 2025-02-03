@@ -1,12 +1,12 @@
 Theme du site : Horrifique
 Titre (temporaire) : Horage
 
-1) Page d'acceuil 
-2) Page de présentation du site 
-3) Page de recherche (Avec filtrage etc)
-4) Sign up / Login
-5) Page profil 
-6) Page admin 
+1) Page d'acceuil C
+2) Page de présentation du site C
+3) Page de recherche (Avec filtrage etc) Z
+4) Sign up / Login D
+5) Page profil D
+6) Page admin Z
 
 CSS unique ou commun au choix 
 HTML séparé 
