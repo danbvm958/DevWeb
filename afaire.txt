@@ -10,3 +10,4 @@ Theme du site :
 CSS unique ou commun au choix 
 HTML séparé 
 Rapport de projet en pdf
+Charte graphique a choisir (On noteras tout ici)
