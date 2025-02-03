@@ -1,0 +1,50 @@
+div.container{
+	display : grid;
+	grid-template-areas: 
+	"header header header"
+	"left section right"
+	"left section right";
+	grid-template-rows: 50px auto auto;
+	grid-template-columns: 20rem auto 20rem ;
+	gap: 40px;
+
+}
+article#profil{
+	grid-area: section;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	border: 2px solid black;
+	
+}
+#menu{
+	grid-area: left;
+	display: grid;
+	grid-template-areas: 
+	"Compte"
+	"Voyage"
+	"Parametre"
+	"Log out";
+	border: 2px solid black;
+	
+
+
+}
+#menu .menu1 {
+	border-bottom: 1px solid black;
+	text-align: center;
+	padding: 50px;
+	color:black;
+}
+#menu .menu1:last-child{
+	border-bottom: none;
+}
+.pdp{
+	height: 200px;
+	width: 200px;
+}
+
+p{
+	text-align:center;
+}
