@@ -1,4 +1,5 @@
 Theme du site : Horrifique
+Titre (temporaire) : Horage
 
 1) Page d'acceuil 
 2) Page de présentation du site 
