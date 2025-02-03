@@ -1,0 +1,12 @@
+Theme du site : 
+
+1) Page d'acceuil 
+2) Page de présentation du site 
+3) Page de recherche (Avec filtrage etc)
+4) Sign up / Login
+5) Page profil 
+6) Page admin 
+
+CSS unique ou commun au choix 
+HTML séparé 
+Rapport de projet en pdf
