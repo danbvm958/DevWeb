@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    
+    text-align: center;
+    background-color: #1A1A1A;
+    color: white;
+}
+
+header {
+    background-image: url("img_horage/fond-header.webp");
+    background-size: cover;
+}
+
+h1 {
+    font-family: 'Creepster', cursive;
+    letter-spacing: 5px;
+    font-size: 8rem;
+}
+
+ul {
+    text-transform: uppercase;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    margin: 50px;
+    
+}
+
+.nav {
+    background-color: #B22222;
+    padding: 10px;
+
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.0rem;
+}
+
+a.a1:hover {
+    border-top: 3px solid white;
+    padding-top: 5px;
+    background-color: rgba(64, 200, 130, 0.15);
+    padding: 10px;
+}
+
+
+main {
+    margin: 100px;
+}
+
+.hero_txt {
+    margin: 80px;
+}
+
+.hero_discover {
+    margin: 80px;
+    text-align: center;
+    border: 1px solid #B3B3B3;
+    padding: 100px;
+    background-image: url("img_horage/maison_hantee.webp");
+    background-size: cover;
+}
+
+.hero_discover2 {
+    margin: 80px;
+    text-align: center;
+    border: 1px solid #B3B3B3;
+    padding: 100px;
+    background-image: url("img_horage/foret.webp");
+    background-size: cover;
+}
+
+h2{
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+
+.hero_discover_all {
+    display: flex;
+    gap: 290px;
+}
+
+.button_go {
+    background-color: #B22222;
+    border-radius: 50px;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+a.a2 {
+    display: inline-block; /* Permet à transform de fonctionner correctement */
+    font-size: 0.8rem; /* Taille de base */
+    transition: transform 0.1s ease-in-out, font-size 0.1s ease-in-out;
+}
+
+a.a2:hover {
+    transform: scale(1.1); /* Agrandit légèrement */
+    font-size: 0.89rem; /* Augmente légèrement la taille du texte */
+}
+
+
+#sang {
+    position: absolute;
+    right: 30%;
+}
+
+footer {
+    background-color: #B22222;
+    padding: 25px;
+}
