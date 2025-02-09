@@ -116,3 +116,40 @@ footer {
     background-color: #B22222;
     padding: 25px;
 }
+
+/* --- RESPONSIVE DESIGN POUR MOBILE --- */
+@media screen and (max-width: 1200px) {
+    h1 {
+        font-size: 4rem;
+    }
+
+    .header_1 {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .hero, .hero2 {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .sang {
+        width: 0px;
+    }
+
+    .block {
+        width: 80%;
+    }
+
+    main {
+        margin: 20px;
+    }
+}

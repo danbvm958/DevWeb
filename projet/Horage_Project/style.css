@@ -124,3 +124,44 @@ footer {
     background-color: #B22222;
     padding: 25px;
 }
+
+/* --- RESPONSIVE DESIGN POUR MOBILE --- */
+@media screen and (max-width: 1300px) {
+    h1 {
+        font-size: 4rem;
+    }
+
+    .header_1 {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .hero_discover_all {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hero_discover, .hero_discover2 {
+        padding: 50px;
+        margin: 20px;
+    }
+
+    .accroche {
+        font-size: 0px;
+    }
+
+    #sang {
+        width: 0px;
+    }
+
+    main {
+        margin: 20px;
+    }
+}
