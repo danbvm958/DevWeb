@@ -1,28 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <link rel="stylesheet" href="profil.css" >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon profil</title>
+    <title>Profil - Horage</title>
+    <link rel="stylesheet" href="profil.css">
 </head>
 <body>
-	<div class="container">
-		<article id="profil">
-			<img src="https://media.istockphoto.com/id/1495088043/fr/vectoriel/ic%C3%B4ne-de-profil-utilisateur-avatar-ou-ic%C3%B4ne-de-personne-photo-de-profil-symbole-portrait.jpg?s=612x612&w=0&k=20&c=moNRZjYtVpH-I0mAe-ZfjVkuwgCOqH-BRXFLhQkZoP8=" alt="Image d'utilisateur" class="pdp"/>
-			<p> Nom d'utilisateur :</p>
-			<p>E-mail :</p>
-			<p>Mot de passe : </p>
-		</article>
-		<article id="menu">
-			<a href="profil_user.html" class="menu1">Mon compte</a>
-			<a href="travel.html" class="menu1">Mes voyages</a>
-			<a href="Lien parametre" class="menu1"> Parametre </a>
-			<a href="Lien log out" class="menu1"> Se deconnecter</a>
-		</article>
-		
-	</div>
 
-    
+    <header>
+        <div class="header_1">
+            <h1>Horage</h1>
+            <img src="Horage_Project/img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
+        </div>   
+
+        <div class="nav">
+            <ul>
+                <li><a href="accueil.html" class="a1">Accueil</a></li>
+                <li><a href="presentation.html" class="a1">Presentation</a></li>
+                <li><a href="offres.html" class="a1">Nos offres</a></li>
+                <li><a href="reserver.html" class="a1">Reserver</a></li>
+                <li><a href="connexion.html" class="a1">Connexion</a></li>
+                <li><a href="inscription.html" class="a1">S'inscrire</a></li>
+                <li><a href="contact.html" class="a1">Contacts</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="profile-container">
+        <!-- Menu latéral -->
+        <aside class="sidebar">
+            <a href="profil_user.html" class="menu-btn active">Profil</a>
+        	<a href="profil_travel.html" class="menu-btn">Voyages prévus</a>
+        	<a href="#parametres" class="menu-btn">Paramètres</a>
+            <button class="menu-btn logout">Se déconnecter</button>
+        </aside>
+
+        <!-- Section Profil -->
+        <section class="profile-content">
+            <h2>Mon Profil</h2>
+            <div class="profile-info">
+                <img src="Horage_Project/img_horage/profil.jpg" alt="Photo de profil" class="profile-pic">
+                <div class="info">
+                    <p><strong>Nom :</strong> <span>Dupont</span> <button class="edit-btn">✏️</button></p>
+                    <p><strong>Prénom :</strong> <span>Jean</span> <button class="edit-btn">✏️</button></p>
+                    <p><strong>Email :</strong> <span>jean.dupont@email.com</span> <button class="edit-btn">✏️</button></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h2>Copyright © Horage - Tous droits réservés</h2>
+        <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
+    </footer>
+
 </body>
 </html>
