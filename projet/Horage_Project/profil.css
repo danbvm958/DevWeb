@@ -74,6 +74,7 @@ main.profile-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    overflow: hidden;
 }
 
 .menu-btn {
@@ -99,6 +100,7 @@ main.profile-container {
 .logout {
     background-color: #8B0000;
     border-color: white;
+    margin-top: auto;
 }
 
 .logout:hover {
@@ -235,6 +237,32 @@ footer {
         flex-direction: column;
         width: 90%;
     }
+    
+    .header_1 {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero_discover_all {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hero_discover, .hero_discover2 {
+        padding: 50px;
+        margin: 20px;
+    }
+
+    .accroche {
+        font-size: 0px;
+    }
+
+    #sang {
+        width: 0px;
+    }
+
+    main {
+        margin: 20px;
+    }
 
     .sidebar {
         width: 100%;
@@ -250,5 +278,8 @@ footer {
     .profile-info {
         flex-direction: column;
         align-items: center;
+    }
+    .sidebar {
+        width: 100%;
     }
 }
