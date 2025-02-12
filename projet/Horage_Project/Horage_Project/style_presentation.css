@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    
+    text-align: center;
+    background-color: #1A1A1A;
+    color: white;
+}
+
+header {
+    background-image: url("img_horage/fond-header.webp");
+    background-size: cover;
+}
+
+h1 {
+    font-family: 'Creepster', cursive;
+    letter-spacing: 5px;
+    font-size: 8rem;
+}
+
+ul {
+    text-transform: uppercase;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    margin: 50px;
+    
+}
+
+.nav {
+    background-color: #B22222;
+    padding: 10px;
+
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.0rem;
+}
+
+a.a1:hover {
+    border-top: 3px solid white;
+    padding-top: 5px;
+    background-color: rgba(64, 200, 130, 0.15);
+    padding: 10px;
+}
+
+main {
+    margin: 100px;
+}
+
+.hero {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+.hero2 {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+h2{
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+
+.block {
+    text-align: center;
+    border: 1px solid #B3B3B3;
+    padding: 20px;
+}
+
+span {
+    font-weight: bolder;
+}
+
+.sang {
+    position: absolute;
+}
+
+#sang3 {
+    position: absolute;
+    right: 8%;
+}
+
+#sang2 {
+    position: absolute;
+    right: 43%;
+}
+
+#sang1 {
+    position: absolute;
+    right: 76%;
+}
+
+
+footer {
+    background-color: #B22222;
+    padding: 25px;
+}
+
+/* --- RESPONSIVE DESIGN POUR MOBILE --- */
+@media screen and (max-width: 1200px) {
+    h1 {
+        font-size: 4rem;
+    }
+
+    .header_1 {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .hero, .hero2 {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .sang {
+        width: 0px;
+    }
+
+    .block {
+        width: 80%;
+    }
+
+    main {
+        margin: 20px;
+    }
+}
