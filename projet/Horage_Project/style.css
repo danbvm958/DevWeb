@@ -143,9 +143,21 @@ a.a2:hover {
 }
 
 .hero3 {
+	text-align: left;
+	margin: 80px;
+	margin-bottom: 140px;
+}
+
+.first_place {
 	display: flex;
 	justify-content: center;
-	gap: 100px;
+	gap: 245;
+}
+
+.second_place {
+	display: flex;
+	justify-content: center;
+	gap: 245;
 }
 
 
