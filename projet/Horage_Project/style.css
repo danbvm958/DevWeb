@@ -25,6 +25,9 @@ h1 {
     font-family: 'Creepster', cursive;
     letter-spacing: 5px;
     font-size: 8rem;
+    background: linear-gradient(to top, #B22222, #FFFFFF);
+    -webkit-background-clip: text; 
+    color: transparent;
 }
 
 ul {
