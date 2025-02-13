@@ -209,6 +209,12 @@ footer {
     .comment {
         margin-bottom: 50px;
     }
+    .first_place {
+	 flex-direction: column;   
+    }	
+    .second_place {
+	    flex-direction: column;
+    }
 
     main {
         margin: 20px;
