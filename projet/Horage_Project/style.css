@@ -142,6 +142,13 @@ a.a2:hover {
     margin: 20px;
 }
 
+.hero3 {
+	display: flex;
+	justify-content: center;
+	gap: 100px;
+}
+
+
 footer {
     background-color: #B22222;
     padding: 25px;
