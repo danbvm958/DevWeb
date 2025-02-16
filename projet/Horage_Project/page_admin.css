@@ -1,11 +1,4 @@
-body {
-    background-color: #531e1e;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
+
 .container {
     width: 80%;
     margin: 20px auto;
@@ -13,9 +6,7 @@ body {
     padding: 20px;
     border-radius: 10px;
 }
-h2 {
-    margin-bottom: 20px;
-}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -81,7 +72,9 @@ th {
     display: flex;
     justify-content: flex-end;
     padding: 10px 50px;
-    background-color: #750707;
+    
+    background-color: #B22222;
+    padding: 10px;
 }
 .nav a {
     color: white;
@@ -96,8 +89,8 @@ th {
 
 
 .retour{
-    color: #ff0000;
-    font-family: 'Creepster', cursive;
+    color: #030000;
+    
     letter-spacing: 5px;
     font-size: 2rem;
     
@@ -105,8 +98,239 @@ th {
 h2 {
     font-family: 'Creepster', cursive;
     letter-spacing: 5px;
-    font-size: 5rem;
+    font-size: 3rem;
     background: linear-gradient(to top, #B22222, #FFFFFF);
     -webkit-background-clip: text; 
     color: transparent;
+}
+
+a {
+    text-decoration: none; /* Supprime le soulignement */
+    color: rgb(128, 12, 12); /* Assure que la couleur reste bien rouge */
+}
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    
+    text-align: center;
+    background-color: #1A1A1A;
+    color: white;
+}
+
+header {
+    background-image: url("img_horage/fond-header.webp");
+    background-size: cover;
+}
+
+h1 {
+    font-family: 'Creepster', cursive;
+    letter-spacing: 5px;
+    font-size: 8rem;
+    background: linear-gradient(to top, #B22222, #FFFFFF);
+    -webkit-background-clip: text; 
+    color: transparent;
+}
+
+ul {
+    text-transform: uppercase;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    margin: 50px;
+    
+}
+
+
+
+a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.0rem;
+}
+
+a.a1:hover {
+    border-top: 3px solid white;
+    padding-top: 5px;
+    background-color: rgba(64, 200, 130, 0.15);
+    padding: 10px;
+}
+
+
+main {
+    margin: 100px;
+}
+
+.hero_txt {
+    margin: 80px;
+}
+
+.hero_discover {
+    margin: 80px;
+    text-align: center;
+    border: 1px solid #B3B3B3;
+    padding: 120px;
+    background-image: url("img_horage/maison_hantee.webp");
+    background-size: cover;
+}
+
+.hero_discover2 {
+    margin: 80px;
+    text-align: center;
+    border: 1px solid #B3B3B3;
+    padding: 120px;
+    background-image: url("img_horage/foret.webp");
+    background-size: cover;
+}
+
+
+
+.hero_discover_all {
+    display: flex;
+    justify-content: center;
+    gap: 150px;
+}
+
+.button_go {
+    background-color: #B22222;
+    border-radius: 50px;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+a.a2 {
+    display: inline-block; /* Permet à transform de fonctionner correctement */
+    font-size: 0.8rem; /* Taille de base */
+    transition: transform 0.1s ease-in-out, font-size 0.1s ease-in-out;
+}
+
+a.a2:hover {
+    transform: scale(1.1); /* Agrandit légèrement */
+    font-size: 0.89rem; /* Augmente légèrement la taille du texte */
+}
+
+
+#sang {
+    position: absolute;
+    right: 33%;
+}
+
+.hero2 {
+    border-top: 1px solid #B3B3B3;
+    padding-top: 100px;
+    margin: 80px;
+    margin-bottom: 140px;
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+}
+
+.img_comment {
+    border: 1px solid #B3B3B3;
+}
+
+.commentaire {
+    margin: 20px;
+}
+
+.hero3 {
+	margin: 30px;
+	margin-bottom: 140px;
+}
+
+.first_place {
+	display: flex;
+	justify-content: center;
+	gap: 245;
+}
+
+.second_place {
+	display: flex;
+	justify-content: center;
+	gap: 245;
+}
+
+#galerie {
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+.hero3 img {
+    transition: transform 0.3s ease-in-out; 
+}
+
+.hero3 img:hover {
+    transform: scale(1.1); 
+}
+
+footer {
+    background-color: #B22222;
+    padding: 25px;
+}
+
+/* --- RESPONSIVE DESIGN POUR MOBILE --- */
+@media screen and (max-width: 1300px) {
+    h1 {
+        font-size: 4rem;
+    }
+
+    .header_1 {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .hero_discover_all {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hero_discover, .hero_discover2 {
+        padding: 50px;
+        margin: 20px;
+    }
+
+    .accroche {
+        font-size: 0px;
+    }
+
+    #sang {
+        width: 0px;
+    }
+
+    .hero2 {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .comment {
+        margin-bottom: 50px;
+    }
+    .first_place {
+	 flex-direction: column;   
+    }	
+    .second_place {
+	    flex-direction: column;
+    }
+
+    main {
+        margin: 20px;
+    }
 }
