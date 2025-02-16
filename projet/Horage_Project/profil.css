@@ -158,9 +158,10 @@ main.profile-container {
 /* --- SECTION VOYAGES --- */
 .travels {
     display: grid;
-    grid-template-columns: 1;
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 20px;
     padding: 20px;
+    width: 100%;
 }
 
 .travel-card {
@@ -171,6 +172,10 @@ main.profile-container {
     box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
     text-align: center;
     transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .travel-card:hover {
