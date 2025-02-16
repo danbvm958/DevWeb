@@ -89,3 +89,24 @@ th {
     margin-left: 20px;
     font-weight: bold;
 }
+
+.r{
+    text-align: left;
+}
+
+
+.retour{
+    color: #ff0000;
+    font-family: 'Creepster', cursive;
+    letter-spacing: 5px;
+    font-size: 2rem;
+    
+}
+h2 {
+    font-family: 'Creepster', cursive;
+    letter-spacing: 5px;
+    font-size: 5rem;
+    background: linear-gradient(to top, #B22222, #FFFFFF);
+    -webkit-background-clip: text; 
+    color: transparent;
+}
