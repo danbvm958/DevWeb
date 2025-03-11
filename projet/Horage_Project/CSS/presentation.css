@@ -1,0 +1,47 @@
+@import 'main.css';
+@import 'root.css';
+
+.hero {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+.hero2 {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+.block {
+    text-align: center;
+    border: 1px solid #B3B3B3;
+    padding: var(--size-button-padding);
+}
+
+span {
+    font-weight: bolder;
+}
+
+.sang {
+    position: absolute;
+}
+
+#sang3 {
+    position: absolute;
+    right: 8%;
+}
+
+#sang2 {
+    position: absolute;
+    right: 43%;
+}
+
+#sang1 {
+    position: absolute;
+    right: 76%;
+}

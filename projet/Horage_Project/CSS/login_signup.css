@@ -1,0 +1,67 @@
+@import 'main.css';
+@import 'root.css';
+
+.button_go {
+    background-color: var(--color-red-medium);
+    border-radius: 50px;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.form-container {
+    background-color: var(--color-gray-medium);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.5);
+    width: 350px;
+    margin: 50px auto;
+    text-align: center;
+    border: 2px solid var(--color-red-dark);
+}
+
+.form-container h1 {
+    font-size: 3rem;
+    color: var(--color-red-light);
+}
+
+label {
+    display: block;
+    font-size: 1.1rem;
+    margin-top: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid var(--color-gray-border);
+    border-radius: 5px;
+    background-color: var(--color-gray-light);
+    color: var(--color-white);
+    font-size: 1rem;
+}
+
+input[type="text"], input[type="password"], input[type="mail"] {
+    background-color: var(--color-gray-dark);
+    border: 1px solid var(--color-red-medium);
+    box-shadow: inset 0px 0px 5px rgba(255, 0, 0, 0.5);
+}
+
+input[type="submit"] {
+    background-color: var(--color-red-medium);
+    border: none;
+    padding: 12px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--color-red-dark);
+    transform: scale(1.05);
+}

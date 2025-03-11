@@ -1,0 +1,78 @@
+@import 'main.css';
+@import 'root.css';
+
+main {
+    margin: 100px;
+}
+
+.hero_txt {
+    margin: 80px;
+}
+
+.hero_discover {
+    margin: 80px;
+    text-align: center;
+    border: 1px solid #B3B3B3;
+    padding: 120px;
+    background-image: url("../img_horage/maison_hantee.webp");
+    background-size: cover;
+}
+
+.hero_discover2 {
+    margin: 80px;
+    text-align: center;
+    border: 1px solid #B3B3B3;
+    padding: 120px;
+    background-image: url("../img_horage/foret.webp");
+    background-size: cover;
+}
+
+.hero_discover_all {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#sang {
+    position: absolute;
+    right: 33%;
+}
+
+.hero2 {
+    border-top: 1px solid #B3B3B3;
+    padding-top: 100px;
+    margin: 80px;
+    margin-bottom: 140px;
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+}
+
+.img_comment {
+    border: 1px solid #B3B3B3;
+}
+
+.commentaire {
+    margin: 20px;
+}
+
+.hero3 {
+    margin: 30px;
+    margin-bottom: 140px;
+}
+
+.first_place, .second_place {
+    display: flex;
+    justify-content: center;
+    gap: 0px;
+}
+
+#galerie {
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+footer {
+    background-color: var(--color-red-medium);
+    padding: 25px;
+}

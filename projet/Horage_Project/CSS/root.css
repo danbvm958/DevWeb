@@ -1,0 +1,20 @@
+:root {
+    /* Couleurs de base */
+    --color-red-dark: #8B0000; /* Rouge foncé */
+    --color-red-medium: #B22222; /* Rouge moyen */
+    --color-red-light: #ff4444; /* Rouge clair */
+    --color-red-hover: #7a0a14; /* Rouge sombre pour les survols */
+    --color-black: #000000; /* Noir */
+    --color-gray-dark: #1A1A1A; /* Gris très foncé */
+    --color-gray-medium: #222; /* Gris foncé */
+    --color-gray-light: #333; /* Gris moyen */
+    --color-gray-border: #444; /* Gris pour les bordures */
+    --color-white: white; /* Blanc */
+    --color-orange: #ffa500; /* Orange */
+    --color-blue: #007bff; /* Bleu */
+    --color-purple: #800080; /* Violet */
+    --color-search-button: #6b0710; /* Rouge sombre pour les boutons de recherche */
+    --color-search-button-hover: rgb(44, 11, 11); /* Rouge très sombre pour les survols de boutons de recherche */
+    --color-search-form-group: #771f1f; /* Rouge foncé pour les groupes de formulaire de recherche */
+
+}

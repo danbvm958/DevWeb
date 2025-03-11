@@ -1,0 +1,73 @@
+@import 'main.css';
+@import 'root.css';
+
+.formulaire_search {
+    display: flex;
+    padding: 30px;
+    margin: 20px auto;
+    background-color: var(--color-gray-medium);
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.5);
+    max-width: auto;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+input[type="submit"] {
+    background-color: var(--color-search-button);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: right;
+}
+
+.formulaire_search form div:last-child {
+    text-align: right;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--color-search-button-hover); 
+    color: var(--color-red-hover); 
+    transform: scale(1.1); 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+}
+
+.tr {
+    font-family: 'Creepster', cursive;
+    letter-spacing: 5px;
+    font-size: 5rem;
+}
+
+.form-group {
+    display: flex;
+    margin-bottom: 15px;
+    display: inline-block;
+    border-radius: 5px;
+    box-shadow: #0a0a0a;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: var(--color-search-form-group);
+    padding: 10px;
+    font-family: 'Creepster', cursive;
+    letter-spacing: 5px;
+    font-size: 1rem;
+    color: var(--color-search-form-group-text);
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: #0a0a0a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
