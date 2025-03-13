@@ -1,0 +1,133 @@
+{
+    "voyages": [
+      {
+        "titre": "Nuit de terreur au château de Bran",
+        "description": "Plongez dans l'atmosphère envoûtante du château de Dracula pour une nuit d'épouvante inoubliable.",
+        "dates": {
+          "debut": "2025-10-30",
+          "fin": "2025-11-01",
+          "duree": "3 jours"
+        },
+        "liste_etapes": [
+          {
+            "titre": "Arrivée à Bucarest",
+            "dates": { "arrivee": "2025-10-30", "depart": "2025-10-30" },
+            "position": { "ville": "Bucarest", "gps": "44.4268, 26.1025" },
+            "options": [
+              { "nom": "Transport", "valeurs": ["Vol commercial", "Jet privé"], "prix": 1000 },
+              { "nom": "Hébergement", "valeurs": ["Hôtel gothique", "Château privatisé"], "prix": 5000 },
+              { "nom": "Activité", "valeurs": ["Visite de la vieille ville", "Dîner thématique vampires"], "prix": 500 }
+            ]
+          },
+          {
+            "titre": "Nuit au château de Dracula",
+            "dates": { "arrivee": "2025-10-30", "depart": "2025-10-31" },
+            "position": { "ville": "Bran", "gps": "45.5156, 25.3672" },
+            "options": [
+              { "nom": "Hébergement", "valeurs": ["Chambre du comte", "Suite royale avec majordome"], "prix": 10000 },
+              { "nom": "Activité", "valeurs": ["Séance de spiritisme", "Escape Game : Évasion du donjon"], "prix": 2000 },
+              { "nom": "Dîner", "valeurs": ["Buffet médiéval", "Festin royal avec spectacle"], "prix": 1000 }
+            ]
+          }
+        ],
+        "prix_total": 50000,
+        "statut": "disponible"
+      },
+      {
+        "titre": "Exploration du sanatorium abandonné de Waverly Hills",
+        "description": "Oserez-vous explorer l'un des lieux les plus hantés au monde lors d'une visite nocturne terrifiante ?",
+        "dates": {
+          "debut": "2025-09-10",
+          "fin": "2025-09-12",
+          "duree": "3 jours"
+        },
+        "liste_etapes": [
+          {
+            "titre": "Arrivée à Louisville",
+            "dates": { "arrivee": "2025-09-10", "depart": "2025-09-10" },
+            "position": { "ville": "Louisville", "gps": "38.2527, -85.7585" },
+            "options": [
+              { "nom": "Transport", "valeurs": ["Voiture de location", "Navette VIP"], "prix": 100 },
+              { "nom": "Hébergement", "valeurs": ["Motel hanté", "Hôtel 5 étoiles"], "prix": 300 },
+              { "nom": "Activité", "valeurs": ["Tour hanté classique", "Investigation paranormale privée"], "prix": 500 }
+            ]
+          },
+          {
+            "titre": "Visite nocturne du sanatorium",
+            "dates": { "arrivee": "2025-09-11", "depart": "2025-09-11" },
+            "position": { "ville": "Louisville", "gps": "38.1347, -85.7167" },
+            "options": [
+              { "nom": "Activité", "valeurs": ["Chasse aux fantômes", "Parcours de l'horreur"], "prix": 200 },
+              { "nom": "Restauration", "valeurs": ["Snack rapide", "Buffet thématique zombies"], "prix": 50 }
+            ]
+          }
+        ],
+        "prix_total": 1500,
+        "statut": "disponible"
+      },
+      {
+        "titre": "Week-end de survie à l'île des poupées",
+        "description": "Vivez une expérience de survie unique sur une île hantée par des poupées inquiétantes.",
+        "dates": {
+          "debut": "2025-06-15",
+          "fin": "2025-06-17",
+          "duree": "3 jours"
+        },
+        "liste_etapes": [
+          {
+            "titre": "Arrivée à Mexico City",
+            "dates": { "arrivee": "2025-06-15", "depart": "2025-06-15" },
+            "position": { "ville": "Mexico City", "gps": "19.4326, -99.1332" },
+            "options": [
+              { "nom": "Transport", "valeurs": ["Bateau standard", "Bateau privé avec guide"], "prix": 200 },
+              { "nom": "Hébergement", "valeurs": ["Camping sur l'île", "Cabane en bois"], "prix": 100 },
+              { "nom": "Sécurité", "valeurs": ["Sans protection", "Garde armé personnel"], "prix": 5000 }
+            ]
+          },
+          {
+            "titre": "Exploration de l'île des poupées",
+            "dates": { "arrivee": "2025-06-16", "depart": "2025-06-16" },
+            "position": { "ville": "Xochimilco", "gps": "19.2568, -99.1037" },
+            "options": [
+              { "nom": "Activité", "valeurs": ["Randonnée nocturne", "Séance de spiritisme privée"], "prix": 800 },
+              { "nom": "Restauration", "valeurs": ["Pique-nique simple", "Dîner gastronomique au bord de l’eau"], "prix": 300 }
+            ]
+          }
+        ],
+        "prix_total": 7000,
+        "statut": "disponible"
+      },
+      {
+        "titre": "Road trip de l'horreur en Transylvanie",
+        "description": "Un périple effrayant à travers les terres de légendes et de mystères de Transylvanie.",
+        "dates": {
+          "debut": "2025-08-01",
+          "fin": "2025-08-10",
+          "duree": "10 jours"
+        },
+        "liste_etapes": [
+          {
+            "titre": "Départ de Cluj-Napoca",
+            "dates": { "arrivee": "2025-08-01", "depart": "2025-08-02" },
+            "position": { "ville": "Cluj-Napoca", "gps": "46.7712, 23.6236" },
+            "options": [
+              { "nom": "Transport", "valeurs": ["Voiture de location", "Voiture de luxe avec chauffeur"], "prix": 500 },
+              { "nom": "Hébergement", "valeurs": ["Auberge traditionnelle", "Manoir privatisé"], "prix": 2000 }
+            ]
+          },
+          {
+            "titre": "Traversée des Carpates",
+            "dates": { "arrivee": "2025-08-03", "depart": "2025-08-04" },
+            "position": { "ville": "Carpates", "gps": "45.3733, 25.5477" },
+            "options": [
+              { "nom": "Activité", "valeurs": ["Randonnée nocturne", "Chasse au loup-garou"], "prix": 1200 },
+              { "nom": "Expérience immersive", "valeurs": ["Nuit en forêt", "Simulation de survie"], "prix": 800 }
+            ]
+          }
+        ],
+        "prix_total": 12000,
+        "statut": "disponible"
+      }
+    ]
+  }
+  

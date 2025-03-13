@@ -1,0 +1,68 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Login - Horage</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="CSS/login_signup.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+    </head>
+    <body>
+        <header>
+                <div class="header_1">
+                    <h1>Horage</h1>
+                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
+                </div>   
+
+                <div class="nav">
+                    <ul>
+                        <li>
+                            <a href="/horage_project/accueil.php" class="a1">Accueil</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/horage_project/presentation.php" class="a1">Presentation</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/horage_project/Reserve.php" class="a1">Nos offres</a>
+                        </li>
+
+                        <li>
+                            <a href="/horage_project/Recherche.php" class="a1">reserver</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/horage_project/login.php" class="a1">connexion</a>
+                        </li>
+
+                        <li>
+                            <a href="/horage_project/accueil.php" class="a1">contacts</a>
+                        </li>
+                    </ul>
+                </div>
+        </header>
+
+        <main>
+			<div class="form-container">
+				<h1>Connexion à Horage</h1>
+				<form action="non-adresse" method="POST">
+					<label>Nom d'utilisateur ou mail :</label>
+					<input type="text" name="username" placeholder="Entrez un nom d'utilisateur" required/>
+					
+					<label>Mot de passe :</label>
+					<input type="password" name="password" placeholder="Entrez un mot de passe" required/>
+					
+					<input type="submit" value="Log in"/>
+				</form>
+                <br/>
+                <a href="signup.html">Rejoignez les Voyageurs de l’Ombre</a>
+			</div>
+        </main>
+
+        <footer>
+            <h2>Copyright © Horage - Tous droits réservés</h2>
+            <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
+        </footer>
+    </body>
+</html>

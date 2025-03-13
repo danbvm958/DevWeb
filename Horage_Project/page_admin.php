@@ -1,0 +1,140 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Page Administrateur - Horage</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="CSS/admin.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+
+    </head>
+    <body>
+        <header>
+                <div class="header_1">
+                    <h1>Horage</h1>
+                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
+                </div>   
+
+                <div class="nav">
+                    <ul>
+                        <li>
+                            <a href="/horage_project/accueil.php" class="a1">Accueil</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/horage_project/presentation.php" class="a1">Presentation</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/horage_project/Reserve.php" class="a1">Nos offres</a>
+                        </li>
+
+                        <li>
+                            <a href="/horage_project/Recherche.php" class="a1">reserver</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/horage_project/login.php" class="a1">connexion</a>
+                        </li>
+
+                        <li>
+                            <a href="/horage_project/accueil.php" class="a1">contacts</a>
+                        </li>
+                       
+                    </ul>
+                </div>
+        </header>
+        <h1 class="pt">Liste des utilisateurs d'Horage</h1>
+    <div class="container">
+        
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>E-mail</th>
+                <th>VIP</th>
+                <th>Bloqué</th>
+                <th>Profil</th>
+            </tr>
+            <tr>
+                <td>Einstein</td>
+                <td>Albert</td>
+                <td>albert.e@startour.com</td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+            <tr>
+                <td>Curie</td>
+                <td>Marie</td>
+                <td>marie.c@startour.com</td>
+                <td><span class="btn btn-vip">Oui</span></td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+            <tr>
+                <td>Newton</td>
+                <td>Isaac</td>
+                <td>isaac.n@startour.com</td>
+                <td><span class="btn btn-vip">Oui</span></td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+            <tr>
+                <td>Hawking</td>
+                <td>Stephen</td>
+                <td>stephen.h@startour.com</td>
+                <td><span class="btn btn-vip">Oui</span></td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+            <tr>
+                <td>Galilée</td>
+                <td>Galileo</td>
+                <td>galileo.g@startour.com</td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+            <tr>
+                <td>Tesla</td>
+                <td>Nikola</td>
+                <td>nikola.t@startour.com</td>
+                <td><span class="btn btn-vip">Oui</span></td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+            <tr>
+                <td>Feynman</td>
+                <td>Richard</td>
+                <td>richard.f@startour.com</td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-vip">Oui</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+            <tr>
+                <td>Planck</td>
+                <td>Max</td>
+                <td>max.p@startour.com</td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+            <tr>
+                <td>Ohm</td>
+                <td>Georg</td>
+                <td>georg.o@startour.com</td>
+                <td><span class="btn btn-vip">Non</span></td>
+                <td><span class="btn btn-blocked">Non</span></td>
+                <td><span class="btn btn-profile">Voir</span></td>
+            </tr>
+        </table>
+    </div>
+
+        
+        <footer>
+            <h2>Copyright © Horage - Tous droits réservés</h2>
+            <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
+        </footer>
+    </body>
+</html>

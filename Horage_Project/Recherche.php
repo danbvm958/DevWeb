@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/recherche.css">  
+    <title>Recherche </title>
+    <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+    
+</head>
+<body>
+    <header>
+        <div class="header_1">
+            <h1>Horage</h1>
+            <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
+        </div>   
+
+        <div class="nav">
+            <ul>
+                <li>
+                    <a href="accueil.html" class="a1">Accueil</a>
+                </li>
+                
+                <li>
+                    <a href="presentation.html" class="a1">Presentation</a>
+                </li>
+                
+                <li>
+                    <a href="Reserve.html" class="a1">Nos offres</a>
+                </li>
+
+                <li>
+                    <a href="Recherche.html" class="a1">reserver</a>
+                </li>
+                
+                <li>
+                    <a href="login.html" class="a1">connexion</a>
+                </li>
+
+                <li>
+                    <a href="accueil.html" class="a1">contacts</a>
+                </li>
+            </ul>
+        </div>
+</header>
+
+<h1 class="tr">Recherche des voyages </h1>
+    
+
+    <div class="formulaire_search">
+        <form action="accueil.html" method="post">
+            <div class="form-group">
+                <label for="dateD">Choisissez une date de départ</label>
+                <input type="date" name="dateD" id="dateD" placeholder="obligatoire">
+            </div>
+
+            <div class="form-group">
+                <label for="dateA">Choisissez une date d'arrivé</label>
+                <input type="date" name="dateA" id="dateA" placeholder="obligatoire">
+            </div>
+            <br/>
+
+            <div class="form-group">
+                
+                <select >
+                    <option value="" disabled selected > choisir une destination </option>
+                    <option value="France">France</option>
+                    <option value="Etats-Unis">Etats-Unis</option>
+                    <option value="Mexique">Mexique</option>
+                    <option value="Angleterre">Angleterre</option>
+                    <option value="Irlande">Irlande</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Espagne">Espagne</option>
+                    <option value="Allemagne">Allemagne</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+              
+                <select >
+                    <option value="" disabled selected>Option</option>
+                    <option value="Aller-retour">Aller-retour</option>
+                    <option value="Aller-simple">Aller-simple</option>
+                    <option value="Retour-simple">Retour-simple</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Option_voyageur1">🧔‍♂️Adulte</label>
+                <input type="number" id="Option_voyageur1" name="Option_voyageur1" min="1" max="50">
+            </div>
+
+            <div class="form-group">
+                <label for="Option_voyageur2">👦Enfants</label>
+                <input type="number" id="Option_voyageur2" name="Option_voyageur2" min="1" max="50">
+            </div>
+
+            <div class="form-group">
+                <label for="Option_voyageur3">🐶🐱Animaux</label>
+                <input type="number" id="Option_voyageur3" name="Option_voyageur3" min="1" max="50">
+            </div>
+
+            <div class="form-group">
+                
+                <select >
+                    <<option value="" disabled selected>classe</option>>
+                    <option value="economique">Economy</option>
+                    <option value="buisness">Business</option>
+                    <option value="première">Première</option>
+                </select>
+            </div>
+
+            <div >
+                <input  type="submit" value="Rechercher">
+            </div>
+        </form>
+    </div>
+    <footer>
+        <h2>Copyright © Horage - Tous droits réservés</h2>
+        <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
+    </footer>
+</body>
+</html>
