@@ -43,7 +43,7 @@ input {
     font-size: 1rem;
 }
 
-input[type="text"], input[type="password"], input[type="mail"] {
+input[type="text"], input[type="password"], input[type="mail"], input[type="date"] {
     background-color: var(--color-gray-dark);
     border: 1px solid var(--color-red-medium);
     box-shadow: inset 0px 0px 5px rgba(255, 0, 0, 0.5);

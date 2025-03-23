@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE>
 <html>
     <head>
@@ -33,9 +36,15 @@
                             <a href="/horage_project/Recherche.php" class="a1">reserver</a>
                         </li>
                         
+                        <?php if (isset($_SESSION['user'])): ?>
                         <li>
-                            <a href="/horage_project/login.php" class="a1">connexion</a>
+                            <a href="/horage_project/profil_user.php" class="a1">Profil</a>
                         </li>
+                        <?php else: ?>
+                        <li>
+                            <a href="/horage_project/login.php" class="a1">Connexion</a>
+                        </li>
+                        <?php endif; ?>
 
                         <li>
                             <a href="/horage_project/accueil.php" class="a1">contacts</a>

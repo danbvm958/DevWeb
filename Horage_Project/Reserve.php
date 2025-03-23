@@ -1,7 +1,7 @@
 <?php  
 $json = file_get_contents('data/voyages.json');
 $voyages = json_decode($json, true)['voyages'];
-
+session_start();
 // Ajouter un identifiant unique basé sur l'ordre initial du fichier JSON
 foreach ($voyages as $key => $voyage) {
     $voyages[$key]['id'] = $key;
@@ -18,6 +18,7 @@ $offset = ($page_actuelle - 1) * $voyages_par_page;
 $voyages_a_afficher = array_slice($voyages, $offset, $voyages_par_page);
 $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -42,7 +43,11 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
                 <li><a href="presentation.php" class="a1">Présentation</a></li>
                 <li><a href="Reserve.php" class="a1">Nos offres</a></li>
                 <li><a href="Recherche.php" class="a1">Réserver</a></li>
-                <li><a href="login.php" class="a1">Connexion</a></li>
+                <?php if (isset($_SESSION['user'])): ?>
+                <li><a href="/horage_project/profil_user.php" class="a1">Profil</a></li>
+                <?php else: ?>
+                <li><a href="/horage_project/login.php" class="a1">Connexion</a></li>
+                <?php endif; ?>
                 <li><a href="contact.php" class="a1">Contacts</a></li>
             </ul>
         </div>

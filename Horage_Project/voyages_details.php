@@ -46,7 +46,11 @@ $places_disponibles = $voyage['places_disponibles'];
                 <li><a href="presentation.php" class="a1">Présentation</a></li>
                 <li><a href="Reserve.php" class="a1">Nos offres</a></li>
                 <li><a href="Recherche.php" class="a1">Réserver</a></li>
-                <li><a href="login.php" class="a1">Connexion</a></li>
+                <?php if (isset($_SESSION['user'])): ?>
+                <li><a href="/horage_project/profil_user.php" class="a1">Profil</a></li>
+                <?php else: ?>
+                <li><a href="/horage_project/login.php" class="a1">Connexion</a></li>
+                <?php endif; ?>
                 <li><a href="contact.php" class="a1">Contacts</a></li>
             </ul>
         </div>

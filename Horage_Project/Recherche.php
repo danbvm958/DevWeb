@@ -1,4 +1,5 @@
-<?php    
+<?php  
+session_start();
 // Charger les voyages depuis un fichier JSON
 $json = file_get_contents('data/voyages.json');
 $voyages = json_decode($json, true)['voyages'];
@@ -25,7 +26,6 @@ $nombre_total_pages = ($total_voyages > 0) ? ceil($total_voyages / $voyages_par_
 $offset = ($page_actuelle - 1) * $voyages_par_page;
 $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -49,7 +49,11 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
                 <li><a href="/horage_project/presentation.php" class="a1">Présentation</a></li>
                 <li><a href="/horage_project/Reserve.php" class="a1">Nos offres</a></li>
                 <li><a href="/horage_project/Recherche.php" class="a1">Réserver</a></li>
+                <?php if (isset($_SESSION['user'])): ?>
+                <li><a href="/horage_project/profil_user.php" class="a1">Profil</a></li>
+                <?php else: ?>
                 <li><a href="/horage_project/login.php" class="a1">Connexion</a></li>
+                <?php endif; ?>
                 <li><a href="/horage_project/contact.php" class="a1">Contacts</a></li>
             </ul>
         </div>

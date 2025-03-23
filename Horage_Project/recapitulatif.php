@@ -85,12 +85,36 @@ $prix_total *= $nombre_personnes;
 
     <div class="nav">
         <ul>
-            <li><a href="/horage_project/accueil.php" class="a1">Accueil</a></li>
-            <li><a href="/horage_project/presentation.php" class="a1">Présentation</a></li>
-            <li><a href="/horage_project/Reserve.php" class="a1">Nos offres</a></li>
-            <li><a href="/horage_project/Recherche.php" class="a1">Réserver</a></li>
-            <li><a href="/horage_project/login.php" class="a1">Connexion</a></li>
-            <li><a href="/horage_project/contact.php" class="a1">Contacts</a></li>
+            <li>
+                <a href="/horage_project/accueil.php" class="a1">Accueil</a>
+            </li>
+
+            <li>
+                <a href="/horage_project/presentation.php" class="a1">Présentation</a>
+            </li>
+
+            <li>
+                <a href="/horage_project/Reserve.php" class="a1">Nos offres</a>
+            </li>
+
+            <li>
+                <a href="/horage_project/Recherche.php" class="a1">Réserver</a>
+            </li>
+
+            <?php if (isset($_SESSION['user'])): ?>
+            <li>
+                <a href="/horage_project/profil_user.php" class="a1">Profil</a>
+            </li>
+            <?php else: ?>
+            <li>
+                <a href="/horage_project/login.php" class="a1">Connexion</a>
+            </li>
+            <?php endif; ?>
+
+            <li>
+                <a href="/horage_project/contact.php" class="a1">Contacts</a>
+            </li>
+
         </ul>
     </div>
 </header>

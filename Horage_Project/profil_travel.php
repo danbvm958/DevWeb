@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,27 +21,33 @@
         <div class="nav">
             <ul>
                 <li>
-                    <a href="accueil.html" class="a1">Accueil</a>
+                    <a href="accueil.php" class="a1">Accueil</a>
                 </li>
 
                 <li>
-                    <a href="presentation.html" class="a1">Presentation</a>
+                    <a href="presentation.php" class="a1">Presentation</a>
                 </li>
 
                 <li>
-                    <a href="Reserve.html" class="a1">Nos offres</a>
+                    <a href="Reserve.php" class="a1">Nos offres</a>
                 </li>
 
                 <li>
-                    <a href="Recherche.html" class="a1">reserver</a>
+                    <a href="Recherche.php" class="a1">reserver</a>
                 </li>
 
+                <?php if (isset($_SESSION['user'])): ?>
                 <li>
-                    <a href="login.html" class="a1">Connexion</a>
+                        <a href="/horage_project/profil_user.php" class="a1">Profil</a>
                 </li>
+                <?php else: ?>
+                <li>
+                    <a href="/horage_project/login.php" class="a1">Connexion</a>
+                </li>
+                <?php endif; ?>
 
                 <li>
-                    <a href="contact.html" class="a1">Contacts</a>
+                    <a href="contact.php" class="a1">Contacts</a>
                 </li>
             </ul>
         </div>
@@ -47,8 +56,8 @@
     <main class="profile-container">
         <!-- Menu latéral -->
         <aside class="sidebar">
-            <a href="profil_user.html" class="menu-btn">Profil</a>
-        	<a href="profil_travel.html" class="menu-btn active">Voyages prévus</a>
+            <a href="profil_user.php" class="menu-btn">Profil</a>
+        	<a href="profil_travel.php" class="menu-btn active">Voyages prévus</a>
         	<a href="#parametres" class="menu-btn">Paramètres</a>
             <button class="menu-btn logout">Se déconnecter</button>
         </aside>
