@@ -64,3 +64,33 @@
     font-size: 1.2rem;
     font-weight: bold;
 }
+
+h2.tr {
+    text-align: center;  
+    font-size: 1.1rem;   
+    
+}
+
+h2.tv {
+    text-align: left;
+    border-bottom: 2px solid #8B0000;
+    padding: 50px;
+}
+
+.intro {
+    margin: 60px;
+}
+
+#sang {
+    position: absolute;
+    right: 43%;
+}
+
+input[type="submit"]:hover {
+    background-color: #8B0000;
+    color: white;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+}

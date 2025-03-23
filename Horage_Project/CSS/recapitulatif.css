@@ -1,0 +1,43 @@
+@import 'main.css';
+@import 'root.css';
+
+
+#main_title {
+    font-size: 2.4rem;
+    text-align: center;
+    font-family: 'Creepster', cursive;
+    margin: 10px;
+    background: linear-gradient(to top, var(--color-red-medium), var(--color-white));
+    -webkit-background-clip: text; 
+    color: transparent;
+    margin: 50px;
+}
+
+.hero1 {
+    text-align: left;
+    margin: 70px;
+}
+
+
+#subtitle {
+    text-align: left;
+    border-bottom: 2px solid #8B0000;
+    padding: 50px;
+    text-transform: uppercase;
+    margin-bottom: 100px;
+}
+
+li.parent {
+    border: 1px solid grey;
+    padding: 30px;
+}
+
+.sub:hover {
+    background-color:#8B0000 ; 
+    color: white; 
+    transform: scale(1.1);  
+}
+
+.sub {
+    cursor: pointer;
+}

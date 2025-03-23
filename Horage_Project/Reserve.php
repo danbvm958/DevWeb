@@ -1,7 +1,22 @@
-<?php
-// Charger les voyages depuis un fichier JSON
+<?php  
 $json = file_get_contents('data/voyages.json');
 $voyages = json_decode($json, true)['voyages'];
+
+// Ajouter un identifiant unique basé sur l'ordre initial du fichier JSON
+foreach ($voyages as $key => $voyage) {
+    $voyages[$key]['id'] = $key;
+}
+
+// Trier les voyages du plus récent au plus ancien
+usort($voyages, function ($a, $b) {
+    return strtotime($b['dates']['debut']) - strtotime($a['dates']['debut']);
+});
+
+$voyages_par_page = 3;
+$page_actuelle = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$offset = ($page_actuelle - 1) * $voyages_par_page;
+$voyages_a_afficher = array_slice($voyages, $offset, $voyages_par_page);
+$nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +25,7 @@ $voyages = json_decode($json, true)['voyages'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nos offres - Horage</title>
-    <link rel="stylesheet" href="CSS/voyage.css">
+    <link rel="stylesheet" href="CSS/voyage.css?v=<?php echo time(); ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
 </head>
 <body>
@@ -24,7 +39,7 @@ $voyages = json_decode($json, true)['voyages'];
         <div class="nav">
             <ul>
                 <li><a href="accueil.php" class="a1">Accueil</a></li>
-                <li><a href="presentation.php" class="a1">Presentation</a></li>
+                <li><a href="presentation.php" class="a1">Présentation</a></li>
                 <li><a href="Reserve.php" class="a1">Nos offres</a></li>
                 <li><a href="Recherche.php" class="a1">Réserver</a></li>
                 <li><a href="login.php" class="a1">Connexion</a></li>
@@ -34,18 +49,38 @@ $voyages = json_decode($json, true)['voyages'];
     </header>
 
     <main>
-    <h2>Les plus récents</h2>
+        <h2 class="tv">Les plus récents 🔍</h2>
         <div class="travels">
-            <?php foreach ($voyages as $voyage) : ?>
-                <div class="travel-card">
-                    <div class="price"><?= htmlspecialchars($voyage['prix_total']) ?>€</div>
-                    <h3><?= htmlspecialchars($voyage['titre']) ?></h3>
-                    <p>Date: <?= htmlspecialchars($voyage['dates']['debut']) ?></p>
-                    <p>Description: <?= htmlspecialchars($voyage['description']) ?></p>
-                    <a href="#" class="btn">Voir plus</a>
-                </div>
-            <?php endforeach; ?>
+            <?php if (!empty($voyages_a_afficher)) : ?>
+                <?php foreach ($voyages_a_afficher as $voyage) : ?>
+                    <div class="travel-card">
+                        <div class="price"><?= htmlspecialchars($voyage['prix_total']) ?>€</div>
+                        <h3><?= htmlspecialchars($voyage['titre']) ?></h3>
+                        <p>Date: <?= htmlspecialchars($voyage['dates']['debut']) ?></p>
+                        <p>Description: <?= htmlspecialchars($voyage['description']) ?></p>
+                        <a href="voyages_details.php?id=<?= $voyage['id'] ?>" class="btn">Voir plus</a>
+                    </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p>Aucun voyage disponible.</p>
+            <?php endif; ?>
         </div>
+
+        <?php if ($nombre_total_pages > 1): ?>
+        <div class="pagination">
+            <?php if ($page_actuelle > 1): ?>
+                <a href="?page=<?= $page_actuelle - 1 ?>">&laquo; Précédent</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $nombre_total_pages; $i++) : ?>
+                <a href="?page=<?= $i ?>" class="<?= ($i == $page_actuelle) ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+
+            <?php if ($page_actuelle < $nombre_total_pages): ?>
+                <a href="?page=<?= $page_actuelle + 1 ?>">Suivant &raquo;</a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
     </main>
 
     <footer>
@@ -55,3 +90,5 @@ $voyages = json_decode($json, true)['voyages'];
 
 </body>
 </html>
+
+
