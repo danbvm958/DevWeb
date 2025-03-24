@@ -20,33 +20,39 @@ session_start();
                 <div class="nav">
                     <ul>
                         <li>
-                            <a href="/horage_project/accueil.php" class="a1">Accueil</a>
+                            <a href="accueil.php" class="a1">Accueil</a>
                         </li>
                         
                         <li>
-                            <a href="/horage_project/presentation.php" class="a1">Presentation</a>
+                            <a href="presentation.php" class="a1">Presentation</a>
                         </li>
                         
                         <li>
-                            <a href="/horage_project/Reserve.php" class="a1">Nos offres</a>
+                            <a href="Reserve.php" class="a1">Nos offres</a>
                         </li>
 
                         <li>
-                            <a href="/horage_project/Recherche.php" class="a1">reserver</a>
+                            <a href="Recherche.php" class="a1">reserver</a>
                         </li>
                         
-                        <?php if (isset($_SESSION['user'])): ?>
+                        <?php if (isset($_SESSION['user'])){
+                             if($_SESSION['user']['type'] == "admin" ){ ?>
+                                <li>
+                                    <a href="profil_admin.php" class="a1">Profil</a>
+                                </li>
+                            <?php }
+                            else{ ?>
+                                <li>
+                                    <a href="profil_user.php" class="a1">Profil</a>
+                                </li>
+                        <?php }}else { ?>
                         <li>
-                            <a href="/horage_project/profil_user.php" class="a1">Profil</a>
+                            <a href="login.php" class="a1">Connexion</a>
                         </li>
-                        <?php else: ?>
-                        <li>
-                            <a href="/horage_project/login.php" class="a1">Connexion</a>
-                        </li>
-                        <?php endif; ?>
+                        <?php } ?>
 
                         <li>
-                            <a href="/horage_project/accueil.php" class="a1">contacts</a>
+                            <a href="accueil.php" class="a1">contacts</a>
                         </li>
                     </ul>
                 </div>
