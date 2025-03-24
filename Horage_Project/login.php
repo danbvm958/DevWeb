@@ -43,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'username' => $foundUser['username'],
                     'nom' => $foundUser['nom'],
                     'prenom' => $foundUser['prenom'],
-                    'email' => $foundUser['email']
+                    'email' => $foundUser['email'],
+                    'type' => $foundUser['type']
                 ];
                 header("Location: accueil.php"); // Redirige vers la page d'accueil
                 exit();
