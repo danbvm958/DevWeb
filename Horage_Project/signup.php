@@ -68,11 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
         $users[] = $newUser;
         saveUsers($jsonFile, $users);
-
-        $successMessage = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
     }
+    header("Location: login.php");
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="fr">
