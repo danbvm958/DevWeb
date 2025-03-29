@@ -9,6 +9,13 @@ function loadUsers($file) {
     return json_decode($data, true) ?? [];
 }
 
+// Vérifie si l'utilisateur est déjà connecté
+if (isset($_SESSION['user'])) {
+    header("Location: profil_user.php"); // Redirige vers la page de profil
+    exit();
+}
+
+
 function saveUsers($file, $users) {
     file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
 }
@@ -65,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'nom' => $nom,
             'prenom' => $prenom,
             'birthdate' => $birthdate,
+            'type' => 'normal'
         ];
         $users[] = $newUser;
         saveUsers($jsonFile, $users);
