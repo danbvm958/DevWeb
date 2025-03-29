@@ -78,5 +78,5 @@ if ($control === $expected_control) {
     echo "<h1>Erreur: Données de paiement invalides</h1>";
 }
 
-echo '<a href="accueil.php">Retour à l\'accueil</a>';
+header("Location: profil_travel.php");
 ?>

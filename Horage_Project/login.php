@@ -4,7 +4,7 @@ session_start();
 // Vérifie si l'utilisateur est déjà connecté
 if (isset($_SESSION['user'])) {
     // Si l'utilisateur est connecté, redirige vers la page profil ou accueil
-    header("Location: profil_user.php"); // Redirige vers la page de profil
+    header("Location: profil_user.php"); 
     exit();
 }
 
