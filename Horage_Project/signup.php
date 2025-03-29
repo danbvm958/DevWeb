@@ -72,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'nom' => $nom,
             'prenom' => $prenom,
             'birthdate' => $birthdate,
-            'type' => 'normal'
+            'type' => 'normal',
+            'travel' => []
         ];
         $users[] = $newUser;
         saveUsers($jsonFile, $users);

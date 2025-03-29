@@ -44,7 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'nom' => $foundUser['nom'],
                     'prenom' => $foundUser['prenom'],
                     'email' => $foundUser['email'],
-                    'type' => $foundUser['type']
+                    'type' => $foundUser['type'],
+                    'voyages' => isset($foundUser['voyages']) ? $foundUser['voyages'] : []
                 ];
                 header("Location: accueil.php"); // Redirige vers la page d'accueil
                 exit();

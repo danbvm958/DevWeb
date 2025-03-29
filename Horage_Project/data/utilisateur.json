@@ -1,0 +1,62 @@
+[
+    {
+        "username": "danbvm",
+        "email": "dan@gmail.com",
+        "password": "$2y$10$t5MPwM29tsoHcJUsVgxXqOy90BnTsW0V80ZSQdfzYt.NtcwBr6qf6",
+        "nom": "bvm",
+        "prenom": "dan",
+        "birthdate": "2005-09-09",
+        "type": "normal",
+        "travel": [],
+        "voyages": [
+            {
+                "voyage_id": 0,
+                "voyage_titre": "Nuit de terreur au ch\u00e2teau de Bran",
+                "nombre_personnes": 1,
+                "options_choisies": [],
+                "etapes_supprimees": [],
+                "date_achat": "2025-03-29 18:56:24",
+                "transaction_id": "hmdUhLZrKOUWs6iH",
+                "montant": "50000.00"
+            },
+            {
+                "voyage_id": 2,
+                "voyage_titre": "Aventure sous-marine dans la cit\u00e9 engloutie de Yonaguni",
+                "nombre_personnes": 1,
+                "options_choisies": {
+                    "2": {
+                        "Activit\u00e9": [
+                            "Excursion en bateau"
+                        ],
+                        "H\u00e9bergement": "Campement sous les \u00e9toiles"
+                    }
+                },
+                "etapes_supprimees": [],
+                "date_achat": "2025-03-29 19:07:34",
+                "transaction_id": "yrcRYmw7Lka8aZYqaa8",
+                "montant": "3800.00"
+            },
+            {
+                "voyage_id": 6,
+                "voyage_titre": "La Croisi\u00e8re du Hollandais Volant",
+                "nombre_personnes": 5,
+                "options_choisies": [
+                    {
+                        "Transport": "Voiture priv\u00e9e"
+                    },
+                    {
+                        "Activit\u00e9": [
+                            "D\u00eener du capitaine maudit"
+                        ]
+                    }
+                ],
+                "etapes_supprimees": {
+                    "2": 1
+                },
+                "date_achat": "2025-03-29 19:10:40",
+                "transaction_id": "XLx23B58lWvoasnnuddl13",
+                "montant": "20000.00"
+            }
+        ]
+    }
+]

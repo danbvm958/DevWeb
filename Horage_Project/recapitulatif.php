@@ -1,6 +1,11 @@
 <?php  
 session_start();
 
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    exit();
+}
+
 // Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     die("Accès interdit.");
@@ -66,6 +71,16 @@ foreach ($voyage['liste_etapes'] as $index => $etape) {
 
 // Appliquer le prix par personne sur le prix total
 $prix_total *= $nombre_personnes;
+
+$_SESSION['pending_payment'] = [
+    'voyage_id' => $voyage_id,
+    'voyage_titre' => htmlspecialchars($voyage['titre']),
+    'nombre_personnes' => $nombre_personnes,
+    'options_choisies' => $options_choisies,
+    'etapes_supprimees' => $etapes_supprimees,
+    'prix_total' => $prix_total
+];
+
 ?>
 
 <!DOCTYPE html>
@@ -157,7 +172,7 @@ $prix_total *= $nombre_personnes;
 
     <br><br>
 
-    <form action="paiement.php" method="post">
+    <form action="vers_CyBank.php" method="post">
         <input type="hidden" name="voyage_id" value="<?= $voyage_id ?>">
         <input type="hidden" name="nombre_personnes" value="<?= $nombre_personnes ?>">
         <input type="hidden" name="prix_total" value="<?= $prix_total ?>">
