@@ -1,6 +1,5 @@
 <?php
 session_start();
-require('getapikey.php'); // Pour la connexion CY Bank
 
 if (!isset($_SESSION['user']) || !is_array($_SESSION['user'])) {
     header("Location: login.php");
@@ -8,31 +7,6 @@ if (!isset($_SESSION['user']) || !is_array($_SESSION['user'])) {
 }
 
 $user = $_SESSION['user'];
-
-// Traitement du paiement VIP (invisible)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
-    $transaction = bin2hex(random_bytes(12));
-    $montant = "60000.00";
-    $vendeur = "MI-1_A";
-    $retour = "http://localhost/horage_project/retour_paiement2.php?session=".session_id();
-    $api_key = getAPIKey($vendeur);
-    $control = md5($api_key."#".$transaction."#".$montant."#".$vendeur."#".$retour."#");
-    
-    $_SESSION['vip_payment'] = [
-        'transaction_id' => $transaction,
-        'user_id' => $user['id']
-    ];
-    
-    // Redirection transparente vers CY Bank
-    header("Location: https://www.plateforme-smc.fr/cybank/index.php?" . http_build_query([
-        'transaction' => $transaction,
-        'montant' => $montant,
-        'vendeur' => $vendeur,
-        'retour' => $retour,
-        'control' => $control
-    ]));
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
     <title>Profil - Horage</title>
     <link rel="stylesheet" href="CSS/profil.css?v=<?= time() ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
-    
 </head>
 <body>
 <header>
@@ -91,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
                     </ul>
                 </div>
         </header>
-
     <main class="profile-container">
         <aside class="sidebar">
             <a href="profil_user.php" class="menu-btn active">Profil</a>
@@ -109,21 +81,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
                     <p><strong>Nom :</strong> <span data-field="nom"><?php echo htmlspecialchars($user['nom']); ?></span> <button class="edit-btn">✏️</button></p>
                     <p><strong>Prenom :</strong> <span data-field="prenom"><?php echo htmlspecialchars($user['prenom']); ?></span> <button class="edit-btn">✏️</button></p>
                     <p><strong>Email :</strong> <span data-field="email"><?php echo htmlspecialchars($user['email']); ?></span> <button class="edit-btn">✏️</button></p>
-
+                    
+                    <!-- Section VIP simple et efficace -->
                     <div class="vip-container">
-                        <?php if ($user['type'] === 'vip'): ?>
-                            <p class="vip-status">✓ Vous êtes VIP</p>
-                        <?php else: ?>
-                            <form method="POST" style="display: inline;">
-                                <button type="submit" name="vip_payment" class="vip-btn">Devenir VIP - 60000€/mois</button>
-                            </form>
-                            <p style="margin-top: 8px; font-size: 0.9em; color: #666;">Accédez aux avantages exclusifs</p>
-                        <?php endif; ?>
+                        <p class="vip-status">✓ Vous êtes VIP</p>
                     </div>
                 </div>
             </div>
-
-            
         </section>
     </main>
 

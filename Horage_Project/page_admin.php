@@ -25,7 +25,7 @@ if ($users === null && json_last_error() !== JSON_ERROR_NONE) {
         <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
     </head>
     <body>
-        <header>
+    <header>
                 <div class="header_1">
                     <h1>Horage</h1>
                     <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
@@ -34,35 +34,39 @@ if ($users === null && json_last_error() !== JSON_ERROR_NONE) {
                 <div class="nav">
                     <ul>
                         <li>
-                            <a href="/horage_project/accueil.php" class="a1">Accueil</a>
+                            <a href="accueil.php" class="a1">Accueil</a>
                         </li>
                         
                         <li>
-                            <a href="/horage_project/presentation.php" class="a1">Presentation</a>
+                            <a href="presentation.php" class="a1">Presentation</a>
                         </li>
                         
                         <li>
-                            <a href="/horage_project/Reserve.php" class="a1">Nos offres</a>
+                            <a href="Reserve.php" class="a1">Nos offres</a>
                         </li>
 
                         <li>
-                            <a href="/horage_project/Recherche.php" class="a1">reserver</a>
+                            <a href="Recherche.php" class="a1">reserver</a>
                         </li>
                         
-                        <?php if (isset($_SESSION['user'])): ?>
-                        <li>
-                            <a href="/horage_project/profil_user.php" class="a1">Profil</a>
-                        </li>
-                        <?php else: ?>
-                        <li>
-                            <a href="/horage_project/login.php" class="a1">Connexion</a>
-                        </li>
-                        <?php endif; ?>
+                        <?php
+                        $pageProfil = 'login.php'; // par défaut, page connexion
+
+                        if (isset($_SESSION['user'])) {
+                            $typeUser = $_SESSION['user']['type'];
+                            $pageProfil = match ($typeUser) {
+                                'admin'  => 'profil_admin.php',
+                                'normal' => 'profil_user.php',
+                                default  => 'profil_vip.php',
+                            };
+                        }
+                        ?>
+                        <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
+
 
                         <li>
-                            <a href="/horage_project/accueil.php" class="a1">contacts</a>
+                            <a href="accueil.php" class="a1">contacts</a>
                         </li>
-                       
                     </ul>
                 </div>
         </header>

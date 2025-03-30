@@ -41,25 +41,45 @@ foreach ($voyage['liste_etapes'] as $etape) {
 
     if (isset($options_choisies[$etape['id_etape']])) {
         foreach ($options_choisies[$etape['id_etape']] as $option_id => $choix_data) {
-            list($choix_nom, $choix_prix) = explode('|', $choix_data);
 
-            foreach ($etape['options'] as $option_categorie) {
-                foreach ($option_categorie['choix'] as $choix_possible) {
-                    if ($choix_possible['option'] === $choix_nom) {
-                        // Stocker la catégorie dans "nom" (qui est affiché en gras dans ton HTML)
-                        $etapes_avec_options[$etape['id_etape']][] = [
-                            'nom' => $option_categorie['nom'], // Catégorie (Activité, Hébergement...)
-                            'choix' => $choix_nom,             // Choix précis effectué
-                            'prix' => $choix_prix
-                        ];
+            // Vérifier si c'est un tableau (checkbox multiple)
+            if (is_array($choix_data)) {
+                foreach ($choix_data as $choix_unique) {
+                    list($choix_nom, $choix_prix) = explode('|', $choix_unique);
 
-                        $prix_total += floatval($choix_prix);
+                    foreach ($etape['options'] as $option_categorie) {
+                        foreach ($option_categorie['choix'] as $choix_possible) {
+                            if ($choix_possible['option'] === $choix_nom) {
+                                $etapes_avec_options[$etape['id_etape']][] = [
+                                    'nom' => $option_categorie['nom'],
+                                    'choix' => $choix_nom,
+                                    'prix' => $choix_prix
+                                ];
+                                $prix_total += floatval($choix_prix);
+                            }
+                        }
+                    }
+                }
+            } else { // Si ce n'est pas un tableau, c'est un radio (simple)
+                list($choix_nom, $choix_prix) = explode('|', $choix_data);
+
+                foreach ($etape['options'] as $option_categorie) {
+                    foreach ($option_categorie['choix'] as $choix_possible) {
+                        if ($choix_possible['option'] === $choix_nom) {
+                            $etapes_avec_options[$etape['id_etape']][] = [
+                                'nom' => $option_categorie['nom'],
+                                'choix' => $choix_nom,
+                                'prix' => $choix_prix
+                            ];
+                            $prix_total += floatval($choix_prix);
+                        }
                     }
                 }
             }
         }
     }
 }
+
 $_SESSION['pending_payment'] = [
     'voyage_id' => $voyage['id_voyage'],
     'voyage_titre' => $voyage['titre'], // Ajoute ces infos dès le départ
@@ -82,26 +102,50 @@ $_SESSION['pending_payment'] = [
 </head>
 <body>
 <header>
-    <div class="header_1">
-        <h1>Horage</h1>
-        <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-    </div>   
+                <div class="header_1">
+                    <h1>Horage</h1>
+                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
+                </div>   
 
-    <div class="nav">
-        <ul>
-            <li><a href="/horage_project/accueil.php" class="a1">Accueil</a></li>
-            <li><a href="/horage_project/presentation.php" class="a1">Présentation</a></li>
-            <li><a href="/horage_project/Reserve.php" class="a1">Nos offres</a></li>
-            <li><a href="/horage_project/Recherche.php" class="a1">Réserver</a></li>
-            <?php if (isset($_SESSION['user'])): ?>
-            <li><a href="/horage_project/profil_user.php" class="a1">Profil</a></li>
-            <?php else: ?>
-            <li><a href="/horage_project/login.php" class="a1">Connexion</a></li>
-            <?php endif; ?>
-            <li><a href="/horage_project/contact.php" class="a1">Contacts</a></li>
-        </ul>
-    </div>
-</header>
+                <div class="nav">
+                    <ul>
+                        <li>
+                            <a href="accueil.php" class="a1">Accueil</a>
+                        </li>
+                        
+                        <li>
+                            <a href="presentation.php" class="a1">Presentation</a>
+                        </li>
+                        
+                        <li>
+                            <a href="Reserve.php" class="a1">Nos offres</a>
+                        </li>
+
+                        <li>
+                            <a href="Recherche.php" class="a1">reserver</a>
+                        </li>
+                        
+                        <?php
+                        $pageProfil = 'login.php'; // par défaut, page connexion
+
+                        if (isset($_SESSION['user'])) {
+                            $typeUser = $_SESSION['user']['type'];
+                            $pageProfil = match ($typeUser) {
+                                'admin'  => 'profil_admin.php',
+                                'normal' => 'profil_user.php',
+                                default  => 'profil_vip.php',
+                            };
+                        }
+                        ?>
+                        <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
+
+
+                        <li>
+                            <a href="accueil.php" class="a1">contacts</a>
+                        </li>
+                    </ul>
+                </div>
+        </header>
 
 <main>
     <div class="hero1">

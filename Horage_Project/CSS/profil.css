@@ -102,3 +102,35 @@ main.profile-container {
 .edit-btn:hover {
     color: var(--color-white);
 }
+
+.vip-container {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: var(--color-gray-light);
+    border-radius: 8px;
+    text-align: center;
+}
+.vip-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(to right, #d4af37, #f1e5ac);
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+}
+.vip-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.vip-status {
+    color: #d4af37;
+    font-weight: bold;
+    font-size: 1.1em;
+}

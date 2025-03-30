@@ -31,27 +31,51 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
 </head>
 <body>
 
-    <header>
-        <div class="header_1">
-            <h1>Horage</h1>
-            <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-        </div>   
+<header>
+                <div class="header_1">
+                    <h1>Horage</h1>
+                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
+                </div>   
 
-        <div class="nav">
-            <ul>
-                <li><a href="accueil.php" class="a1">Accueil</a></li>
-                <li><a href="presentation.php" class="a1">Présentation</a></li>
-                <li><a href="Reserve.php" class="a1">Nos offres</a></li>
-                <li><a href="Recherche.php" class="a1">Réserver</a></li>
-                <?php if (isset($_SESSION['user'])): ?>
-                <li><a href="/horage_project/profil_user.php" class="a1">Profil</a></li>
-                <?php else: ?>
-                <li><a href="/horage_project/login.php" class="a1">Connexion</a></li>
-                <?php endif; ?>
-                <li><a href="contact.php" class="a1">Contacts</a></li>
-            </ul>
-        </div>
-    </header>
+                <div class="nav">
+                    <ul>
+                        <li>
+                            <a href="accueil.php" class="a1">Accueil</a>
+                        </li>
+                        
+                        <li>
+                            <a href="presentation.php" class="a1">Presentation</a>
+                        </li>
+                        
+                        <li>
+                            <a href="Reserve.php" class="a1">Nos offres</a>
+                        </li>
+
+                        <li>
+                            <a href="Recherche.php" class="a1">reserver</a>
+                        </li>
+                        
+                        <?php
+                        $pageProfil = 'login.php'; // par défaut, page connexion
+
+                        if (isset($_SESSION['user'])) {
+                            $typeUser = $_SESSION['user']['type'];
+                            $pageProfil = match ($typeUser) {
+                                'admin'  => 'profil_admin.php',
+                                'normal' => 'profil_user.php',
+                                default  => 'profil_vip.php',
+                            };
+                        }
+                        ?>
+                        <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
+
+
+                        <li>
+                            <a href="accueil.php" class="a1">contacts</a>
+                        </li>
+                    </ul>
+                </div>
+        </header>
 
     <main>
         <h2 class="tv">Les plus récents 🔍</h2>

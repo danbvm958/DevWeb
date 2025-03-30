@@ -6,7 +6,7 @@
         "nom": "Bavamian",
         "prenom": "Dan",
         "birthdate": "2005-09-09",
-        "type": "normal",
+        "type": "VIP",
         "travel": [],
         "voyages": [
             {
@@ -65,6 +65,68 @@
                 "date_achat": "2025-03-30 21:43:34",
                 "transaction_id": "zlpr9I6zSvcX0P4VMs0fJOfk",
                 "montant": "33200.00"
+            },
+            {
+                "voyage_id": "VY001",
+                "voyage_titre": "Nuit de terreur au ch\u00e2teau de Bran",
+                "nombre_personnes": 1,
+                "options_choisies": {
+                    "ET001": [
+                        {
+                            "nom": "Transport",
+                            "choix": "Vol commercial",
+                            "prix": "1000"
+                        },
+                        {
+                            "nom": "H\u00e9bergement",
+                            "choix": "Ch\u00e2teau privatis\u00e9",
+                            "prix": "10000"
+                        },
+                        {
+                            "nom": "Activit\u00e9",
+                            "choix": "Visite de la vieille ville",
+                            "prix": "500"
+                        }
+                    ],
+                    "ET002": [
+                        {
+                            "nom": "H\u00e9bergement",
+                            "choix": "Suite royale avec majordome",
+                            "prix": "15000"
+                        },
+                        {
+                            "nom": "Activit\u00e9",
+                            "choix": "Escape Game : \u00c9vasion du donjon",
+                            "prix": "2500"
+                        },
+                        {
+                            "nom": "D\u00eener",
+                            "choix": "Buffet m\u00e9di\u00e9val",
+                            "prix": "1000"
+                        }
+                    ],
+                    "ET003": [
+                        {
+                            "nom": "Activit\u00e9",
+                            "choix": "Randonn\u00e9e nocturne",
+                            "prix": "800"
+                        },
+                        {
+                            "nom": "Activit\u00e9",
+                            "choix": "Observation des loups-garous",
+                            "prix": "1200"
+                        },
+                        {
+                            "nom": "H\u00e9bergement",
+                            "choix": "Cabane isol\u00e9e",
+                            "prix": "500"
+                        }
+                    ]
+                },
+                "etapes_supprimees": [],
+                "date_achat": "2025-03-30 23:09:23",
+                "transaction_id": "PiyLDnrghXjnOjOvJc",
+                "montant": "32500.00"
             }
         ],
         "pseudo": "danbvm95"
