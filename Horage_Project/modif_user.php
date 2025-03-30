@@ -15,7 +15,7 @@ if (isset($_POST['field'], $_POST['value'])) {
     $value = trim($_POST['value']);
 
     // Sécurité : Autoriser uniquement certains champs à être modifiés
-    $allowed_fields = ['nom', 'prenom', 'email'];
+    $allowed_fields = ['username', 'nom', 'prenom', 'email'];
     if (!in_array($field, $allowed_fields)) {
         echo "Champ non autorisé.";
         exit();

@@ -1,6 +1,6 @@
 [
     {
-        "username": "danbvm",
+        "username": "danbvm95",
         "email": "dan@gmail.com",
         "password": "$2y$10$t5MPwM29tsoHcJUsVgxXqOy90BnTsW0V80ZSQdfzYt.NtcwBr6qf6",
         "nom": "Bavamian",
@@ -66,7 +66,8 @@
                 "transaction_id": "zlpr9I6zSvcX0P4VMs0fJOfk",
                 "montant": "33200.00"
             }
-        ]
+        ],
+        "pseudo": "danbvm95"
     },
     {
         "username": "asterion",

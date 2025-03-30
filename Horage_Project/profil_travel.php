@@ -37,7 +37,6 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
 
 
 ?>
-<?php print_r($voyages); ?>
 
 <!DOCTYPE html>
 <html lang="fr">

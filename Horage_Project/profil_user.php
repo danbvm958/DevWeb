@@ -1,11 +1,8 @@
 <?php
 session_start();
-
-// Vérifie si l'utilisateur est connecté et les informations sont dans la session
 if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
-    $user = $_SESSION['user'];  // Récupère le tableau des informations utilisateur
+    $user = $_SESSION['user'];
 } else {
-    // Si l'utilisateur n'est pas connecté ou si les données de session sont manquantes
     header("Location: login.php");
     exit();
 }
@@ -56,6 +53,7 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
             <div class="profile-info">
                 <img src="img_horage/profil.jpg" alt="Photo de profil" class="profile-pic">
                 <div class="info">
+                    <p><strong>Username :</strong> <span data-field="username"><?php echo htmlspecialchars($user['username']); ?></span> <button class="edit-btn">✏️</button></p>
                     <p><strong>Nom :</strong> <span data-field="nom"><?php echo htmlspecialchars($user['nom']); ?></span> <button class="edit-btn">✏️</button></p>
                     <p><strong>Prenom :</strong> <span data-field="prenom"><?php echo htmlspecialchars($user['prenom']); ?></span> <button class="edit-btn">✏️</button></p>
                     <p><strong>Email :</strong> <span data-field="email"><?php echo htmlspecialchars($user['email']); ?></span> <button class="edit-btn">✏️</button></p>
