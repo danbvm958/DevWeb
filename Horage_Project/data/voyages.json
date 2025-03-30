@@ -1,6 +1,7 @@
 {
   "voyages": [
     {
+      "id_voyage": "VY001",
       "titre": "Nuit de terreur au château de Bran",
       "description": "Plongez dans l'atmosphère envoûtante du château de Dracula pour une nuit d'épouvante inoubliable.",
       "dates": {
@@ -10,45 +11,108 @@
       },
       "tarification": {
         "prix_par_personne": 50000,
-        "reduction_groupe": {
-          "min_personnes": 4,
-          "prix_reduit": 40000
-        },
-        "reduction_enfants": {
-          "min_enfants": 2,
-          "remise": 5000
-        }
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 40000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 5000
+          }
+        ]
       },
       "liste_etapes": [
         {
+          "id_etape": "ET001",
           "titre": "Arrivée à Bucarest",
           "dates": { "arrivee": "2025-10-30", "depart": "2025-10-30" },
           "position": { "ville": "Bucarest", "gps": "44.4268, 26.1025" },
           "options": [
-            { "nom": "Transport", "valeurs": ["Vol commercial", "Jet privé"], "prix": 1000 },
-            { "nom": "Hébergement", "valeurs": ["Hôtel gothique", "Château privatisé"], "prix": 5000 },
-            { "nom": "Activité", "valeurs": ["Visite de la vieille ville", "Dîner thématique vampires"], "prix": 500 }
+            {
+              "id_option": "OP001",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Vol commercial", "prix": 1000 },
+                { "option": "Jet privé", "prix": 10000 }
+              ]
+            },
+            {
+              "id_option": "OP002",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel gothique", "prix": 5000 },
+                { "option": "Château privatisé", "prix": 10000 }
+              ]
+            },
+            {
+              "id_option": "OP003",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite de la vieille ville", "prix": 500 },
+                { "option": "Dîner thématique vampires", "prix": 1000 }
+              ]
+            }
           ],
           "prix_etape": 5000
         },
         {
+          "id_etape": "ET002",
           "titre": "Nuit au château de Dracula",
           "dates": { "arrivee": "2025-10-30", "depart": "2025-10-31" },
           "position": { "ville": "Bran", "gps": "45.5156, 25.3672" },
           "options": [
-            { "nom": "Hébergement", "valeurs": ["Chambre du comte", "Suite royale avec majordome"], "prix": 10000 },
-            { "nom": "Activité", "valeurs": ["Séance de spiritisme", "Escape Game : Évasion du donjon"], "prix": 2000 },
-            { "nom": "Dîner", "valeurs": ["Buffet médiéval", "Festin royal avec spectacle"], "prix": 1000 }
+            {
+              "id_option": "OP004",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Chambre du comte", "prix": 10000 },
+                { "option": "Suite royale avec majordome", "prix": 15000 }
+              ]
+            },
+            {
+              "id_option": "OP005",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Séance de spiritisme", "prix": 2000 },
+                { "option": "Escape Game : Évasion du donjon", "prix": 2500 }
+              ]
+            },
+            {
+              "id_option": "OP006",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Buffet médiéval", "prix": 1000 },
+                { "option": "Festin royal avec spectacle", "prix": 2000 }
+              ]
+            }
           ],
           "prix_etape": 15000
         },
         {
+          "id_etape": "ET003",
           "titre": "Excursion dans les Carpates",
           "dates": { "arrivee": "2025-10-31", "depart": "2025-11-01" },
           "position": { "ville": "Carpates", "gps": "45.3733, 25.5477" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Randonnée nocturne", "Observation des loups-garous"], "prix": 800 },
-            { "nom": "Hébergement", "valeurs": ["Cabane isolée", "Refuge forestier"], "prix": 500 }
+            {
+              "id_option": "OP007",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Randonnée nocturne", "prix": 800 },
+                { "option": "Observation des loups-garous", "prix": 1200 }
+              ]
+            },
+            {
+              "id_option": "OP008",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Cabane isolée", "prix": 500 },
+                { "option": "Refuge forestier", "prix": 1000 }
+              ]
+            }
           ],
           "prix_etape": 30000
         }
@@ -58,721 +122,1516 @@
       "places_disponibles": 10
     },
     {
-      "titre": "Exploration du sanatorium abandonné de Waverly Hills",
-      "description": "Oserez-vous explorer l'un des lieux les plus hantés au monde lors d'une visite nocturne terrifiante ?",
+      "id_voyage": "VY002",
+      "titre": "Week-end dans la maison hantée de Pripyat",
+      "description": "Explorez les vestiges de la ville fantôme de Pripyat, avec une nuit dans une maison réputée hantée près de la zone d'exclusion de Tchernobyl.",
       "dates": {
-        "debut": "2025-09-10",
-        "fin": "2025-09-12",
+        "debut": "2025-11-15",
+        "fin": "2025-11-17",
         "duree": "3 jours"
       },
       "tarification": {
-        "prix_par_personne": 2500,
-        "reduction_groupe": {
-          "min_personnes": 3,
-          "prix_reduit": 2000
-        },
-        "reduction_enfants": {
-          "min_enfants": 2,
-          "remise": 300
-        }
+        "prix_par_personne": 65000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 55000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 7000
+          }
+        ]
       },
       "liste_etapes": [
         {
-          "titre": "Arrivée à Louisville",
-          "dates": { "arrivee": "2025-09-10", "depart": "2025-09-10" },
-          "position": { "ville": "Louisville", "gps": "38.2527, -85.7585" },
+          "id_etape": "ET004",
+          "titre": "Arrivée à Kiev",
+          "dates": { "arrivee": "2025-11-15", "depart": "2025-11-15" },
+          "position": { "ville": "Kiev", "gps": "50.4501, 30.5234" },
           "options": [
-            { "nom": "Transport", "valeurs": ["Voiture de location", "Navette VIP"], "prix": 100 },
-            { "nom": "Hébergement", "valeurs": ["Motel hanté", "Hôtel 5 étoiles"], "prix": 300 },
-            { "nom": "Activité", "valeurs": ["Tour hanté classique", "Investigation paranormale privée"], "prix": 500 }
+            {
+              "id_option": "OP009",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Bus spécialisé", "prix": 1500 },
+                { "option": "Hélicoptère privé", "prix": 15000 }
+              ]
+            },
+            {
+              "id_option": "OP010",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel soviétique", "prix": 7000 },
+                { "option": "Appartement abandonné", "prix": 12000 }
+              ]
+            },
+            {
+              "id_option": "OP011",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite des bunkers secrets", "prix": 2000 },
+                { "option": "Dîner aux chandelles dans un bunker", "prix": 2500 }
+              ]
+            }
           ],
-          "prix_etape": 1200
+          "prix_etape": 8000
         },
         {
-          "titre": "Visite nocturne du sanatorium",
-          "dates": { "arrivee": "2025-09-11", "depart": "2025-09-11" },
-          "position": { "ville": "Louisville", "gps": "38.1347, -85.7167" },
+          "id_etape": "ET005",
+          "titre": "Exploration de Pripyat",
+          "dates": { "arrivee": "2025-11-16", "depart": "2025-11-16" },
+          "position": { "ville": "Pripyat", "gps": "51.4045, 30.0540" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Chasse aux fantômes", "Parcours de l'horreur"], "prix": 200 },
-            { "nom": "Restauration", "valeurs": ["Snack rapide", "Buffet thématique zombies"], "prix": 50 }
+            {
+              "id_option": "OP012",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Chambre dans la maison hantée", "prix": 18000 },
+                { "option": "Nuit dans l'école abandonnée", "prix": 22000 }
+              ]
+            },
+            {
+              "id_option": "OP013",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Chasse aux fantômes avec équipement", "prix": 3500 },
+                { "option": "Exploration nocturne de l'hôpital", "prix": 4000 },
+                { "option": "Séance de spiritisme dans le parc d'attractions", "prix": 3000 }
+              ]
+            },
+            {
+              "id_option": "OP014",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Rations militaires soviétiques", "prix": 1500 },
+                { "option": "Banquet post-apocalyptique", "prix": 3000 }
+              ]
+            }
           ],
-          "prix_etape": 800
+          "prix_etape": 25000
         },
         {
-          "titre": "Escape room hanté",
-          "dates": { "arrivee": "2025-09-12", "depart": "2025-09-12" },
-          "position": { "ville": "Louisville", "gps": "38.1350, -85.7200" },
+          "id_etape": "ET006",
+          "titre": "Retour via la zone d'exclusion",
+          "dates": { "arrivee": "2025-11-17", "depart": "2025-11-17" },
+          "position": { "ville": "Zone d'exclusion", "gps": "51.3890, 30.0995" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Salle des esprits", "Labyrinthe maudit"], "prix": 300 },
-            { "nom": "Hébergement", "valeurs": ["Cottage hanté", "Cabane maudite"], "prix": 250 }
+            {
+              "id_option": "OP015",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite du réacteur 4 (vue extérieure)", "prix": 5000 },
+                { "option": "Exploration de la forêt rouge", "prix": 3500 }
+              ]
+            },
+            {
+              "id_option": "OP016",
+              "nom": "Transport retour",
+              "choix": [
+                { "option": "Véhicule blindé", "prix": 2000 },
+                { "option": "Convoi militaire", "prix": 3000 }
+              ]
+            }
           ],
-          "prix_etape": 500
+          "prix_etape": 32000
         }
       ],
-      "prix_total": 2500,
-      "statut": "disponible",
-      "places_disponibles": 30
-    },
-    {
-      "titre": "Aventure sous-marine dans la cité engloutie de Yonaguni",
-      "description": "Plongez dans les ruines sous-marines mystérieuses de Yonaguni et découvrez des structures vieilles de plusieurs millénaires.",
-      "dates": {
-        "debut": "2025-07-15",
-        "fin": "2025-07-18",
-        "duree": "4 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 3500,
-        "reduction_groupe": {
-          "min_personnes": 4,
-          "prix_reduit": 3000
-        },
-        "reduction_enfants": {
-          "min_enfants": 2,
-          "remise": 500
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Arrivée à Okinawa",
-          "dates": { "arrivee": "2025-07-15", "depart": "2025-07-15" },
-          "position": { "ville": "Okinawa", "gps": "26.2124, 127.6809" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Vol commercial", "Hélicoptère privé"], "prix": 1200 },
-            { "nom": "Hébergement", "valeurs": ["Hôtel de plage", "Bungalow sur pilotis"], "prix": 700 },
-            { "nom": "Activité", "valeurs": ["Dîner traditionnel Ryukyu", "Spectacle de danse Okinawaïenne"], "prix": 100 }
-          ],
-          "prix_etape": 2000
-        },
-        {
-          "titre": "Plongée dans la cité engloutie",
-          "dates": { "arrivee": "2025-07-16", "depart": "2025-07-16" },
-          "position": { "ville": "Yonaguni", "gps": "24.4475, 122.9335" },
-          "options": [
-            { "nom": "Plongée", "valeurs": ["Plongée guidée", "Plongée en autonomie"], "prix": 500 },
-            { "nom": "Restauration", "valeurs": ["Pique-nique sur la plage", "Déjeuner gastronomique en mer"], "prix": 200 }
-          ],
-          "prix_etape": 1000
-        },
-        {
-          "titre": "Exploration des îles environnantes",
-          "dates": { "arrivee": "2025-07-17", "depart": "2025-07-17" },
-          "position": { "ville": "Yonaguni", "gps": "24.4667, 122.9833" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Randonnée sur l'île", "Excursion en bateau"], "prix": 300 },
-            { "nom": "Hébergement", "valeurs": ["Cabanes en bois", "Campement sous les étoiles"], "prix": 200 }
-          ],
-          "prix_etape": 500
-        }
-      ],
-      "prix_total": 3500,
-      "statut": "disponible",
-      "places_disponibles": 20
-    },
-    {
-      "titre": "Expédition dans la forêt hantée d’Aokigahara",
-      "description": "Explorez l’une des forêts les plus mystérieuses du Japon et plongez dans ses légendes effrayantes.",
-      "dates": {
-        "debut": "2025-08-20",
-        "fin": "2025-08-22",
-        "duree": "3 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 1800,
-        "reduction_groupe": {
-          "min_personnes": 3,
-          "prix_reduit": 1500
-        },
-        "reduction_enfants": {
-          "min_enfants": 2,
-          "remise": 200
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Arrivée à Tokyo",
-          "dates": { "arrivee": "2025-08-20", "depart": "2025-08-20" },
-          "position": { "ville": "Tokyo", "gps": "35.6895, 139.6917" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Train Shinkansen", "Voiture privée"], "prix": 300 },
-            { "nom": "Hébergement", "valeurs": ["Hôtel traditionnel ryokan", "Capsule-hôtel futuriste"], "prix": 500 },
-            { "nom": "Activité", "valeurs": ["Tour de Tokyo hanté", "Dîner à thème fantôme"], "prix": 150 }
-          ],
-          "prix_etape": 1200
-        },
-        {
-          "titre": "Randonnée nocturne dans Aokigahara",
-          "dates": { "arrivee": "2025-08-21", "depart": "2025-08-21" },
-          "position": { "ville": "Aokigahara", "gps": "35.4854, 138.7485" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Expédition guidée", "Chasse aux phénomènes paranormaux"], "prix": 500 },
-            { "nom": "Hébergement", "valeurs": ["Tente de survie", "Cabane abandonnée"], "prix": 400 }
-          ],
-          "prix_etape": 600
-        }
-      ],
-      "prix_total": 1800,
-      "statut": "disponible",
-      "places_disponibles": 15
-    },
-    {
-      "titre": "Croisière maléfique sur le Triangle des Bermudes",
-      "description": "Embarquez pour une croisière à travers les eaux mystérieuses du Triangle des Bermudes et vivez une expérience paranormale unique.",
-      "dates": {
-        "debut": "2025-06-10",
-        "fin": "2025-06-14",
-        "duree": "5 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 4500,
-        "reduction_groupe": {
-          "min_personnes": 5,
-          "prix_reduit": 4000
-        },
-        "reduction_enfants": {
-          "min_enfants": 2,
-          "remise": 700
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Départ de Miami",
-          "dates": { "arrivee": "2025-06-10", "depart": "2025-06-10" },
-          "position": { "ville": "Miami", "gps": "25.7617, -80.1918" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Avion privé", "Vol commercial"], "prix": 900 },
-            { "nom": "Hébergement", "valeurs": ["Hôtel balnéaire", "Villa privée"], "prix": 1500 }
-          ],
-          "prix_etape": 2500
-        },
-        {
-          "titre": "Traversée du Triangle des Bermudes",
-          "dates": { "arrivee": "2025-06-11", "depart": "2025-06-13" },
-          "position": { "ville": "Triangle des Bermudes", "gps": "25.0000, -71.0000" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Observation des phénomènes inexpliqués", "Exploration sous-marine"], "prix": 600 },
-            { "nom": "Restauration", "valeurs": ["Buffet gastronomique", "Menu thématique disparu en mer"], "prix": 300 }
-          ],
-          "prix_etape": 2000
-        }
-      ],
-      "prix_total": 4500,
-      "statut": "disponible",
-      "places_disponibles": 25
-    },
-    {
-      "titre": "Les Catacombes Interdites de Paris",
-      "description": "Partez pour une descente effrayante dans les profondeurs sombres de Paris et explorez les galeries interdites des catacombes.",
-      "dates": {
-        "debut": "2025-06-20",
-        "fin": "2025-06-22",
-        "duree": "3 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 3500,
-        "reduction_groupe": {
-          "min_personnes": 4,
-          "prix_reduit": 3000
-        },
-        "reduction_enfants": {
-          "min_enfants": 2,
-          "remise": 400
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Arrivée et visite des souterrains",
-          "dates": { "arrivee": "2025-06-20", "depart": "2025-06-20" },
-          "position": { "ville": "Paris", "gps": "48.8566, 2.3522" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Métro", "Taxi privé"], "prix": 50 },
-            { "nom": "Hébergement", "valeurs": ["Hôtel historique", "Auberge obscure"], "prix": 300 },
-            { "nom": "Activité", "valeurs": ["Exploration officielle", "Tour interdit des catacombes"], "prix": 800 }
-          ],
-          "prix_etape": 1200
-        },
-        {
-          "titre": "Expédition clandestine",
-          "dates": { "arrivee": "2025-06-21", "depart": "2025-06-21" },
-          "position": { "ville": "Paris", "gps": "48.8566, 2.3522" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Parcours souterrain secret", "Expédition de minuit"], "prix": 500 },
-            { "nom": "Restauration", "valeurs": ["Dîner aux chandelles", "Buffet médiéval"], "prix": 150 }
-          ],
-          "prix_etape": 800
-        },
-        {
-          "titre": "Escape Game : Échapper aux catacombes",
-          "dates": { "arrivee": "2025-06-22", "depart": "2025-06-22" },
-          "position": { "ville": "Paris", "gps": "48.8566, 2.3522" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Escape Game crypté", "Défi des cataphiles"], "prix": 700 },
-            { "nom": "Hébergement", "valeurs": ["Auberge mystérieuse", "Hôtel 3 étoiles"], "prix": 250 }
-          ],
-          "prix_etape": 1500
-        }
-      ],
-      "prix_total": 3500,
-      "statut": "disponible",
-      "places_disponibles": 15
-    },
-    {
-      "titre": "La Croisière du Hollandais Volant",
-      "description": "Naviguez sur les eaux brumeuses de la mer du Nord à bord d’un navire fantôme et découvrez les secrets du Hollandais Volant.",
-      "dates": {
-        "debut": "2025-07-15",
-        "fin": "2025-07-18",
-        "duree": "4 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 6000,
-        "reduction_groupe": {
-          "min_personnes": 3,
-          "prix_reduit": 5000
-        },
-        "reduction_enfants": {
-          "min_enfants": 2,
-          "remise": 800
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Embarquement au port de Rotterdam",
-          "dates": { "arrivee": "2025-07-15", "depart": "2025-07-15" },
-          "position": { "ville": "Rotterdam", "gps": "51.9225, 4.4792" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Train", "Voiture privée"], "prix": 300 },
-            { "nom": "Hébergement", "valeurs": ["Cabine hantée", "Suite du capitaine"], "prix": 1000 }
-          ],
-          "prix_etape": 1500
-        },
-        {
-          "titre": "Nuit de terreur en mer",
-          "dates": { "arrivee": "2025-07-16", "depart": "2025-07-17" },
-          "position": { "ville": "Mer du Nord", "gps": "55.0000, 3.0000" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Dîner du capitaine maudit", "Récit des damnés"], "prix": 500 },
-            { "nom": "Expérience", "valeurs": ["Contact avec les esprits", "Plongée dans l'épave"], "prix": 800 }
-          ],
-          "prix_etape": 2000
-        },
-        {
-          "titre": "Débarquement et enquête paranormale",
-          "dates": { "arrivee": "2025-07-18", "depart": "2025-07-18" },
-          "position": { "ville": "Rotterdam", "gps": "51.9225, 4.4792" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Escape Game : Maudits à jamais", "Tour hanté du port"], "prix": 700 }
-          ],
-          "prix_etape": 2500
-        }
-      ],
-      "prix_total": 6000,
-      "statut": "disponible",
-      "places_disponibles": 12
-    },
-    {
-      "titre": "Nuit sans fin au Manoir des Lamentations",
-      "description": "Oserez-vous entrer dans ce manoir où le temps s'arrête et où les âmes errantes chuchotent leur souffrance éternelle ?",
-      "dates": {
-        "debut": "2025-10-13",
-        "fin": "2025-10-15",
-        "duree": "3 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 60000,
-        "reduction_groupe": {
-          "min_personnes": 3,
-          "prix_reduit": 50000
-        },
-        "reduction_enfants": {
-          "min_enfants": 1,
-          "remise": 10000
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Arrivée au village des âmes perdues",
-          "dates": { "arrivee": "2025-10-13", "depart": "2025-10-13" },
-          "position": { "ville": "Village des Ombres", "gps": "66.6666, 13.1313" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Calèche hantée", "Train fantôme"], "prix": 2000 },
-            { "nom": "Hébergement", "valeurs": ["Maison abandonnée", "Crypte souterraine"], "prix": 8000 },
-            { "nom": "Activité", "valeurs": ["Lecture des écrits interdits", "Rencontre avec les âmes errantes"], "prix": 1000 }
-          ],
-          "prix_etape": 20000
-        },
-        {
-          "titre": "Exploration du Manoir des Lamentations",
-          "dates": { "arrivee": "2025-10-13", "depart": "2025-10-14" },
-          "position": { "ville": "Manoir des Lamentations", "gps": "66.6667, 13.1314" },
-          "options": [
-            { "nom": "Hébergement", "valeurs": ["Chambre aux pleurs", "Cellule maudite"], "prix": 15000 },
-            { "nom": "Activité", "valeurs": ["Chasse aux spectres", "Dîner avec les disparus"], "prix": 5000 }
-          ],
-          "prix_etape": 20000
-        },
-        {
-          "titre": "Rituel de départ et retour à la réalité",
-          "dates": { "arrivee": "2025-10-14", "depart": "2025-10-15" },
-          "position": { "ville": "Forêt des Murmures", "gps": "66.6670, 13.1315" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Pacte avec les esprits", "Cérémonie de purification"], "prix": 3000 }
-          ],
-          "prix_etape": 20000
-        }
-      ],
-      "prix_total": 60000,
+      "prix_total": 65000,
       "statut": "disponible",
       "places_disponibles": 8
     },
     {
-      "titre": "Descente aux Enfers : Voyage sans retour",
-      "description": "Traversez les portes de l'Enfer et explorez les neuf cercles du néant, si votre âme en ressort intacte...",
+      "id_voyage": "VY004",
+      "titre": "Expédition dans la forêt des suicidés",
+      "description": "Osez pénétrer dans la mystérieuse forêt d'Aokigahara au Japon, lieu empreint de légendes terrifiantes et d'énergie mystique.",
       "dates": {
-        "debut": "2025-11-06",
-        "fin": "2025-11-08",
-        "duree": "3 jours"
+        "debut": "2026-01-10",
+        "fin": "2026-01-15",
+        "duree": "6 jours"
       },
       "tarification": {
-        "prix_par_personne": 75000,
-        "reduction_groupe": {
-          "min_personnes": 2,
-          "prix_reduit": 65000
-        },
-        "reduction_enfants": {
-          "min_enfants": 1,
-          "remise": 5000
-        }
+        "prix_par_personne": 85000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 75000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 10000
+          }
+        ]
       },
       "liste_etapes": [
         {
-          "titre": "Entrée dans l'Inframonde",
-          "dates": { "arrivee": "2025-11-06", "depart": "2025-11-06" },
-          "position": { "ville": "Porte de l'Enfer", "gps": "34.0522, -118.2437" },
+          "id_etape": "ET010",
+          "titre": "Arrivée à Tokyo",
+          "dates": { "arrivee": "2026-01-10", "depart": "2026-01-10" },
+          "position": { "ville": "Tokyo", "gps": "35.6762, 139.6503" },
           "options": [
-            { "nom": "Transport", "valeurs": ["Barque de Charon", "Ascenseur du Styx"], "prix": 5000 },
-            { "nom": "Hébergement", "valeurs": ["Caverne du désespoir", "Chambre des damnés"], "prix": 12000 }
+            {
+              "id_option": "OP025",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Shinkansen (train à grande vitesse)", "prix": 5000 },
+                { "option": "Voiture avec chauffeur", "prix": 8000 }
+              ]
+            },
+            {
+              "id_option": "OP026",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel capsule", "prix": 7000 },
+                { "option": "Ryokan hanté", "prix": 12000 }
+              ]
+            },
+            {
+              "id_option": "OP027",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite de lieux maudits de Tokyo", "prix": 4000 },
+                { "option": "Cérémonie de purification shinto", "prix": 3000 }
+              ]
+            }
           ],
           "prix_etape": 15000
         },
         {
-          "titre": "Exploration des cercles infernaux",
-          "dates": { "arrivee": "2025-11-06", "depart": "2025-11-07" },
-          "position": { "ville": "Cercles de l'Enfer", "gps": "34.0523, -118.2438" },
+          "id_etape": "ET011",
+          "titre": "Exploration d'Aokigahara",
+          "dates": { "arrivee": "2026-01-11", "depart": "2026-01-14" },
+          "position": { "ville": "Aokigahara", "gps": "35.4716, 138.6460" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Visite du lac de sang", "Course avec les démons"], "prix": 6000 },
-            { "nom": "Dîner", "valeurs": ["Banquet des âmes", "Délice des damnés"], "prix": 4000 }
-          ],
-          "prix_etape": 30000
-        },
-        {
-          "titre": "Le Jugement Final",
-          "dates": { "arrivee": "2025-11-07", "depart": "2025-11-08" },
-          "position": { "ville": "Trône de Lucifer", "gps": "34.0524, -118.2439" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Duel contre un démon", "Marché des âmes perdues"], "prix": 10000 }
-          ],
-          "prix_etape": 30000
-        }
-      ],
-      "prix_total": 75000,
-      "statut": "disponible",
-      "places_disponibles": 6
-    },
-    {
-      "titre": "Le Train Fantôme de Minuit",
-      "description": "Montez à bord du train qui traverse les dimensions et les cauchemars les plus sombres...",
-      "dates": {
-        "debut": "2025-12-24",
-        "fin": "2025-12-26",
-        "duree": "3 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 55000,
-        "reduction_groupe": {
-          "min_personnes": 4,
-          "prix_reduit": 45000
-        },
-        "reduction_enfants": {
-          "min_enfants": 1,
-          "remise": 5000
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Départ de la gare abandonnée",
-          "dates": { "arrivee": "2025-12-24", "depart": "2025-12-24" },
-          "position": { "ville": "Gare du Néant", "gps": "51.5074, -0.1278" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Wagon hanté", "Cabine VIP du néant"], "prix": 5000 }
-          ],
-          "prix_etape": 5000
-        },
-        {
-          "titre": "Traversée des dimensions cauchemardesques",
-          "dates": { "arrivee": "2025-12-24", "depart": "2025-12-25" },
-          "position": { "ville": "Ailleurs", "gps": "???" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Dîner avec les esprits", "Survie en univers parallèle"], "prix": 7000 }
-          ],
-          "prix_etape": 25000
-        },
-        {
-          "titre": "Retour au monde réel (ou pas)",
-          "dates": { "arrivee": "2025-12-25", "depart": "2025-12-26" },
-          "position": { "ville": "Monde Incertain", "gps": "???" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Test de réalité", "Dernière épreuve"], "prix": 5000 }
-          ],
-          "prix_etape": 25000
-        }
-      ],
-      "prix_total": 55000,
-      "statut": "disponible",
-      "places_disponibles": 12
-    },
-    {
-      "titre": "Aventure mystique au Machu Picchu",
-      "description": "Découvrez les secrets des Incas avec un voyage spirituel au cœur du Pérou.",
-      "dates": {
-        "debut": "2025-07-10",
-        "fin": "2025-07-15",
-        "duree": "6 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 60000,
-        "reduction_groupe": {
-          "min_personnes": 3,
-          "prix_reduit": 55000
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Arrivée à Lima",
-          "dates": { "arrivee": "2025-07-10", "depart": "2025-07-11" },
-          "position": { "ville": "Lima", "gps": "-12.0464, -77.0428" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Vol économique", "Classe affaires"], "prix": 1500 },
-            { "nom": "Hébergement", "valeurs": ["Hôtel 4 étoiles", "Villa privée"], "prix": 6000 },
-            { "nom": "Activité", "valeurs": ["Dîner gastronomique péruvien", "Tour de la ville", "Spectacle de danse folklorique", "Cours de cuisine péruvienne"], "prix": 700 }
-          ],
-          "prix_etape": 6000
-        },
-        {
-          "titre": "Exploration du Machu Picchu",
-          "dates": { "arrivee": "2025-07-11", "depart": "2025-07-13" },
-          "position": { "ville": "Machu Picchu", "gps": "-13.1631, -72.5450" },
-          "options": [
-            { "nom": "Hébergement", "valeurs": ["Lodge en pleine nature", "Hôtel de luxe"], "prix": 12000 },
-            { "nom": "Activité", "valeurs": ["Visite guidée privée", "Méditation au lever du soleil", "Rituel chamanique inca", "Randonnée à la montagne Wayna Picchu"], "prix": 2500 },
-            { "nom": "Restauration", "valeurs": ["Buffet local", "Dîner sous les étoiles", "Déjeuner avec vue panoramique", "Bar à cocktails traditionnels"], "prix": 1200 }
-          ],
-          "prix_etape": 18000
-        },
-        {
-          "titre": "Aventure en Amazonie",
-          "dates": { "arrivee": "2025-07-13", "depart": "2025-07-15" },
-          "position": { "ville": "Amazonie", "gps": "-3.4653, -62.2159" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Observation de la faune", "Excursion en canoë", "Pêche aux piranhas", "Bivouac en forêt", "Initiation à la survie avec un guide local"], "prix": 1000 },
-            { "nom": "Hébergement", "valeurs": ["Écolodge", "Cabane en pleine jungle", "Hamac suspendu en pleine nature"], "prix": 3000 }
-          ],
-          "prix_etape": 18000
-        }
-      ],
-      "prix_total": 60000,
-      "statut": "disponible",
-      "places_disponibles": 8
-    },
-    {
-      "titre": "Road trip épique en Islande",
-      "description": "Vivez une aventure inoubliable à travers les paysages spectaculaires de l'Islande.",
-      "dates": {
-        "debut": "2025-05-20",
-        "fin": "2025-05-30",
-        "duree": "10 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 75000,
-        "reduction_groupe": {
-          "min_personnes": 5,
-          "prix_reduit": 70000
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Arrivée à Reykjavik",
-          "dates": { "arrivee": "2025-05-20", "depart": "2025-05-21" },
-          "position": { "ville": "Reykjavik", "gps": "64.1355, -21.8954" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Voiture de location", "4x4 premium"], "prix": 5000 },
-            { "nom": "Activité", "valeurs": ["Excursion baleines", "Baignade au Blue Lagoon", "Visite du Cercle d'Or", "Aurores boréales en soirée"], "prix": 2000 }
-          ],
-          "prix_etape": 5000
-        },
-        {
-          "titre": "Aventure sur la route circulaire",
-          "dates": { "arrivee": "2025-05-21", "depart": "2025-05-28" },
-          "position": { "ville": "Islande", "gps": "64.9631, -19.0208" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Randonnée sur glacier", "Plongée dans la faille de Silfra", "Balade à cheval sur la plage", "Canyoning dans les cascades"], "prix": 3000 },
-            { "nom": "Hébergement", "valeurs": ["Camping sauvage", "Auberge chaleureuse", "Igloo de verre sous les étoiles"], "prix": 6000 }
+            {
+              "id_option": "OP028",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Tente sécurisée en bordure de forêt", "prix": 15000 },
+                { "option": "Cabane au cœur de la forêt", "prix": 25000 }
+              ]
+            },
+            {
+              "id_option": "OP029",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Randonnée avec guide spécialiste", "prix": 6000 },
+                { "option": "Nuit dans une zone réputée hantée", "prix": 8000 },
+                { "option": "Recherche des grottes glacées", "prix": 5000 }
+              ]
+            },
+            {
+              "id_option": "OP030",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Repas traditionnel japonais", "prix": 3000 },
+                { "option": "Rations de survie", "prix": 1500 }
+              ]
+            }
           ],
           "prix_etape": 50000
-        }
-      ],
-      "prix_total": 75000,
-      "statut": "disponible",
-      "places_disponibles": 12
-    },
-    {
-      "titre": "Safari ultime en Tanzanie",
-      "description": "Partez à l'aventure pour observer la faune africaine dans son habitat naturel.",
-      "dates": {
-        "debut": "2025-08-05",
-        "fin": "2025-08-15",
-        "duree": "11 jours"
-      },
-      "tarification": {
-        "prix_par_personne": 85000,
-        "reduction_groupe": {
-          "min_personnes": 4,
-          "prix_reduit": 80000
-        }
-      },
-      "liste_etapes": [
-        {
-          "titre": "Arrivée à Arusha",
-          "dates": { "arrivee": "2025-08-05", "depart": "2025-08-06" },
-          "position": { "ville": "Arusha", "gps": "-3.3869, 36.6829" },
-          "options": [
-            { "nom": "Transport", "valeurs": ["Vol économique", "Classe affaires"], "prix": 2000 },
-            { "nom": "Hébergement", "valeurs": ["Lodge safari", "Hôtel de luxe"], "prix": 7000 },
-            { "nom": "Activité", "valeurs": ["Visite du marché local", "Découverte de la culture Massaï"], "prix": 1000 }
-          ],
-          "prix_etape": 6000
         },
         {
-          "titre": "Safari dans le Serengeti",
-          "dates": { "arrivee": "2025-08-06", "depart": "2025-08-10" },
-          "position": { "ville": "Serengeti", "gps": "-2.3333, 34.8333" },
+          "id_etape": "ET012",
+          "titre": "Retour à la civilisation",
+          "dates": { "arrivee": "2026-01-15", "depart": "2026-01-15" },
+          "position": { "ville": "Tokyo", "gps": "35.6762, 139.6503" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Safari en 4x4", "Safari à pied", "Survol en montgolfière", "Dîner sous les étoiles"], "prix": 5000 },
-            { "nom": "Hébergement", "valeurs": ["Campement sauvage", "Lodge 5 étoiles"], "prix": 10000 }
-          ],
-          "prix_etape": 30000
-        },
-        {
-          "titre": "Excursion au cratère du Ngorongoro",
-          "dates": { "arrivee": "2025-08-10", "depart": "2025-08-12" },
-          "position": { "ville": "Ngorongoro", "gps": "-3.1619, 35.5873" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Safari photo", "Randonnée au bord du cratère"], "prix": 3000 },
-            { "nom": "Hébergement", "valeurs": ["Tente de luxe", "Bungalow avec vue panoramique"], "prix": 5000 }
+            {
+              "id_option": "OP031",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Session de débriefing avec psychologue", "prix": 4000 },
+                { "option": "Visite d'un sanctuaire apaisant", "prix": 2000 }
+              ]
+            },
+            {
+              "id_option": "OP032",
+              "nom": "Transport retour",
+              "choix": [
+                { "option": "Vol standard", "prix": 5000 },
+                { "option": "Vol premium avec espace détente", "prix": 8000 }
+              ]
+            }
           ],
           "prix_etape": 20000
         }
       ],
       "prix_total": 85000,
       "statut": "disponible",
-      "places_disponibles": 10
+      "places_disponibles": 5
     },
     {
-      "titre": "Expédition en Antarctique",
-      "description": "Vivez une expérience unique au bout du monde, entre glaciers et faune sauvage.",
+      "id_voyage": "VY004",
+      "titre": "Expédition dans la forêt des suicidés",
+      "description": "Osez pénétrer dans la mystérieuse forêt d'Aokigahara au Japon, lieu empreint de légendes terrifiantes et d'énergie mystique.",
       "dates": {
-        "debut": "2025-12-01",
-        "fin": "2025-12-15",
-        "duree": "15 jours"
+        "debut": "2026-01-10",
+        "fin": "2026-01-15",
+        "duree": "6 jours"
       },
       "tarification": {
-        "prix_par_personne": 120000,
-        "reduction_groupe": {
-          "min_personnes": 6,
-          "prix_reduit": 110000
-        }
+        "prix_par_personne": 85000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 75000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 10000
+          }
+        ]
       },
       "liste_etapes": [
         {
-          "titre": "Départ d'Ushuaïa",
-          "dates": { "arrivee": "2025-12-01", "depart": "2025-12-02" },
-          "position": { "ville": "Ushuaïa", "gps": "-54.8019, -68.3030" },
+          "id_etape": "ET010",
+          "titre": "Arrivée à Tokyo",
+          "dates": { "arrivee": "2026-01-10", "depart": "2026-01-10" },
+          "position": { "ville": "Tokyo", "gps": "35.6762, 139.6503" },
           "options": [
-            { "nom": "Transport", "valeurs": ["Vol vers Ushuaïa", "Cabine premium"], "prix": 7000 },
-            { "nom": "Activité", "valeurs": ["Visite du parc national de la Terre de Feu", "Randonnée glaciaire"], "prix": 4000 }
-          ],
-          "prix_etape": 10000
-        },
-        {
-          "titre": "Traversée du passage de Drake",
-          "dates": { "arrivee": "2025-12-02", "depart": "2025-12-05" },
-          "position": { "ville": "Passage de Drake", "gps": "-60.0000, -60.0000" },
-          "options": [
-            { "nom": "Activité", "valeurs": ["Observation de baleines", "Conférences scientifiques"], "prix": 5000 }
+            {
+              "id_option": "OP025",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Shinkansen (train à grande vitesse)", "prix": 5000 },
+                { "option": "Voiture avec chauffeur", "prix": 8000 }
+              ]
+            },
+            {
+              "id_option": "OP026",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel capsule", "prix": 7000 },
+                { "option": "Ryokan hanté", "prix": 12000 }
+              ]
+            },
+            {
+              "id_option": "OP027",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite de lieux maudits de Tokyo", "prix": 4000 },
+                { "option": "Cérémonie de purification shinto", "prix": 3000 }
+              ]
+            }
           ],
           "prix_etape": 15000
         },
         {
-          "titre": "Exploration de l'Antarctique",
-          "dates": { "arrivee": "2025-12-05", "depart": "2025-12-14" },
-          "position": { "ville": "Antarctique", "gps": "-75.2500, -0.0714" },
+          "id_etape": "ET011",
+          "titre": "Exploration d'Aokigahara",
+          "dates": { "arrivee": "2026-01-11", "depart": "2026-01-14" },
+          "position": { "ville": "Aokigahara", "gps": "35.4716, 138.6460" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Excursion en kayak", "Randonnée sur la glace", "Camping polaire"], "prix": 10000 }
+            {
+              "id_option": "OP028",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Tente sécurisée en bordure de forêt", "prix": 15000 },
+                { "option": "Cabane au cœur de la forêt", "prix": 25000 }
+              ]
+            },
+            {
+              "id_option": "OP029",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Randonnée avec guide spécialiste", "prix": 6000 },
+                { "option": "Nuit dans une zone réputée hantée", "prix": 8000 },
+                { "option": "Recherche des grottes glacées", "prix": 5000 }
+              ]
+            },
+            {
+              "id_option": "OP030",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Repas traditionnel japonais", "prix": 3000 },
+                { "option": "Rations de survie", "prix": 1500 }
+              ]
+            }
           ],
           "prix_etape": 50000
+        },
+        {
+          "id_etape": "ET012",
+          "titre": "Retour à la civilisation",
+          "dates": { "arrivee": "2026-01-15", "depart": "2026-01-15" },
+          "position": { "ville": "Tokyo", "gps": "35.6762, 139.6503" },
+          "options": [
+            {
+              "id_option": "OP031",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Session de débriefing avec psychologue", "prix": 4000 },
+                { "option": "Visite d'un sanctuaire apaisant", "prix": 2000 }
+              ]
+            },
+            {
+              "id_option": "OP032",
+              "nom": "Transport retour",
+              "choix": [
+                { "option": "Vol standard", "prix": 5000 },
+                { "option": "Vol premium avec espace détente", "prix": 8000 }
+              ]
+            }
+          ],
+          "prix_etape": 20000
         }
       ],
-      "prix_total": 120000,
+      "prix_total": 85000,
+      "statut": "disponible",
+      "places_disponibles": 5
+    },
+    {
+      "id_voyage": "VY005",
+      "titre": "Expédition dans la forêt des suicidés",
+      "description": "Osez pénétrer dans la mystérieuse forêt d'Aokigahara au Japon, lieu empreint de légendes terrifiantes et d'énergie mystique.",
+      "dates": {
+        "debut": "2026-01-10",
+        "fin": "2026-01-15",
+        "duree": "6 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 85000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 75000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 10000
+          }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET010",
+          "titre": "Arrivée à Tokyo",
+          "dates": { "arrivee": "2026-01-10", "depart": "2026-01-10" },
+          "position": { "ville": "Tokyo", "gps": "35.6762, 139.6503" },
+          "options": [
+            {
+              "id_option": "OP025",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Shinkansen (train à grande vitesse)", "prix": 5000 },
+                { "option": "Voiture avec chauffeur", "prix": 8000 }
+              ]
+            },
+            {
+              "id_option": "OP026",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel capsule", "prix": 7000 },
+                { "option": "Ryokan hanté", "prix": 12000 }
+              ]
+            },
+            {
+              "id_option": "OP027",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite de lieux maudits de Tokyo", "prix": 4000 },
+                { "option": "Cérémonie de purification shinto", "prix": 3000 }
+              ]
+            }
+          ],
+          "prix_etape": 15000
+        },
+        {
+          "id_etape": "ET011",
+          "titre": "Exploration d'Aokigahara",
+          "dates": { "arrivee": "2026-01-11", "depart": "2026-01-14" },
+          "position": { "ville": "Aokigahara", "gps": "35.4716, 138.6460" },
+          "options": [
+            {
+              "id_option": "OP028",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Tente sécurisée en bordure de forêt", "prix": 15000 },
+                { "option": "Cabane au cœur de la forêt", "prix": 25000 }
+              ]
+            },
+            {
+              "id_option": "OP029",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Randonnée avec guide spécialiste", "prix": 6000 },
+                { "option": "Nuit dans une zone réputée hantée", "prix": 8000 },
+                { "option": "Recherche des grottes glacées", "prix": 5000 }
+              ]
+            },
+            {
+              "id_option": "OP030",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Repas traditionnel japonais", "prix": 3000 },
+                { "option": "Rations de survie", "prix": 1500 }
+              ]
+            }
+          ],
+          "prix_etape": 50000
+        },
+        {
+          "id_etape": "ET012",
+          "titre": "Retour à la civilisation",
+          "dates": { "arrivee": "2026-01-15", "depart": "2026-01-15" },
+          "position": { "ville": "Tokyo", "gps": "35.6762, 139.6503" },
+          "options": [
+            {
+              "id_option": "OP031",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Session de débriefing avec psychologue", "prix": 4000 },
+                { "option": "Visite d'un sanctuaire apaisant", "prix": 2000 }
+              ]
+            },
+            {
+              "id_option": "OP032",
+              "nom": "Transport retour",
+              "choix": [
+                { "option": "Vol standard", "prix": 5000 },
+                { "option": "Vol premium avec espace détente", "prix": 8000 }
+              ]
+            }
+          ],
+          "prix_etape": 20000
+        }
+      ],
+      "prix_total": 85000,
+      "statut": "disponible",
+      "places_disponibles": 5
+    },
+    {
+      "id_voyage": "VY005",
+      "titre": "72h dans l'asile hanté de Willowbrook",
+      "description": "Plongez dans l'horreur absolue de cet ancien asile où des expériences médicales terrifiantes furent menées. Âmes sensibles s'abstenir.",
+      "dates": {
+        "debut": "2025-09-20",
+        "fin": "2025-09-23",
+        "duree": "3 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 78000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 68000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 9000
+          }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET013",
+          "titre": "Arrivée à Staten Island",
+          "dates": { "arrivee": "2025-09-20", "depart": "2025-09-20" },
+          "position": { "ville": "Staten Island", "gps": "40.5795, -74.1502" },
+          "options": [
+            {
+              "id_option": "OP033",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Navette spéciale", "prix": 2000 },
+                { "option": "Ambulance vintage", "prix": 5000 }
+              ]
+            },
+            {
+              "id_option": "OP034",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Motel des aliénés", "prix": 8000 },
+                { "option": "Chambre d'infirmière préservée", "prix": 12000 }
+              ]
+            },
+            {
+              "id_option": "OP035",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite du musée médical secret", "prix": 3500 },
+                { "option": "Projection de films d'archive troublants", "prix": 2500 }
+              ]
+            }
+          ],
+          "prix_etapa": 10000
+        },
+        {
+          "id_etape": "ET014",
+          "titre": "Immersion dans l'asile",
+          "dates": { "arrivee": "2025-09-21", "depart": "2025-09-22" },
+          "position": { "ville": "Willowbrook", "gps": "40.6037, -74.1389" },
+          "options": [
+            {
+              "id_option": "OP036",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Cellule d'isolement", "prix": 25000 },
+                { "option": "Salle de traitement électroconvulsif", "prix": 30000 }
+              ]
+            },
+            {
+              "id_option": "OP037",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Enquête dans la morgue secrète", "prix": 6000 },
+                { "option": "Nuit dans le service pédiatrique", "prix": 8000 },
+                { "option": "Session de spiritisme dans la cave", "prix": 4500 }
+              ]
+            },
+            {
+              "id_option": "OP038",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Repas d'époque de l'asile", "prix": 3000 },
+                { "option": "Banquet dans la salle de dissection", "prix": 5000 }
+              ]
+            }
+          ],
+          "prix_etape": 45000
+        },
+        {
+          "id_etape": "ET015",
+          "titre": "Retour et débriefing",
+          "dates": { "arrivee": "2025-09-23", "depart": "2025-09-23" },
+          "position": { "ville": "Staten Island", "gps": "40.5795, -74.1502" },
+          "options": [
+            {
+              "id_option": "OP039",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Thérapie de groupe post-traumatique", "prix": 4000 },
+                { "option": "Destruction des enregistrements compromettants", "prix": 2500 }
+              ]
+            },
+            {
+              "id_option": "OP040",
+              "nom": "Transport retour",
+              "choix": [
+                { "option": "Bus classique", "prix": 1500 },
+                { "option": "Fourgon cellulaire", "prix": 3000 }
+              ]
+            }
+          ],
+          "prix_etape": 23000
+        }
+      ],
+      "prix_total": 78000,
+      "statut": "disponible",
+      "places_disponibles": 6
+    },
+    {
+      "id_voyage": "VY006",
+      "titre": "Croisière fantôme sur le Queen Mary",
+      "description": "Embarquez pour une traversée cauchemardesque sur ce paquebot hanté, théâtre de nombreux décès tragiques et phénomènes paranormaux.",
+      "dates": {
+        "debut": "2026-02-13",
+        "fin": "2026-02-16",
+        "duree": "3 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 88000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 78000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 10000
+          }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET016",
+          "titre": "Embarquement à Long Beach",
+          "dates": { "arrivee": "2026-02-13", "depart": "2026-02-13" },
+          "position": { "ville": "Long Beach", "gps": "33.7541, -118.2164" },
+          "options": [
+            {
+              "id_option": "OP041",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Transfert standard", "prix": 1000 },
+                { "option": "Limousine des années 30", "prix": 4000 }
+              ]
+            },
+            {
+              "id_option": "OP042",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Cabine standard", "prix": 10000 },
+                { "option": "Suite du capitaine hantée", "prix": 20000 }
+              ]
+            },
+            {
+              "id_option": "OP043",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite des zones interdites", "prix": 4000 },
+                { "option": "Dîner avec médium", "prix": 3500 }
+              ]
+            }
+          ],
+          "prix_etape": 15000
+        },
+        {
+          "id_etape": "ET017",
+          "titre": "Navigation hantée",
+          "dates": { "arrivee": "2026-02-14", "depart": "2026-02-15" },
+          "position": { "ville": "En mer", "gps": "33.7541, -118.2164" },
+          "options": [
+            {
+              "id_option": "OP044",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Cabine près de la salle des machines", "prix": 30000 },
+                { "option": "Chambre dans l'ancienne infirmerie", "prix": 35000 }
+              ]
+            },
+            {
+              "id_option": "OP045",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Nuit dans la piscine vide (scène de noyade)", "prix": 7000 },
+                { "option": "Exploration de la chaufferie (13 morts)", "prix": 6000 },
+                { "option": "Session de spiritisme sur le pont promenade", "prix": 5000 }
+              ]
+            },
+            {
+              "id_option": "OP046",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Menu du dernier repas du capitaine", "prix": 4000 },
+                { "option": "Banquet dans la salle des 1ère classe", "prix": 6000 }
+              ]
+            }
+          ],
+          "prix_etape": 50000
+        },
+        {
+          "id_etape": "ET018",
+          "titre": "Débarquement et bilan",
+          "dates": { "arrivee": "2026-02-16", "depart": "2026-02-16" },
+          "position": { "ville": "Long Beach", "gps": "33.7541, -118.2164" },
+          "options": [
+            {
+              "id_option": "OP047",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Analyse des enregistrements paranormaux", "prix": 3000 },
+                { "option": "Cérémonie de purification", "prix": 2000 }
+              ]
+            },
+            {
+              "id_option": "OP048",
+              "nom": "Transport retour",
+              "choix": [
+                { "option": "Navette standard", "prix": 1000 },
+                { "option": "Hélicoptère de secours", "prix": 8000 }
+              ]
+            }
+          ],
+          "prix_etape": 23000
+        }
+      ],
+      "prix_total": 88000,
       "statut": "disponible",
       "places_disponibles": 8
     },
     {
-      "titre": "Aventure au Japon traditionnel",
-      "description": "Découvrez la beauté et la culture ancestrale du Japon à travers un circuit immersif.",
+      "id_voyage": "VY007",
+      "titre": "Exploration de l'Hôpital Abandonné de Beelitz",
+      "description": "Plongez dans l'atmosphère angoissante de l'hôpital militaire abandonné de Beelitz-Heilstätten en Allemagne, un lieu chargé d'histoires et de phénomènes étranges.",
       "dates": {
-        "debut": "2025-10-01",
-        "fin": "2025-10-12",
-        "duree": "12 jours"
+        "debut": "2026-03-15",
+        "fin": "2026-03-20",
+        "duree": "6 jours"
       },
       "tarification": {
-        "prix_par_personne": 90000,
-        "reduction_groupe": {
-          "min_personnes": 4,
-          "prix_reduit": 85000
-        }
+        "prix_par_personne": 78000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 5 },
+            "prix_reduit": 70000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 12000
+          }
+        ]
       },
       "liste_etapes": [
         {
-          "titre": "Tokyo, entre modernité et tradition",
-          "dates": { "arrivee": "2025-10-01", "depart": "2025-10-04" },
-          "position": { "ville": "Tokyo", "gps": "35.6895, 139.6917" },
+          "id_etape": "ET030",
+          "titre": "Arrivée à Berlin",
+          "dates": { "arrivee": "2026-03-15", "depart": "2026-03-15" },
+          "position": { "ville": "Berlin", "gps": "52.5200, 13.4050" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Visite de temples", "Expérience en kimono", "Cours de calligraphie", "Soirée dans un izakaya"], "prix": 4000 }
+            {
+              "id_option": "OP050",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Navette privée", "prix": 5000 },
+                { "option": "Train express", "prix": 3000 }
+              ]
+            },
+            {
+              "id_option": "OP051",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel moderne", "prix": 8000 },
+                { "option": "Auberge dans un ancien sanatorium", "prix": 12000 }
+              ]
+            }
           ],
           "prix_etape": 15000
         },
         {
-          "titre": "Kyoto, la ville des geishas",
-          "dates": { "arrivee": "2025-10-04", "depart": "2025-10-08" },
-          "position": { "ville": "Kyoto", "gps": "35.0116, 135.7681" },
+          "id_etape": "ET031",
+          "titre": "Exploration de Beelitz-Heilstätten",
+          "dates": { "arrivee": "2026-03-16", "depart": "2026-03-18" },
+          "position": { "ville": "Beelitz", "gps": "52.2680, 12.9252" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Cérémonie du thé", "Balade en pousse-pousse", "Visite du pavillon d'or"], "prix": 6000 }
+            {
+              "id_option": "OP052",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite guidée nocturne", "prix": 7000 },
+                { "option": "Séance de spiritisme", "prix": 9000 }
+              ]
+            },
+            {
+              "id_option": "OP053",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Repas gastronomique", "prix": 4000 },
+                { "option": "Rations militaires", "prix": 2000 }
+              ]
+            }
           ],
-          "prix_etape": 20000
+          "prix_etape": 45000
         },
         {
-          "titre": "Mont Fuji et Hakone",
-          "dates": { "arrivee": "2025-10-08", "depart": "2025-10-10" },
-          "position": { "ville": "Hakone", "gps": "35.2323, 139.1060" },
+          "id_etape": "ET032",
+          "titre": "Retour à Berlin et visite des souterrains",
+          "dates": { "arrivee": "2026-03-19", "depart": "2026-03-20" },
+          "position": { "ville": "Berlin", "gps": "52.5200, 13.4050" },
           "options": [
-            { "nom": "Activité", "valeurs": ["Bain dans un onsen", "Croisière sur le lac Ashi"], "prix": 7000 }
+            {
+              "id_option": "OP054",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Exploration des bunkers de Berlin", "prix": 5000 },
+                { "option": "Détente dans un spa", "prix": 4000 }
+              ]
+            }
+          ],
+          "prix_etape": 18000
+        }
+      ],
+      "prix_total": 78000,
+      "statut": "disponible",
+      "places_disponibles": 6
+    },
+    {
+      "id_voyage": "VY008",
+      "titre": "Nuit d'épouvante sur l'île de Poveglia",
+      "description": "Vivez une expérience terrifiante sur l'île maudite de Poveglia en Italie, autrefois utilisée comme asile et lieu de quarantaine.",
+      "dates": {
+        "debut": "2026-04-10",
+        "fin": "2026-04-15",
+        "duree": "6 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 82000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 75000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 10000
+          }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET040",
+          "titre": "Arrivée à Venise",
+          "dates": { "arrivee": "2026-04-10", "depart": "2026-04-10" },
+          "position": { "ville": "Venise", "gps": "45.4408, 12.3155" },
+          "options": [
+            {
+              "id_option": "OP060",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Gondole privée", "prix": 6000 },
+                { "option": "Bateau collectif", "prix": 3000 }
+              ]
+            },
+            {
+              "id_option": "OP061",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Palais vénitien", "prix": 15000 },
+                { "option": "Hôtel hanté", "prix": 12000 }
+              ]
+            }
+          ],
+          "prix_etape": 18000
+        },
+        {
+          "id_etape": "ET041",
+          "titre": "Exploration de l'île de Poveglia",
+          "dates": { "arrivee": "2026-04-11", "depart": "2026-04-13" },
+          "position": { "ville": "Poveglia", "gps": "45.3735, 12.3233" },
+          "options": [
+            {
+              "id_option": "OP062",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Chasse aux fantômes", "prix": 8000 },
+                { "option": "Séance de spiritisme", "prix": 7000 }
+              ]
+            },
+            {
+              "id_option": "OP063",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Tente sécurisée sur l'île", "prix": 10000 },
+                { "option": "Cabane en bord de mer", "prix": 13000 }
+              ]
+            }
+          ],
+          "prix_etape": 48000
+        },
+        {
+          "id_etape": "ET042",
+          "titre": "Retour à Venise et visite des cryptes",
+          "dates": { "arrivee": "2026-04-14", "depart": "2026-04-15" },
+          "position": { "ville": "Venise", "gps": "45.4408, 12.3155" },
+          "options": [
+            {
+              "id_option": "OP064",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite des cryptes vénitiennes", "prix": 5000 },
+                { "option": "Dîner mystère dans un palais", "prix": 7000 }
+              ]
+            }
+          ],
+          "prix_etape": 16000
+        }
+      ],
+      "prix_total": 82000,
+      "statut": "disponible",
+      "places_disponibles": 4
+    },
+    {
+      "id_voyage": "VY009",
+      "titre": "Immersion nocturne au Sanatorium de Waverly Hills",
+      "description": "Explorez l'un des lieux les plus hantés des États-Unis, l'ancien sanatorium de Waverly Hills, où les esprits des patients défunts errent encore.",
+      "dates": {
+        "debut": "2026-05-20",
+        "fin": "2026-05-25",
+        "duree": "6 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 86000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 78000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 11000
+          }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET050",
+          "titre": "Arrivée à Louisville",
+          "dates": { "arrivee": "2026-05-20", "depart": "2026-05-20" },
+          "position": { "ville": "Louisville", "gps": "38.2527, -85.7585" },
+          "options": [
+            {
+              "id_option": "OP070",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Voiture de collection", "prix": 8000 },
+                { "option": "Navette hantée", "prix": 5000 }
+              ]
+            },
+            {
+              "id_option": "OP071",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel moderne", "prix": 10000 },
+                { "option": "Auberge à l’ancienne", "prix": 7000 }
+              ]
+            }
+          ],
+          "prix_etape": 16000
+        },
+        {
+          "id_etape": "ET051",
+          "titre": "Exploration du Sanatorium",
+          "dates": { "arrivee": "2026-05-21", "depart": "2026-05-23" },
+          "position": { "ville": "Louisville", "gps": "38.2527, -85.7585" },
+          "options": [
+            {
+              "id_option": "OP072",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Session de spiritisme", "prix": 7000 },
+                { "option": "Visite en réalité augmentée", "prix": 6000 },
+                { "option": "Enquête paranormale complète", "prix": 10000 }
+              ]
+            },
+            {
+              "id_option": "OP073",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Repas servi dans l’ancienne cantine", "prix": 4000 },
+                { "option": "Pique-nique nocturne sur le toit", "prix": 5000 }
+              ]
+            }
+          ],
+          "prix_etape": 50000
+        },
+        {
+          "id_etape": "ET052",
+          "titre": "Retour et débriefing",
+          "dates": { "arrivee": "2026-05-24", "depart": "2026-05-25" },
+          "position": { "ville": "Louisville", "gps": "38.2527, -85.7585" },
+          "options": [
+            {
+              "id_option": "OP074",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Rencontre avec un médium", "prix": 6000 },
+                { "option": "Séance de relaxation après l’expérience", "prix": 4000 }
+              ]
+            }
           ],
           "prix_etape": 20000
         }
       ],
-      "prix_total": 90000,
+      "prix_total": 86000,
       "statut": "disponible",
-      "places_disponibles": 10
-    }                                       
+      "places_disponibles": 6
+    },
+    {
+      "id_voyage": "VY010",
+      "titre": "Plongée dans la cité souterraine d'Édimbourg",
+      "description": "Découvrez l’effrayante ville cachée sous Édimbourg, un réseau de tunnels et de ruelles où le temps semble s’être arrêté depuis le XVIIe siècle.",
+      "dates": {
+        "debut": "2026-06-12",
+        "fin": "2026-06-17",
+        "duree": "6 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 75000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 3 },
+            "prix_reduit": 70000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 9000
+          }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET060",
+          "titre": "Arrivée à Édimbourg",
+          "dates": { "arrivee": "2026-06-12", "depart": "2026-06-12" },
+          "position": { "ville": "Édimbourg", "gps": "55.9533, -3.1883" },
+          "options": [
+            {
+              "id_option": "OP080",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Carrosse d'époque", "prix": 7000 },
+                { "option": "Navette classique", "prix": 4000 }
+              ]
+            },
+            {
+              "id_option": "OP081",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Château hanté", "prix": 15000 },
+                { "option": "Hôtel historique", "prix": 12000 }
+              ]
+            }
+          ],
+          "prix_etape": 18000
+        },
+        {
+          "id_etape": "ET061",
+          "titre": "Exploration de la ville souterraine",
+          "dates": { "arrivee": "2026-06-13", "depart": "2026-06-15" },
+          "position": { "ville": "Édimbourg", "gps": "55.9533, -3.1883" },
+          "options": [
+            {
+              "id_option": "OP082",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Exploration nocturne avec guide", "prix": 8000 },
+                { "option": "Escape game dans les souterrains", "prix": 7000 },
+                { "option": "Séance d’hypnose et voyage astral", "prix": 9000 }
+              ]
+            },
+            {
+              "id_option": "OP083",
+              "nom": "Dîner",
+              "choix": [
+                { "option": "Repas victorien en costume", "prix": 6000 },
+                { "option": "Dégustation de plats médiévaux", "prix": 5000 }
+              ]
+            }
+          ],
+          "prix_etape": 50000
+        },
+        {
+          "id_etape": "ET062",
+          "titre": "Retour et visite du château d'Édimbourg",
+          "dates": { "arrivee": "2026-06-16", "depart": "2026-06-17" },
+          "position": { "ville": "Édimbourg", "gps": "55.9533, -3.1883" },
+          "options": [
+            {
+              "id_option": "OP084",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Tour privé du château", "prix": 6000 },
+                { "option": "Expérience immersive sur l’histoire écossaise", "prix": 5000 }
+              ]
+            }
+          ],
+          "prix_etape": 17000
+        }
+      ],
+      "prix_total": 75000,
+      "statut": "disponible",
+      "places_disponibles": 5
+    },
+    {
+      "id_voyage": "VY011",
+      "titre": "Séjour paranormal dans la maison d'Amityville",
+      "description": "Osez passer plusieurs nuits dans l’une des maisons hantées les plus célèbres au monde, connue pour ses phénomènes paranormaux inexpliqués.",
+      "dates": {
+        "debut": "2026-09-10",
+        "fin": "2026-09-15",
+        "duree": "6 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 89000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 80000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 12000
+          }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET070",
+          "titre": "Arrivée à New York",
+          "dates": { "arrivee": "2026-09-10", "depart": "2026-09-10" },
+          "position": { "ville": "New York", "gps": "40.7128, -74.0060" },
+          "options": [
+            {
+              "id_option": "OP090",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Voiture de luxe", "prix": 10000 },
+                { "option": "Navette partagée", "prix": 4000 }
+              ]
+            },
+            {
+              "id_option": "OP091",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel moderne avec vue sur Manhattan", "prix": 15000 },
+                { "option": "Petit motel rustique", "prix": 7000 }
+              ]
+            }
+          ],
+          "prix_etape": 17000
+        },
+        {
+          "id_etape": "ET071",
+          "titre": "Séjour à Amityville",
+          "dates": { "arrivee": "2026-09-11", "depart": "2026-09-14" },
+          "position": { "ville": "Amityville", "gps": "40.6782, -73.4154" },
+          "options": [
+            {
+              "id_option": "OP092",
+              "nom": "Expérience paranormale",
+              "choix": [
+                { "option": "Veillée nocturne avec médium", "prix": 9000 },
+                { "option": "Installation de capteurs EMF", "prix": 6000 },
+                { "option": "Séance d'hypnose collective", "prix": 8000 }
+              ]
+            },
+            {
+              "id_option": "OP093",
+              "nom": "Repas",
+              "choix": [
+                { "option": "Dîner inspiré des années 70", "prix": 5000 },
+                { "option": "Rations de survie pour ambiance immersive", "prix": 2500 }
+              ]
+            }
+          ],
+          "prix_etape": 53000
+        },
+        {
+          "id_etape": "ET072",
+          "titre": "Retour et visite des lieux hantés de New York",
+          "dates": { "arrivee": "2026-09-15", "depart": "2026-09-15" },
+          "position": { "ville": "New York", "gps": "40.7128, -74.0060" },
+          "options": [
+            {
+              "id_option": "OP094",
+              "nom": "Visite",
+              "choix": [
+                { "option": "Balade dans le cimetière de Trinity Church", "prix": 5000 },
+                { "option": "Exploration de l'ancien hôpital psychiatrique", "prix": 7000 }
+              ]
+            }
+          ],
+          "prix_etape": 19000
+        }
+      ],
+      "prix_total": 89000,
+      "statut": "disponible",
+      "places_disponibles": 6
+    },
+    {
+      "id_voyage": "VY012",
+      "titre": "Descente dans les profondeurs des catacombes de Paris",
+      "description": "Découvrez un Paris inconnu en explorant ses catacombes, un immense ossuaire souterrain où règne une atmosphère lugubre.",
+      "dates": {
+        "debut": "2026-10-05",
+        "fin": "2026-10-10",
+        "duree": "6 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 76000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 3 },
+            "prix_reduit": 71000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 9500 }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET080",
+          "titre": "Arrivée à Paris",
+          "dates": { "arrivee": "2026-10-05", "depart": "2026-10-05" },
+          "position": { "ville": "Paris", "gps": "48.8566, 2.3522" },
+          "options": [
+            {
+              "id_option": "OP100",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Calèche hantée", "prix": 6000 },
+                { "option": "Voiture de collection", "prix": 10000 }
+              ]
+            },
+            {
+              "id_option": "OP101",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel boutique au décor gothique", "prix": 12000 },
+                { "option": "Chambre dans une ancienne prison", "prix": 8000 }
+              ]
+            }
+          ],
+          "prix_etape": 18000
+        },
+        {
+          "id_etape": "ET081",
+          "titre": "Exploration des Catacombes",
+          "dates": { "arrivee": "2026-10-06", "depart": "2026-10-08" },
+          "position": { "ville": "Paris", "gps": "48.8333, 2.3325" },
+          "options": [
+            {
+              "id_option": "OP102",
+              "nom": "Expérience souterraine",
+              "choix": [
+                { "option": "Visite clandestine avec guide", "prix": 9000 },
+                { "option": "Exploration immersive avec torches", "prix": 7000 },
+                { "option": "Nuit dans une section interdite", "prix": 12000 }
+              ]
+            },
+            {
+              "id_option": "OP103",
+              "nom": "Repas",
+              "choix": [
+                { "option": "Dîner à thème dans les catacombes", "prix": 6000 },
+                { "option": "Buffet froid façon banquet macabre", "prix": 4500 }
+              ]
+            }
+          ],
+          "prix_etape": 54000
+        },
+        {
+          "id_etape": "ET082",
+          "titre": "Visite du Paris mystérieux",
+          "dates": { "arrivee": "2026-10-09", "depart": "2026-10-10" },
+          "position": { "ville": "Paris", "gps": "48.8566, 2.3522" },
+          "options": [
+            {
+              "id_option": "OP104",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite de l’ancienne morgue de Paris", "prix": 7000 },
+                { "option": "Balade nocturne sur les traces de fantômes", "prix": 5000 }
+              ]
+            }
+          ],
+          "prix_etape": 17000
+        }
+      ],
+      "prix_total": 76000,
+      "statut": "disponible",
+      "places_disponibles": 5
+    },
+    {
+      "id_voyage": "VY013",
+      "titre": "Nuit terrifiante à l'asile de Pennhurst",
+      "description": "Plongez dans l’histoire troublante de cet ancien asile psychiatrique abandonné, connu pour ses phénomènes paranormaux.",
+      "dates": {
+        "debut": "2026-11-15",
+        "fin": "2026-11-20",
+        "duree": "6 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 92000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 4 },
+            "prix_reduit": 85000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 10000
+          }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET090",
+          "titre": "Arrivée à Philadelphie",
+          "dates": { "arrivee": "2026-11-15", "depart": "2026-11-15" },
+          "position": { "ville": "Philadelphie", "gps": "39.9526, -75.1652" },
+          "options": [
+            {
+              "id_option": "OP110",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Voiture rétro des années 1920", "prix": 7000 },
+                { "option": "Bus spécial ambiance horreur", "prix": 4000 }
+              ]
+            },
+            {
+              "id_option": "OP111",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel victorien hanté", "prix": 13000 },
+                { "option": "Chambre d'hôte dans une vieille bâtisse", "prix": 9000 }
+              ]
+            }
+          ],
+          "prix_etape": 16000
+        },
+        {
+          "id_etape": "ET091",
+          "titre": "Expérience immersive à Pennhurst",
+          "dates": { "arrivee": "2026-11-16", "depart": "2026-11-19" },
+          "position": { "ville": "Pennhurst", "gps": "40.1604, -75.5393" },
+          "options": [
+            {
+              "id_option": "OP112",
+              "nom": "Exploration",
+              "choix": [
+                { "option": "Visite guidée nocturne", "prix": 7000 },
+                { "option": "Expérience en réalité augmentée", "prix": 9000 },
+                { "option": "Nuit dans une cellule abandonnée", "prix": 12000 }
+              ]
+            },
+            {
+              "id_option": "OP113",
+              "nom": "Repas",
+              "choix": [
+                { "option": "Dîner reconstitution des repas d’antan", "prix": 5000 },
+                { "option": "Ration militaire pour une immersion totale", "prix": 3000 }
+              ]
+            }
+          ],
+          "prix_etape": 58000
+        },
+        {
+          "id_etape": "ET092",
+          "titre": "Retour et visite des souterrains de Philadelphie",
+          "dates": { "arrivee": "2026-11-20", "depart": "2026-11-20" },
+          "position": { "ville": "Philadelphie", "gps": "39.9526, -75.1652" },
+          "options": [
+            {
+              "id_option": "OP114",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Exploration des tunnels sous la ville", "prix": 7000 },
+                { "option": "Séance de spiritisme avec un médium", "prix": 5000 }
+              ]
+            }
+          ],
+          "prix_etape": 18000
+        }
+      ],
+      "prix_total": 92000,
+      "statut": "disponible",
+      "places_disponibles": 6
+    },
+    {
+      "id_voyage": "VY014",
+      "titre": "Survivre une nuit dans Pripyat, ville fantôme",
+      "description": "Découvrez l’atmosphère post-apocalyptique de Pripyat, ville abandonnée après la catastrophe de Tchernobyl.",
+      "dates": {
+        "debut": "2026-12-05",
+        "fin": "2026-12-10",
+        "duree": "6 jours"
+      },
+      "tarification": {
+        "prix_par_personne": 99000,
+        "reductions": [
+          {
+            "type_reduction": "groupe",
+            "condition": { "min_personnes": 3 },
+            "prix_reduit": 93000
+          },
+          {
+            "type_reduction": "enfant",
+            "condition": { "min_enfants": 2 },
+            "remise_par_enfant": 11000 }
+        ]
+      },
+      "liste_etapes": [
+        {
+          "id_etape": "ET100",
+          "titre": "Arrivée à Kiev",
+          "dates": { "arrivee": "2026-12-05", "depart": "2026-12-05" },
+          "position": { "ville": "Kiev", "gps": "50.4501, 30.5234" },
+          "options": [
+            {
+              "id_option": "OP120",
+              "nom": "Transport",
+              "choix": [
+                { "option": "Ancien bus soviétique", "prix": 8000 },
+                { "option": "Jeep militaire", "prix": 12000 }
+              ]
+            },
+            {
+              "id_option": "OP121",
+              "nom": "Hébergement",
+              "choix": [
+                { "option": "Hôtel modernisé avec bunker", "prix": 15000 },
+                { "option": "Auberge de jeunesse en zone rurale", "prix": 7000 }
+              ]
+            }
+          ],
+          "prix_etape": 19000
+        },
+        {
+          "id_etape": "ET101",
+          "titre": "Exploration de Pripyat",
+          "dates": { "arrivee": "2026-12-06", "depart": "2026-12-09" },
+          "position": { "ville": "Pripyat", "gps": "51.389, 30.099" },
+          "options": [
+            {
+              "id_option": "OP122",
+              "nom": "Expérience de survie",
+              "choix": [
+                { "option": "Randonnée en combinaison anti-radiations", "prix": 9000 },
+                { "option": "Exploration libre avec compteur Geiger", "prix": 12000 },
+                { "option": "Nuit dans une école abandonnée", "prix": 11000 }
+              ]
+            },
+            {
+              "id_option": "OP123",
+              "nom": "Repas",
+              "choix": [
+                { "option": "Plat traditionnel ukrainien", "prix": 6000 },
+                { "option": "Rations militaires d’époque", "prix": 3500 }
+              ]
+            }
+          ],
+          "prix_etape": 60000
+        },
+        {
+          "id_etape": "ET102",
+          "titre": "Retour et visite du musée de Tchernobyl",
+          "dates": { "arrivee": "2026-12-10", "depart": "2026-12-10" },
+          "position": { "ville": "Kiev", "gps": "50.4501, 30.5234" },
+          "options": [
+            {
+              "id_option": "OP124",
+              "nom": "Activité",
+              "choix": [
+                { "option": "Visite du musée de Tchernobyl", "prix": 7000 },
+                { "option": "Rencontre avec un ancien liquidateur", "prix": 9000 }
+              ]
+            }
+          ],
+          "prix_etape": 20000
+        }
+      ],
+      "prix_total": 99000,
+      "statut": "disponible",
+      "places_disponibles": 4
+    }                              
   ]
 }

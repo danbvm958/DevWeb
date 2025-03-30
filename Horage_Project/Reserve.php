@@ -63,7 +63,7 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
                         <h3><?= htmlspecialchars($voyage['titre']) ?></h3>
                         <p>Date: <?= htmlspecialchars($voyage['dates']['debut']) ?></p>
                         <p>Description: <?= htmlspecialchars($voyage['description']) ?></p>
-                        <a href="voyages_details.php?id=<?= $voyage['id'] ?>" class="btn">Voir plus</a>
+                        <a href="voyages_details.php?id=<?= urlencode($voyage['id_voyage']) ?>" class="btn">Voir plus</a>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>

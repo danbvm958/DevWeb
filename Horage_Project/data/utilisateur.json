@@ -20,5 +20,15 @@
                 "montant": "50000.00"
             }
         ]
+    },
+    {
+        "username": "asterion",
+        "email": "zaarourpro@gmail.com",
+        "password": "$2y$10$0e\/LKX5Xwdpi684.0tbPreQAbq4v8RxzJ10qZZ1SGAangHToj7PGO",
+        "nom": "Zaarour",
+        "prenom": "Chady",
+        "birthdate": "2005-04-15",
+        "type": "normal",
+        "travel": []
     }
 ]

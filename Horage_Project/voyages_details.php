@@ -1,42 +1,144 @@
 <?php
 session_start();
 
-// Charger les voyages depuis le fichier JSON
-$json = file_get_contents('data/voyages.json');
-$voyages = json_decode($json, true)['voyages'];
-
-// Vérifier si un ID de voyage est fourni
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-if (!isset($voyages[$id])) {
-    die("Voyage introuvable.");
-}
-$voyage = $voyages[$id];
-
-// Définir la catégorie de prix selon l'utilisateur
-$categorie_prix = 'adulte'; // Valeur par défaut
-if (isset($_SESSION['categorie'])) {
-    $categorie_prix = $_SESSION['categorie']; // 'adulte', 'enfant' ou 'senior'
+if (!isset($_SESSION['user'])) {
+    header("Location: signup.php");
+    exit;
 }
 
-// Prix de base
-$prix_base = $voyage['tarification']['prix_par_personne'];
 
-// Nombre de places disponibles
-$places_disponibles = $voyage['places_disponibles'];
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+$jsonFile = __DIR__ . '/data/voyages.json';
+
+if (!file_exists($jsonFile)) {
+    die("Erreur: Fichier de données introuvable");
+}
+
+$jsonContent = file_get_contents($jsonFile);
+$data = json_decode($jsonContent, true);
+
+if (json_last_error() !== JSON_ERROR_NONE) {
+    die("Erreur JSON: " . json_last_error_msg());
+}
+
+
+if (empty($data['voyages']) || !is_array($data['voyages'])) {
+    die("Erreur: Aucun voyage disponible");
+}
+
+
+$idVoyage = $_GET['id'] ?? null;
+
+if (empty($idVoyage)) {
+    header("Location: Reserve.php");
+    exit;
+}
+
+
+$voyageSelectionne = null;
+foreach ($data['voyages'] as $voyage) {
+    if (isset($voyage['id_voyage']) && $voyage['id_voyage'] === $idVoyage) {
+        $voyageSelectionne = $voyage;
+        break;
+    }
+}
+
+if (!$voyageSelectionne) {
+    $idsDisponibles = array_map(function($v) { 
+        return $v['id_voyage'] ?? 'INCONNU'; 
+    }, $data['voyages']);
+    
+    die(sprintf(
+        "Voyage '%s' introuvable. IDs disponibles: %s",
+        htmlspecialchars($idVoyage),
+        implode(', ', $idsDisponibles)
+    ));
+}
+
+
+function calculerPrixTotal($voyage, $nbAdultes, $nbEnfants) {
+    $prixBase = $voyage['tarification']['prix_par_personne'];
+    $reductions = $voyage['tarification']['reductions'];
+    $total = 0;
+    
+    // Réduction groupe
+    $totalPersonnes = $nbAdultes + $nbEnfants;
+    foreach ($reductions as $reduction) {
+        if ($reduction['type_reduction'] === 'groupe' && $totalPersonnes >= $reduction['condition']['min_personnes']) {
+            $prixBase = $reduction['prix_reduit'];
+            break;
+        }
+    }
+    
+    // Prix adultes
+    $total += $nbAdultes * $prixBase;
+    
+    // Réduction enfants
+    foreach ($reductions as $reduction) {
+        if ($reduction['type_reduction'] === 'enfant' && $nbEnfants >= $reduction['condition']['min_enfants']) {
+            $remise = $reduction['remise_par_enfant'];
+            $total += $nbEnfants * ($prixBase - $remise);
+            return $total;
+        }
+    }
+    
+    
+    $total += $nbEnfants * $prixBase;
+    return $total;
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nbAdultes = (int)($_POST['nb_adultes'] ?? 1);
+    $nbEnfants = (int)($_POST['nb_enfants'] ?? 0);
+    $optionsChoisies = $_POST['options'] ?? [];
+    
+
+    if ($nbAdultes < 1) {
+        $erreur = "Nombre d'adultes invalide";
+    } elseif ($nbEnfants < 0) {
+        $erreur = "Nombre d'enfants invalide";
+    } elseif (($nbAdultes + $nbEnfants) > $voyageSelectionne['places_disponibles']) {
+        $erreur = "Nombre de places insuffisantes";
+    } else {
+        
+        $prixTotal = calculerPrixTotal($voyageSelectionne, $nbAdultes, $nbEnfants);
+        
+      
+        $_SESSION['reservation'] = [
+            'voyage_id' => $idVoyage,
+            'voyage_titre' => $voyageSelectionne['titre'],
+            'nb_adultes' => $nbAdultes,
+            'nb_enfants' => $nbEnfants,
+            'prix_total' => $prixTotal,
+            'options' => $optionsChoisies,
+            'dates' => $voyageSelectionne['dates']
+        ];
+        
+        header("Location: recapitulatif.php");
+        exit;
+    }
+}
+
+function afficherPrix($prix) {
+    return number_format($prix, 0, '', ' ');
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($voyage['titre']) ?> - Horage</title>
-    <link rel="stylesheet" href="CSS/details.css?v=<?php echo time(); ?>">
+    <title><?= htmlspecialchars($voyageSelectionne['titre']) ?> - Horage</title>
+    <link rel="stylesheet" href="CSS/details.css?v=<?= time() ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
 </head>
 <body>
     <header>
-        <div class="header_1">
+    <div class="header_1">
             <h1>Horage</h1>
             <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
         </div>
@@ -55,85 +157,98 @@ $places_disponibles = $voyage['places_disponibles'];
             </ul>
         </div>
     </header>
-
-    <main>
-        <h2 class="title">Détails du voyage</h2>
-        <div class="voyage-detail">
-            <h3 class="subtitle"><?= htmlspecialchars($voyage['titre']) ?></h3>
-            <div class="hero1">
-                <p><strong>Description :</strong> <?= htmlspecialchars($voyage['description']) ?></p>
-                <p><strong>Dates :</strong> Du <?= htmlspecialchars($voyage['dates']['debut']) ?> au <?= htmlspecialchars($voyage['dates']['fin']) ?> (<?= htmlspecialchars($voyage['dates']['duree']) ?>)</p>
-                <p><strong>Prix de base par adulte :</strong> <?= $prix_base ?>€</p>
-                <p><strong>Places disponibles :</strong> <?= $places_disponibles ?></p>
+    
+    <main class="container">
+        <h1 id="voyage_title"><?= htmlspecialchars($voyageSelectionne['titre']) ?></h1>
+        
+        <?php if (isset($erreur)): ?>
+            <div class="erreur"><?= htmlspecialchars($erreur) ?></div>
+        <?php endif; ?>
+        
+        <section class="voyage-info">
+            <div class="description">
+                <?= htmlspecialchars($voyageSelectionne['description']) ?>
             </div>
-
-            <h2 class="title">Options de personnalisation</h2>
-
-            <form action="recapitulatif.php" method="post">
-                <input type="hidden" name="voyage_id" value="<?= $id ?>">
+            
+            <div class="meta-info">
+                <p><strong>Dates:</strong> <?= $voyageSelectionne['dates']['debut'] ?> au <?= $voyageSelectionne['dates']['fin'] ?></p>
+                <p><strong>Prix de base:</strong> <?= afficherPrix($voyageSelectionne['tarification']['prix_par_personne']) ?> €/pers</p>
+                <p><strong>Places restantes:</strong> <?= $voyageSelectionne['places_disponibles'] ?></p>
                 
-                <label for="nombre_personnes"><strong>Nombre total de personnes :</strong></label>
-                <input type="number" id="nombre_personnes" name="nombre_personnes" min="1" max="<?= $places_disponibles ?>" value="1" required><br><br>
-
-                <input type="hidden" name="prix_base" value="<?= $prix_base ?>">
-
-                <label>
-                    <input type="checkbox" name="reduction_enfants" value="1">
-                    Plus de 2 enfants ? (Réduction appliquée)
-                </label><br><br>
-
-                <h2 class="title">Étapes du voyage</h2>
-                
-                <?php foreach ($voyage['liste_etapes'] as $index => $etape) : ?>
-                    <fieldset class="etape">
-                        <legend><h5><?= htmlspecialchars($etape['titre']) ?></h5></legend>
-                        <p><strong>Lieu :</strong> <?= htmlspecialchars($etape['position']['ville']) ?> (<?= htmlspecialchars($etape['position']['gps']) ?>)</p>
-                        <p><strong>Dates :</strong> <?= htmlspecialchars($etape['dates']['arrivee']) ?> - <?= htmlspecialchars($etape['dates']['depart']) ?></p>
-                        
-                        <label>
-                            <input type="checkbox" name="supprimer_etape[<?= $index ?>]" value="1">
-                            Ne pas inclure cette étape
-                        </label>
-                        
-                        <h6>Options disponibles :</h6>
-                        <?php foreach ($etape['options'] as $option) : ?>
-                            <div class="option">
-                                <label><strong><?= htmlspecialchars($option['nom']) ?> :</strong></label><br>
-
-                                <?php foreach ($option['valeurs'] as $valeur) : ?>
-                                    <?php 
-                                    // Vérification si l'option a un prix spécifique par catégorie d'âge
-                                    $prix_option = isset($option['prix'][$categorie_prix]) ? $option['prix'][$categorie_prix] : $option['prix'];
-                                    if ($prix_option === null) {
-                                        continue;
-                                    }
-                                    ?>
-
-                                    <?php if (strtolower($option['nom']) === 'activité') : ?>
-                                        <!-- Option à choix multiple : afficher le prix -->
-                                        <input type="checkbox" name="options[<?= $index ?>][<?= htmlspecialchars($option['nom']) ?>][]" 
-                                               value="<?= htmlspecialchars($valeur) ?>"> 
-                                        <?= htmlspecialchars($valeur) ?> (+<?= htmlspecialchars($prix_option) ?>€)<br>
-                                    <?php else : ?>
-                                        <!-- Option à choix unique : ne pas afficher le prix -->
-                                        <input type="radio" name="options[<?= $index ?>][<?= htmlspecialchars($option['nom']) ?>]" 
-                                               value="<?= htmlspecialchars($valeur) ?>"> 
-                                        <?= htmlspecialchars($valeur) ?><br>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </div>
+                <div class="reductions">
+                    <h3>Réductions disponibles:</h3>
+                    <ul>
+                        <?php foreach ($voyageSelectionne['tarification']['reductions'] as $reduction): ?>
+                            <li>
+                                <?php if ($reduction['type_reduction'] === 'groupe'): ?>
+                                    À partir de <?= $reduction['condition']['min_personnes'] ?> personnes : 
+                                    <?= afficherPrix($reduction['prix_reduit']) ?> €/pers
+                                <?php else: ?>
+                                    Pour <?= $reduction['condition']['min_enfants'] ?> enfants ou plus : 
+                                    Réduction de <?= afficherPrix($reduction['remise_par_enfant']) ?> € par enfant
+                                <?php endif; ?>
+                            </li>
                         <?php endforeach; ?>
-                    </fieldset><br><br>
-                <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-                <button type="submit" class="sub">Valider la sélection</button>
-            </form>
-        </div>
+        <form method="post" class="recapitulatif.php">
+            <h2>Réservation</h2>
+            
+            <div class="form-group">
+                <label for="nb_adultes">Nombre d'adultes:</label>
+                <input type="number" id="nb_adultes" name="nb_adultes" min="1" max="<?= $voyageSelectionne['places_disponibles'] ?>" value="<?= $_POST['nb_adultes'] ?? 1 ?>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="nb_enfants">Nombre d'enfants (moins de 12 ans):</label>
+                <input type="number" id="nb_enfants" name="nb_enfants" min="0" max="<?= $voyageSelectionne['places_disponibles'] - 1 ?>" value="<?= $_POST['nb_enfants'] ?? 0 ?>">
+            </div>
+            
+            <section class="etapes">
+                <h2>Personnalisation des options</h2>
+                
+                <?php foreach ($voyageSelectionne['liste_etapes'] as $etape): ?>
+                <div class="etape">
+                    <h3><?= htmlspecialchars($etape['titre']) ?></h3>
+                    
+                    <div class="options">
+                        <?php foreach ($etape['options'] as $option): ?>
+                        <div class="option-group">
+                            <h4><?= htmlspecialchars($option['nom']) ?></h4>
+                            <ul>
+                                <?php foreach ($option['choix'] as $choix): ?>
+                                <li>
+                                    <label>
+                                        <input type="radio" 
+                                               name="options[<?= $etape['id_etape'] ?>][<?= $option['id_option'] ?>]" 
+                                               value="<?= htmlspecialchars($choix['option']) ?>|<?= $choix['prix'] ?>"
+                                               required>
+                                        <?= htmlspecialchars($choix['option']) ?> 
+                                        (+<?= afficherPrix($choix['prix']) ?> €)
+                                    </label>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </section>
+            
+            <div class="actions">
+                <a href="Reserve.php" class="btn">Retour aux voyages</a>
+                <button type="submit" class="btn btn-primary">Valider la réservation</button>
+            </div>
+        </form>
     </main>
 
     <footer>
-        <h2>Copyright © Horage - Tous droits réservés</h2>
-        <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
+    <h2>Copyright © Horage - Tous droits réservés</h2>
+    <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
     </footer>
 </body>
-</html> 
+</html>

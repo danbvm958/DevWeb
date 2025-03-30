@@ -1,24 +1,24 @@
 <?php  
 session_start();
-// Charger les voyages depuis un fichier JSON
+
+
 $json = file_get_contents('data/voyages.json');
 $voyages = json_decode($json, true)['voyages'];
 
-// Récupérer le mot-clé depuis le formulaire ou l'URL
+
 $mot_cle = isset($_POST['mot_cle']) ? trim($_POST['mot_cle']) : (isset($_GET['mot_cle']) ? trim($_GET['mot_cle']) : "");
 
-// Vérifier si une recherche a été effectuée
+
 $recherche_effectuee = !empty($mot_cle);
 
-// Filtrer les voyages si un mot-clé est entré
+
 $voyages_filtres = $recherche_effectuee ? array_filter($voyages, function ($voyage) use ($mot_cle) {
     return stripos($voyage['titre'], $mot_cle) !== false || stripos($voyage['description'], $mot_cle) !== false;
 }) : $voyages;
 
-// Réindexer le tableau pour garder les bons ID
 $voyages_filtres = array_values($voyages_filtres);
 
-// Pagination
+
 $voyages_par_page = 3;
 $page_actuelle = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
 $total_voyages = count($voyages_filtres);
@@ -62,7 +62,7 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
     <div class="intro">
         <img src="img_horage/sang.png" alt="sang" width="80px" id="sang">
         <h2 class="tr">Recherche des voyages</h2>
-        <p>Ici, c'est l'endroit parfait pour chercher ton voyage selon tes désirs ! Une envie de château fort, de maison hantée, d'une visite avec des fantômes, d'une chasse aux sorcières... Alors fais-le savoir à ton ami le moteur de recherche, il sera là pour t'accompagner !</p>
+        <p>Recherchez votre voyage en fonction de vos envies.</p>
     </div>
 
     <div class="formulaire_search">
@@ -82,18 +82,17 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
         <h2 class="tv">Résultats des voyages 🔍</h2>
         <div class="travels">
             <?php if (!empty($voyages_a_afficher)) : ?>
-                <?php foreach ($voyages_a_afficher as $index => $voyage) : ?>
+                <?php foreach ($voyages_a_afficher as $voyage) : ?>
                     <div class="travel-card">
                         <div class="price"><?= htmlspecialchars($voyage['prix_total']) ?>€</div>
                         <h3><?= htmlspecialchars($voyage['titre']) ?></h3>
                         <p>Date: <?= htmlspecialchars($voyage['dates']['debut']) ?></p>
                         <p>Description: <?= htmlspecialchars($voyage['description']) ?></p>
-                        <a href="voyages_details.php?id=<?= array_search($voyage, $voyages) ?>" class="btn">Voir plus</a>
+                        <a href="voyages_details.php?id=<?= urlencode($voyage['id_voyage']) ?>" class="btn">Voir plus</a>
                     </div>
                 <?php endforeach; ?>
 
-
-                <!-- Pagination -->
+                
                 <?php if ($nombre_total_pages > 1): ?>
                     <div class="pagination">
                         <?php if ($page_actuelle > 1): ?>
@@ -117,7 +116,7 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
 
     <footer>
         <h2>Copyright © Horage - Tous droits réservés</h2>
-        <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
+        <p>Le contenu de ce site est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
     </footer>
 
 </body>

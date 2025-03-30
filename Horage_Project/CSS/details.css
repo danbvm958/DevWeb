@@ -1,35 +1,305 @@
-@import 'main.css';
+
 @import 'root.css';
+@import 'main.css';
 
+/* tout les hover c'est pour le côté dynamique */
 
-.title {
-    text-align: left;
-    border-bottom: 2px solid #8B0000;
-    padding: 50px;
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: 'Arial', sans-serif;
 }
 
-h3.subtitle {
-    font-size: 2.4rem;
-    font-family: 'Creepster', cursive;
-    margin: 10px;
-    background: linear-gradient(to top, var(--color-red-medium), var(--color-white));
-    -webkit-background-clip: text; 
-    color: transparent;
+
+.voyage-info {
+    background-color: var(--color-gray-medium);
+    border: 2px solid var(--color-red-dark);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
-.hero1 {
-    text-align: center;
+#voyage_title {
+    font-size: 3.2rem;
     margin: 50px;
+
 }
 
-.sub:hover {
-    background-color:#8B0000 ; 
-    color: white; 
-    transform: scale(1.1);  
+.voyage-info::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../img_horage/texture-blood.png') repeat;
+    opacity: 0.05;
+    pointer-events: none;
 }
 
-.sub {
+.description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--color-white);
+}
+
+/* j'utilise grid c'est mieux*/
+.meta-info {
+    display: grid;
+    grid-template-columns:   repeat(auto-fit, minmax(200px, 1fr));
+    gap:1.5rem;
+    margin-top:  1.5rem;
+}
+
+.meta-info p {
+    background-color: var(--color-gray-light);
+    padding: 1rem;
+    border-radius: 5px;
+    border-left: 4px solid var(--color-red-medium);
+}
+
+.reductions {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(178, 34, 34, 0.1);
+    border: 1px dashed var(--color-red-medium);
+    border-radius: 5px;
+}
+
+.reductions h3 {
+    color: var(--color-red-light);
+    margin-bottom: 1rem;
+    font-family: 'Creepster', cursive;
+    letter-spacing: 2px;
+}
+
+.reductions ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+    margin: 0;
+}
+
+.reductions li {
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+/* je prefere mettre ca dans le css avec before que dans le fichier php ca revient au même, vous pouvez changer si vous voulez*/
+.reductions li::before {
+    content: "🩸";
+    position: absolute;
+    left: 0;
+}
+
+
+.form-reservation {
+    background-color: var(--color-gray-medium);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 2px solid var(--color-red-dark);
+    margin-top: 2rem;
+}
+
+.form-reservation h2 {
+    color: var(--color-red-light);
+    font-family: 'Creepster', cursive;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-white);
+    font-weight: bold;
+}
+
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--color-gray-light);
+    border: 1px solid var(--color-red-dark);
+    border-radius: 4px;
+    color: var(--color-white);
+    font-size: 1rem;
+}
+
+
+.etapes {
+    margin-top: 3rem;
+}
+
+.etape {
+    background-color: var(--color-gray-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-left: 5px solid var(--color-red-dark);
+    position: relative;
+    overflow: hidden;
+}
+
+.etape h3 {
+    color: var(--color-red-light);
+    font-family: 'Creepster', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.option-group {
+    background-color: var(--color-gray-medium);
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-gray-border);
+}
+
+.option-group h4 {
+    color: var(--color-white);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-red-medium);
+}
+
+.option-group ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin: 0;
+    padding: 0;
+}
+
+.option-group li {
+    display: flex;
+    align-items: center;
+}
+
+.option-group input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--color-red-medium);
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    position: relative;
     cursor: pointer;
+}
+
+/* pareil, j'utilise before*/
+.option-group input[type="radio"]:checked::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-red-light);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+}
+
+.option-group label {
+    color: var(--color-white);
+    cursor: pointer;
+    flex-grow: 1;
+    transition: color 0.3s;
+}
+
+.option-group label:hover {
+    color: var(--color-red-light);
+}
+
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    text-align: center;
+    flex: 1;
+}
+
+.btn-primary {
+    background-color: var(--color-red-medium);
+    color: var(--color-white);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(178, 34, 34, 0.4);
+}
+
+.btn {
+    background-color: transparent;
+    color: var(--color-white);
+    border: 2px solid var(--color-red-medium);
+}
+
+.btn:hover {
+    background-color: rgba(178, 34, 34, 0.2);
+    border-color: var(--color-red-light);
+}
+
+
+
+/* Responsive desing pour les petits écrans  */
+@media screen and (max-width: 768px) {
+    .meta-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .options {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .voyage-info,
+    .form-reservation {
+        padding: 1.5rem;
+    }
 }
 
 
