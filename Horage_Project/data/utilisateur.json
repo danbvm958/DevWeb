@@ -10,14 +10,61 @@
         "travel": [],
         "voyages": [
             {
-                "voyage_id": 0,
+                "voyage_id": "VY001",
                 "voyage_titre": "Nuit de terreur au ch\u00e2teau de Bran",
                 "nombre_personnes": 1,
-                "options_choisies": [],
+                "options_choisies": {
+                    "ET001": [
+                        {
+                            "nom": "Transport",
+                            "choix": "Vol commercial",
+                            "prix": "1000"
+                        },
+                        {
+                            "nom": "H\u00e9bergement",
+                            "choix": "Ch\u00e2teau privatis\u00e9",
+                            "prix": "10000"
+                        },
+                        {
+                            "nom": "Activit\u00e9",
+                            "choix": "D\u00eener th\u00e9matique vampires",
+                            "prix": "1000"
+                        }
+                    ],
+                    "ET002": [
+                        {
+                            "nom": "H\u00e9bergement",
+                            "choix": "Suite royale avec majordome",
+                            "prix": "15000"
+                        },
+                        {
+                            "nom": "Activit\u00e9",
+                            "choix": "Escape Game : \u00c9vasion du donjon",
+                            "prix": "2500"
+                        },
+                        {
+                            "nom": "D\u00eener",
+                            "choix": "Festin royal avec spectacle",
+                            "prix": "2000"
+                        }
+                    ],
+                    "ET003": [
+                        {
+                            "nom": "Activit\u00e9",
+                            "choix": "Observation des loups-garous",
+                            "prix": "1200"
+                        },
+                        {
+                            "nom": "H\u00e9bergement",
+                            "choix": "Cabane isol\u00e9e",
+                            "prix": "500"
+                        }
+                    ]
+                },
                 "etapes_supprimees": [],
-                "date_achat": "2025-03-29 22:26:56",
-                "transaction_id": "wqHk9smf1bsHJHq4b",
-                "montant": "50000.00"
+                "date_achat": "2025-03-30 21:43:34",
+                "transaction_id": "zlpr9I6zSvcX0P4VMs0fJOfk",
+                "montant": "33200.00"
             }
         ]
     },

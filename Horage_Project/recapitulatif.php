@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Charger les données de voyage
 $json = file_get_contents('data/voyages.json');
 $voyages = json_decode($json, true)['voyages'];
@@ -59,9 +60,12 @@ foreach ($voyage['liste_etapes'] as $etape) {
         }
     }
 }
-$_SESSION['panier'] = [
-    'id_voyage' => $voyage['id_voyage'],
-    'options' => $etapes_avec_options,
+$_SESSION['pending_payment'] = [
+    'voyage_id' => $voyage['id_voyage'],
+    'voyage_titre' => $voyage['titre'], // Ajoute ces infos dès le départ
+    'nombre_personnes' => $nombre_personnes,
+    'options_choisies' => $etapes_avec_options,
+    'etapes_supprimees' => [], // si nécessaire
     'prix_total' => $prix_total
 ];
 

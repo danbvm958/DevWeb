@@ -33,12 +33,14 @@ if (!is_numeric($prix_total)) {
     die("Erreur: Le montant doit être numérique");
 }
 
-// Configuration des données CY Bank
-$transaction = generateTransactionID();
-$montant = number_format((float)$prix_total, 2, '.', '');
-$vendeur = "MI-1_A"; // À REMPLACER par votre vrai code vendeur
-$retour = "http://localhost/horage_project/retour_paiement.php?session=" . session_id();
+if (!isset($_SESSION['pending_payment'])) {
+    die("Erreur : Pas de voyage en attente de paiement.");
+}
 
+$transaction = generateTransactionID();
+$montant = number_format((float)$_SESSION['pending_payment']['prix_total'], 2, '.', '');
+$vendeur = "MI-1_A"; // ton code vendeur
+$retour = "http://localhost/horage_project/retour_paiement.php?session=" . session_id();
 // Récupération API Key
 $api_key = getAPIKey($vendeur);
 

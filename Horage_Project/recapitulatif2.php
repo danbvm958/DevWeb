@@ -101,14 +101,16 @@ $options_choisies = $voyage_sauvegarde['options_choisies'];
             <li class="parent">
                 <strong><?= htmlspecialchars($etape['titre']) ?></strong> - <?= htmlspecialchars($etape['position']['ville']) ?>
                 <ul>
-                    <?php if(isset($options_choisies[$etape['id_etape']])): ?>
-                        <?php foreach ($options_choisies[$etape['id_etape']] as $choix_data) : 
-                            list($choix_nom, $choix_prix) = explode('|', $choix_data); ?>
-                            <li><?= htmlspecialchars($choix_nom) ?> - <?= afficherPrix($choix_prix) ?></li>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <li>Aucune option choisie</li>
-                    <?php endif; ?>
+                <?php if (isset($options_choisies[$etape['id_etape']])): ?>
+    <?php foreach ($options_choisies[$etape['id_etape']] as $choix_data): ?>
+        <li>
+            <?= htmlspecialchars($choix_data['choix']) ?> - <?= afficherPrix($choix_data['prix']) ?>
+        </li>
+    <?php endforeach; ?>
+<?php else: ?>
+    <li>Aucune option choisie</li>
+<?php endif; ?>
+
                 </ul>
             </li>
         <?php endforeach; ?>
