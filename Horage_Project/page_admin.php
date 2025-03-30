@@ -78,21 +78,23 @@ if ($users === null && json_last_error() !== JSON_ERROR_NONE) {
                 <th>Profil</th>
             </tr>
             <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= htmlspecialchars($user['nom']) ?></td>
-                <td><?= htmlspecialchars($user['prenom']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
-                <td><span class="btn <?= ($user['type'] === 'vip') ? 'btn-vip' : 'btn-blocked' ?>">
-                    <?= ($user['type'] === 'vip') ? 'Oui' : 'Non' ?>
-                </span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td>
-                    <a href="profil_user_admin.php?email=<?= urlencode($user['email']) ?>" 
-                       class="btn btn-profile">
-                       Voir
-                    </a>
-                </td>
-            </tr>
+                <?php if ($user['type'] !== 'admin'): // Ne pas afficher les admins ?>
+                <tr>
+                    <td><?= htmlspecialchars($user['nom']) ?></td>
+                    <td><?= htmlspecialchars($user['prenom']) ?></td>
+                    <td><?= htmlspecialchars($user['email']) ?></td>
+                    <td><span class="btn <?= ($user['type'] === 'vip') ? 'btn-vip' : 'btn-blocked' ?>">
+                        <?= ($user['type'] === 'vip') ? 'Oui' : 'Non' ?>
+                    </span></td>
+                    <td><span class="btn btn-blocked">Non</span></td>
+                    <td>
+                        <a href="profil_user_admin.php?email=<?= urlencode($user['email']) ?>" 
+                           class="btn btn-profile">
+                           Voir
+                        </a>
+                    </td>
+                </tr>
+                <?php endif; ?>
             <?php endforeach; ?>
         </table>
     </div>
