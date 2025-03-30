@@ -1,73 +1,115 @@
 @import 'main.css';
 @import 'root.css';
-
-.formulaire_search {
-    display: flex;
-    padding: 30px;
-    margin: 20px auto;
-    background-color: var(--color-gray-medium);
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.5);
-    max-width: auto;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-}
-
-input[type="submit"] {
-    background-color: var(--color-search-button);
+@import 'voyage.css';
+/* Section Intro stylisée */
+.intro {
+    text-align: center;
     color: var(--color-white);
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-align: right;
+    padding: 30px;
+    margin: 40px auto;
+    border-radius: 10px;
+    position: relative;
+    width: 70%;
 }
 
-.formulaire_search form div:last-child {
-    text-align: right;
+.intro #sang {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 80px;
+    transform: rotate(20deg);
 }
 
-input[type="submit"]:hover {
-    background-color: var(--color-search-button-hover); 
-    color: var(--color-red-hover); 
-    transform: scale(1.1); 
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
-}
-
-.tr {
+.intro h2.tr {
     font-family: 'Creepster', cursive;
-    letter-spacing: 5px;
-    font-size: 5rem;
+    font-size: 3rem;
+    color: var(--color-red-medium);
+    text-shadow: 2px 2px 5px black;
+    margin-bottom: 10px;
+}
+
+.intro p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* Formulaire stylisé */
+.formulaire_search {
+    background-color: var(--color-gray-light);
+    padding: 25px;
+    margin: 0 auto 40px auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.7);
+    width: 60%;
+    max-width: 700px;
 }
 
 .form-group {
-    display: flex;
-    margin-bottom: 15px;
-    display: inline-block;
-    border-radius: 5px;
-    box-shadow: #0a0a0a;
-    cursor: pointer;
-    transition: 0.3s;
-    background-color: var(--color-search-form-group);
-    padding: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
     font-family: 'Creepster', cursive;
-    letter-spacing: 5px;
+    color: var(--color-white);
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 12px;
     font-size: 1rem;
-    color: var(--color-search-form-group-text);
-}
-
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
+    border: none;
     border-radius: 5px;
-    box-shadow: #0a0a0a;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.formulaire_search input[type="submit"] {
+    background-color: var(--color-search-button);
+    color: var(--color-white);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.3s ease;
+}
+
+.formulaire_search input[type="submit"]:hover {
+    background-color: var(--color-search-button-hover);
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px auto;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    background-color: var(--color-red-medium);
+    color: var(--color-white);
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.pagination-btn:hover {
+    background-color: var(--color-search-button-hover);
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+}
+
+.pagination-btn.active {
+    background-color: var(--color-search-button);
+    cursor: default;
+    pointer-events: none;
+    font-weight: bold;
 }

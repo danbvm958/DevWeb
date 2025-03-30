@@ -32,7 +32,7 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche - Horage</title>
-    <link rel="stylesheet" href="CSS/voyage.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="CSS/recherche.css?v=<?= time() ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
 </head>
 <body>
@@ -93,10 +93,9 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
         <form action="Recherche.php" method="post">
             <div class="form-group">
                 <label for="mot_cle">Rechercher par mot-clé</label>
-                <input type="text" name="mot_cle" id="mot_cle" placeholder="Ex : Forêt" value="<?= htmlspecialchars($mot_cle) ?>">
-                <br><br><br>
+                <input type="text" id="mot_cle" name="mot_cle" placeholder="Ex : Forêt" value="<?= htmlspecialchars($mot_cle) ?>">
             </div>
-            <div>
+            <div style="text-align:right;">
                 <input type="submit" value="Rechercher">
             </div>
         </form>
@@ -120,15 +119,15 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
                 <?php if ($nombre_total_pages > 1): ?>
                     <div class="pagination">
                         <?php if ($page_actuelle > 1): ?>
-                            <a href="?page=<?= $page_actuelle - 1 ?>&mot_cle=<?= urlencode($mot_cle) ?>">&laquo; Précédent</a>
+                            <a class="pagination-btn" href="?page=<?= $page_actuelle - 1 ?>&mot_cle=<?= urlencode($mot_cle) ?>">&laquo; Précédent</a>
                         <?php endif; ?>
 
-                        <?php for ($i = 1; $i <= $nombre_total_pages; $i++) : ?>
-                            <a href="?page=<?= $i ?>&mot_cle=<?= urlencode($mot_cle) ?>" class="<?= ($i == $page_actuelle) ? 'active' : '' ?>"><?= $i ?></a>
+                        <?php for ($i = 1; $i <= $nombre_total_pages; $i++): ?>
+                            <a class="pagination-btn <?= ($i == $page_actuelle) ? 'active' : '' ?>" href="?page=<?= $i ?>&mot_cle=<?= urlencode($mot_cle) ?>"><?= $i ?></a>
                         <?php endfor; ?>
 
                         <?php if ($page_actuelle < $nombre_total_pages): ?>
-                            <a href="?page=<?= $page_actuelle + 1 ?>&mot_cle=<?= urlencode($mot_cle) ?>">Suivant &raquo;</a>
+                            <a class="pagination-btn" href="?page=<?= $page_actuelle + 1 ?>&mot_cle=<?= urlencode($mot_cle) ?>">Suivant &raquo;</a>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
