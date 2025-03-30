@@ -1,5 +1,19 @@
 <?php
 session_start();
+
+// Chemin vers votre fichier JSON
+$jsonFile = 'data/utilisateur.json';
+
+// Lire le contenu du fichier JSON
+$jsonData = file_get_contents($jsonFile);
+
+// Décoder le JSON en tableau PHP
+$users = json_decode($jsonData, true);
+
+// Vérifier si le décodage a réussi
+if ($users === null && json_last_error() !== JSON_ERROR_NONE) {
+    die("Erreur lors de la lecture du fichier JSON: " . json_last_error_msg());
+}
 ?>
 <!DOCTYPE>
 <html>
@@ -9,7 +23,6 @@ session_start();
         <link rel="stylesheet" href="CSS/admin.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
-
     </head>
     <body>
         <header>
@@ -54,8 +67,7 @@ session_start();
                 </div>
         </header>
         <h1 class="pt">Liste des utilisateurs d'Horage</h1>
-    <div class="container">
-        
+        <div class="container">
         <table>
             <tr>
                 <th>Nom</th>
@@ -65,78 +77,23 @@ session_start();
                 <th>Bloqué</th>
                 <th>Profil</th>
             </tr>
+            <?php foreach ($users as $user): ?>
             <tr>
-                <td>Einstein</td>
-                <td>Albert</td>
-                <td>albert.e@startour.com</td>
+                <td><?= htmlspecialchars($user['nom']) ?></td>
+                <td><?= htmlspecialchars($user['prenom']) ?></td>
+                <td><?= htmlspecialchars($user['email']) ?></td>
+                <td><span class="btn <?= ($user['type'] === 'vip') ? 'btn-vip' : 'btn-blocked' ?>">
+                    <?= ($user['type'] === 'vip') ? 'Oui' : 'Non' ?>
+                </span></td>
                 <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
+                <td>
+                    <a href="profil_user_admin.php?email=<?= urlencode($user['email']) ?>" 
+                       class="btn btn-profile">
+                       Voir
+                    </a>
+                </td>
             </tr>
-            <tr>
-                <td>Curie</td>
-                <td>Marie</td>
-                <td>marie.c@startour.com</td>
-                <td><span class="btn btn-vip">Oui</span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
-            </tr>
-            <tr>
-                <td>Newton</td>
-                <td>Isaac</td>
-                <td>isaac.n@startour.com</td>
-                <td><span class="btn btn-vip">Oui</span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
-            </tr>
-            <tr>
-                <td>Hawking</td>
-                <td>Stephen</td>
-                <td>stephen.h@startour.com</td>
-                <td><span class="btn btn-vip">Oui</span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
-            </tr>
-            <tr>
-                <td>Galilée</td>
-                <td>Galileo</td>
-                <td>galileo.g@startour.com</td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
-            </tr>
-            <tr>
-                <td>Tesla</td>
-                <td>Nikola</td>
-                <td>nikola.t@startour.com</td>
-                <td><span class="btn btn-vip">Oui</span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
-            </tr>
-            <tr>
-                <td>Feynman</td>
-                <td>Richard</td>
-                <td>richard.f@startour.com</td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-vip">Oui</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
-            </tr>
-            <tr>
-                <td>Planck</td>
-                <td>Max</td>
-                <td>max.p@startour.com</td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
-            </tr>
-            <tr>
-                <td>Ohm</td>
-                <td>Georg</td>
-                <td>georg.o@startour.com</td>
-                <td><span class="btn btn-vip">Non</span></td>
-                <td><span class="btn btn-blocked">Non</span></td>
-                <td><span class="btn btn-profile">Voir</span></td>
-            </tr>
+            <?php endforeach; ?>
         </table>
     </div>
 
