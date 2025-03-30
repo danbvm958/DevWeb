@@ -37,6 +37,7 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
 
 
 ?>
+<?php print_r($voyages); ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -93,7 +94,8 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
                         <h3><?= htmlspecialchars($voyage['voyage_titre']) ?></h3>
                         <p>Date d'achat: <?= htmlspecialchars($voyage['date_achat']) ?></p>
                         <p>Nombre de personnes: <?= htmlspecialchars($voyage['nombre_personnes']) ?></p>
-                        <a href="#" class="btn">Voir plus</a>
+                        <a href="recapitulatif2.php?id_voyage=<?= urlencode($voyage['voyage_id']) ?>" class="btn">Voir plus</a>
+
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>

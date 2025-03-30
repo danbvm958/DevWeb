@@ -194,56 +194,58 @@ function afficherPrix($prix) {
             </div>
         </section>
 
-        <form method="post" class="recapitulatif.php">
-            <h2>Réservation</h2>
+        <form method="POST" action="recapitulatif.php">
+    <input type="hidden" name="voyage_id" value="<?= $voyageSelectionne['id_voyage'] ?>">
+    <h2>Réservation</h2>
+    
+    <div class="form-group">
+        <label for="nb_adultes">Nombre d'adultes:</label>
+        <input type="number" id="nb_adultes" name="nb_adultes" min="1" max="<?= $voyageSelectionne['places_disponibles'] ?>" value="<?= $_POST['nb_adultes'] ?? 1 ?>" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="nb_enfants">Nombre d'enfants (moins de 12 ans):</label>
+        <input type="number" id="nb_enfants" name="nb_enfants" min="0" max="<?= $voyageSelectionne['places_disponibles'] - 1 ?>" value="<?= $_POST['nb_enfants'] ?? 0 ?>">
+    </div>
+    
+    <section class="etapes">
+        <h2>Personnalisation des options</h2>
+        
+        <?php foreach ($voyageSelectionne['liste_etapes'] as $etape): ?>
+        <div class="etape">
+            <h3><?= htmlspecialchars($etape['titre']) ?></h3>
             
-            <div class="form-group">
-                <label for="nb_adultes">Nombre d'adultes:</label>
-                <input type="number" id="nb_adultes" name="nb_adultes" min="1" max="<?= $voyageSelectionne['places_disponibles'] ?>" value="<?= $_POST['nb_adultes'] ?? 1 ?>" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="nb_enfants">Nombre d'enfants (moins de 12 ans):</label>
-                <input type="number" id="nb_enfants" name="nb_enfants" min="0" max="<?= $voyageSelectionne['places_disponibles'] - 1 ?>" value="<?= $_POST['nb_enfants'] ?? 0 ?>">
-            </div>
-            
-            <section class="etapes">
-                <h2>Personnalisation des options</h2>
-                
-                <?php foreach ($voyageSelectionne['liste_etapes'] as $etape): ?>
-                <div class="etape">
-                    <h3><?= htmlspecialchars($etape['titre']) ?></h3>
-                    
-                    <div class="options">
-                        <?php foreach ($etape['options'] as $option): ?>
-                        <div class="option-group">
-                            <h4><?= htmlspecialchars($option['nom']) ?></h4>
-                            <ul>
-                                <?php foreach ($option['choix'] as $choix): ?>
-                                <li>
-                                    <label>
-                                        <input type="radio" 
-                                               name="options[<?= $etape['id_etape'] ?>][<?= $option['id_option'] ?>]" 
-                                               value="<?= htmlspecialchars($choix['option']) ?>|<?= $choix['prix'] ?>"
-                                               required>
-                                        <?= htmlspecialchars($choix['option']) ?> 
-                                        (+<?= afficherPrix($choix['prix']) ?> €)
-                                    </label>
-                                </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
+            <div class="options">
+                <?php foreach ($etape['options'] as $option): ?>
+                <div class="option-group">
+                    <h4><?= htmlspecialchars($option['nom']) ?></h4>
+                    <ul>
+                        <?php foreach ($option['choix'] as $choix): ?>
+                        <li>
+                            <label>
+                                <input type="radio" 
+                                       name="options[<?= $etape['id_etape'] ?>][<?= $option['id_option'] ?>]" 
+                                       value="<?= htmlspecialchars($choix['option']) ?>|<?= $choix['prix'] ?>"
+                                       required>
+                                <?= htmlspecialchars($choix['option']) ?> 
+                                (+<?= afficherPrix($choix['prix']) ?> €)
+                            </label>
+                        </li>
                         <?php endforeach; ?>
-                    </div>
+                    </ul>
                 </div>
                 <?php endforeach; ?>
-            </section>
-            
-            <div class="actions">
-                <a href="Reserve.php" class="btn">Retour aux voyages</a>
-                <button type="submit" class="btn btn-primary">Valider la réservation</button>
             </div>
-        </form>
+        </div>
+        <?php endforeach; ?>
+    </section>
+    
+    <div class="actions">
+        <a href="Reserve.php" class="btn">Retour aux voyages</a>
+        <button type="submit" class="btn btn-primary">Valider la réservation</button>
+    </div>
+</form>
+
     </main>
 
     <footer>

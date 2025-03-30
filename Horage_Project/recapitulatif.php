@@ -1,87 +1,72 @@
-<?php  
-session_start();
-
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Vérifier si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    die("Accès interdit.");
-}
-
-// Charger les voyages depuis le fichier JSON
+<?php
+// Charger les données de voyage
 $json = file_get_contents('data/voyages.json');
 $voyages = json_decode($json, true)['voyages'];
 
-// Récupérer l'ID du voyage sélectionné
-$voyage_id = isset($_POST['voyage_id']) ? (int)$_POST['voyage_id'] : -1;
-if (!isset($voyages[$voyage_id])) {
+// Vérifier si l'ID du voyage est passé dans le formulaire
+if (!isset($_POST['voyage_id'])) {
     die("Voyage introuvable.");
 }
-$voyage = $voyages[$voyage_id];
 
-// Récupérer les choix de l'utilisateur
-$nombre_personnes = isset($_POST['nombre_personnes']) ? (int)$_POST['nombre_personnes'] : 1;
-$reduction_enfants = isset($_POST['reduction_enfants']); // Option cochée ou non
-$options_choisies = isset($_POST['options']) ? $_POST['options'] : [];
-$etapes_supprimees = isset($_POST['supprimer_etape']) ? array_map('intval', $_POST['supprimer_etape']) : [];
+$voyage_id = $_POST['voyage_id'];
 
-// Prix de base par personne
-$prix_par_personne = $voyage['tarification']['prix_par_personne'];
-
-// Appliquer la réduction groupe si le nombre de personnes est suffisant
-if ($nombre_personnes >= $voyage['tarification']['reduction_groupe']['min_personnes']) {
-    $prix_par_personne = $voyage['tarification']['reduction_groupe']['prix_reduit'];
-}
-
-// Appliquer réduction enfant uniquement si les conditions sont remplies
-if ($reduction_enfants && $nombre_personnes >= 4) {
-    $remise_par_enfant = $voyage['tarification']['reduction_enfants']['remise'];
-    $prix_par_personne -= $remise_par_enfant;
-}
-
-// Calcul du prix total en excluant les étapes supprimées
-$prix_total = 0;
-
-foreach ($voyage['liste_etapes'] as $index => $etape) {
-    if (in_array($index, $etapes_supprimees, true)) {
-        continue; // Ne pas facturer les étapes supprimées
+// Trouver le voyage sélectionné
+$voyage = null;
+foreach ($voyages as $v) {
+    if ($v['id_voyage'] === $voyage_id) {
+        $voyage = $v;
+        break;
     }
+}
 
-    // Ajouter le prix de base de l'étape
-    $prix_total += $etape['prix_etape'];
+if (!$voyage) {
+    die("Voyage introuvable.");
+}
 
-    // Ajouter le coût des options sélectionnées
-    if (!empty($options_choisies[$index])) {
-        foreach ($options_choisies[$index] as $categorie => $choix) {
-            if (is_array($choix)) {
-                foreach ($choix as $option_val) {
-                    foreach ($etape['options'] as $option) {
-                        if (in_array($option_val, $option['valeurs'], true)) {
-                            $prix_total += $option['prix'] * $nombre_personnes;
-                        }
+// Récupérer les options choisies
+$options_choisies = isset($_POST['options']) ? $_POST['options'] : [];
+$nombre_personnes = $_POST['nb_adultes'] + $_POST['nb_enfants'];
+
+// Fonction pour afficher le prix avec formatage
+function afficherPrix($prix) {
+    return number_format($prix, 2, ',', ' ') . ' €';
+}
+
+$prix_total = 0;
+$etapes_avec_options = [];
+
+foreach ($voyage['liste_etapes'] as $etape) {
+    $etapes_avec_options[$etape['id_etape']] = [];
+
+    if (isset($options_choisies[$etape['id_etape']])) {
+        foreach ($options_choisies[$etape['id_etape']] as $option_id => $choix_data) {
+            list($choix_nom, $choix_prix) = explode('|', $choix_data);
+
+            foreach ($etape['options'] as $option_categorie) {
+                foreach ($option_categorie['choix'] as $choix_possible) {
+                    if ($choix_possible['option'] === $choix_nom) {
+                        // Stocker la catégorie dans "nom" (qui est affiché en gras dans ton HTML)
+                        $etapes_avec_options[$etape['id_etape']][] = [
+                            'nom' => $option_categorie['nom'], // Catégorie (Activité, Hébergement...)
+                            'choix' => $choix_nom,             // Choix précis effectué
+                            'prix' => $choix_prix
+                        ];
+
+                        $prix_total += floatval($choix_prix);
                     }
                 }
             }
         }
     }
 }
-
-// Appliquer le prix par personne sur le prix total
-$prix_total *= $nombre_personnes;
-
-$_SESSION['pending_payment'] = [
-    'voyage_id' => $voyage_id,
-    'voyage_titre' => htmlspecialchars($voyage['titre']),
-    'nombre_personnes' => $nombre_personnes,
-    'options_choisies' => $options_choisies,
-    'etapes_supprimees' => $etapes_supprimees,
+$_SESSION['panier'] = [
+    'id_voyage' => $voyage['id_voyage'],
+    'options' => $etapes_avec_options,
     'prix_total' => $prix_total
 ];
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -100,36 +85,16 @@ $_SESSION['pending_payment'] = [
 
     <div class="nav">
         <ul>
-            <li>
-                <a href="/horage_project/accueil.php" class="a1">Accueil</a>
-            </li>
-
-            <li>
-                <a href="/horage_project/presentation.php" class="a1">Présentation</a>
-            </li>
-
-            <li>
-                <a href="/horage_project/Reserve.php" class="a1">Nos offres</a>
-            </li>
-
-            <li>
-                <a href="/horage_project/Recherche.php" class="a1">Réserver</a>
-            </li>
-
+            <li><a href="/horage_project/accueil.php" class="a1">Accueil</a></li>
+            <li><a href="/horage_project/presentation.php" class="a1">Présentation</a></li>
+            <li><a href="/horage_project/Reserve.php" class="a1">Nos offres</a></li>
+            <li><a href="/horage_project/Recherche.php" class="a1">Réserver</a></li>
             <?php if (isset($_SESSION['user'])): ?>
-            <li>
-                <a href="/horage_project/profil_user.php" class="a1">Profil</a>
-            </li>
+            <li><a href="/horage_project/profil_user.php" class="a1">Profil</a></li>
             <?php else: ?>
-            <li>
-                <a href="/horage_project/login.php" class="a1">Connexion</a>
-            </li>
+            <li><a href="/horage_project/login.php" class="a1">Connexion</a></li>
             <?php endif; ?>
-
-            <li>
-                <a href="/horage_project/contact.php" class="a1">Contacts</a>
-            </li>
-
+            <li><a href="/horage_project/contact.php" class="a1">Contacts</a></li>
         </ul>
     </div>
 </header>
@@ -140,31 +105,33 @@ $_SESSION['pending_payment'] = [
         <p><strong>Description :</strong> <?= htmlspecialchars($voyage['description']) ?></p>
         <p><strong>Dates :</strong> Du <?= htmlspecialchars($voyage['dates']['debut']) ?> au <?= htmlspecialchars($voyage['dates']['fin']) ?> (<?= htmlspecialchars($voyage['dates']['duree']) ?>)</p>
         <p><strong>Nombre de personnes :</strong> <?= $nombre_personnes ?></p>
-        <p><strong>Prix total mis à jour :</strong> <?= number_format($prix_total, 2, ',', ' ') ?> €</p>
+        <p><strong>Prix total mis à jour :</strong> <?= afficherPrix($prix_total) ?></p>
     </div>
+
     <h3 id="subtitle">Étapes du voyage</h3>
-    <ul>
-        <?php foreach ($voyage['liste_etapes'] as $index => $etape) : ?>
-            <?php if (!in_array($index, $etapes_supprimees, true)) : ?>
+        <ul>
+            <?php foreach ($voyage['liste_etapes'] as $index => $etape) : ?>
                 <li class="parent">
                     <strong><?= htmlspecialchars($etape['titre']) ?></strong> - <?= htmlspecialchars($etape['position']['ville']) ?>
                     <ul>
-                        <?php if (!empty($options_choisies[$index])) : ?>
-                            <?php foreach ($options_choisies[$index] as $categorie => $choix) : ?>
-                                <?php if (is_array($choix)) : ?>
-                                    <li><strong><?= htmlspecialchars($categorie) ?> :</strong> <?= implode(', ', array_map('htmlspecialchars', $choix)) ?></li>
-                                <?php endif; ?>
+                        <?php if (isset($etapes_avec_options[$etape['id_etape']]) && !empty($etapes_avec_options[$etape['id_etape']])) : ?>
+                            <?php foreach ($etapes_avec_options[$etape['id_etape']] as $option) : ?>
+                                <li>
+                                    <strong><?= htmlspecialchars($option['nom']) ?> :</strong> 
+                                    <?= htmlspecialchars($option['choix']) ?> - 
+                                    <?= afficherPrix($option['prix']) ?> €
+                                </li>
                             <?php endforeach; ?>
                         <?php else : ?>
                             <li>Aucune option choisie</li>
                         <?php endif; ?>
                     </ul>
                 </li>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </ul>
+            <?php endforeach; ?>
+        </ul>
 
-    <!-- Correction du bouton Modifier -->
+
+    <!-- Formulaire pour modifier la réservation -->
     <form action="voyages_details.php" method="get">
         <input type="hidden" name="id" value="<?= $voyage_id ?>">
         <button type="submit" class="sub">Modifier</button> 
@@ -172,6 +139,7 @@ $_SESSION['pending_payment'] = [
 
     <br><br>
 
+    <!-- Formulaire pour confirmer et payer -->
     <form action="vers_CyBank.php" method="post">
         <input type="hidden" name="voyage_id" value="<?= $voyage_id ?>">
         <input type="hidden" name="nombre_personnes" value="<?= $nombre_personnes ?>">
