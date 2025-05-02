@@ -13,8 +13,8 @@
 
 
 .voyage-info {
-    background-color: var(--color-gray-medium);
-    border: 2px solid var(--color-red-dark);
+    background-color: var(--color-background-form);
+    border: 2px solid var(--color-border-dark);
     border-radius: 8px;
     padding: 2rem;
     margin-bottom: 3rem;
@@ -57,17 +57,17 @@
 }
 
 .meta-info p {
-    background-color: var(--color-gray-light);
+    background-color: var(--color-background-profile);
     padding: 1rem;
     border-radius: 5px;
-    border-left: 4px solid var(--color-red-medium);
+    border-left: 4px solid var(--color-nav);
 }
 
 .reductions {
     margin-top: 2rem;
     padding: 1.5rem;
     background-color: rgba(178, 34, 34, 0.1);
-    border: 1px dashed var(--color-red-medium);
+    border: 1px dashed var(--color-nav);
     border-radius: 5px;
 }
 
@@ -100,10 +100,10 @@
 
 
 .form-reservation {
-    background-color: var(--color-gray-medium);
+    background-color: var(--color-background-form);
     padding: 2rem;
     border-radius: 8px;
-    border: 2px solid var(--color-red-dark);
+    border: 2px solid var(--color-border-dark);
     margin-top: 2rem;
 }
 
@@ -130,8 +130,8 @@
 .form-group input[type="number"] {
     width: 100%;
     padding: 0.8rem;
-    background-color: var(--color-gray-light);
-    border: 1px solid var(--color-red-dark);
+    background-color: var(--color-background-profile);
+    border: 1px solid var(--color-border-dark);
     border-radius: 4px;
     color: var(--color-white);
     font-size: 1rem;
@@ -143,17 +143,17 @@
 }
 
 .etape {
-    background-color: var(--color-gray-light);
+    background-color: var(--color-background-profile);
     border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 2rem;
-    border-left: 5px solid var(--color-red-dark);
+    border-left: 5px solid var(--color-border-dark);
     position: relative;
     overflow: hidden;
 }
 
 .etape h3 {
-    color: var(--color-red-light);
+    color: var(--color-redlight-root);
     font-family: 'Creepster', cursive;
     font-size: 1.5rem;
     margin-bottom: 1rem;
@@ -168,17 +168,17 @@
 }
 
 .option-group {
-    background-color: var(--color-gray-medium);
+    background-color: var(--color-background-form);
     padding: 1rem;
     border-radius: 5px;
-    border: 1px solid var(--color-gray-border);
+    border: 1px solid var(--color-border);
 }
 
 .option-group h4 {
     color: var(--color-white);
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--color-red-medium);
+    border-bottom: 1px solid var(--color-nav);
 }
 
 .option-group ul {
@@ -199,7 +199,7 @@
     appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid var(--color-red-medium);
+    border: 2px solid var(--color-nav);
     border-radius: 50%;
     margin-right: 0.8rem;
     position: relative;
@@ -212,7 +212,7 @@
     position: absolute;
     width: 10px;
     height: 10px;
-    background-color: var(--color-red-light);
+    background-color: var(--color-nav-light);
     border-radius: 50%;
     top: 2px;
     left: 2px;
@@ -226,7 +226,7 @@
 }
 
 .option-group label:hover {
-    color: var(--color-red-light);
+    color: var(--color-nav-light);
 }
 
 
@@ -249,13 +249,13 @@
 }
 
 .btn-primary {
-    background-color: var(--color-red-medium);
+    background-color: var(--color-nav);
     color: var(--color-white);
     border: none;
 }
 
 .btn-primary:hover {
-    background-color: var(--color-red-hover);
+    background-color: var(--color-hover);
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(178, 34, 34, 0.4);
 }
@@ -263,12 +263,12 @@
 .btn {
     background-color: transparent;
     color: var(--color-white);
-    border: 2px solid var(--color-red-medium);
+    border: 2px solid var(--color-nav);
 }
 
 .btn:hover {
     background-color: rgba(178, 34, 34, 0.2);
-    border-color: var(--color-red-light);
+    border-color: var(--color-nav-light);
 }
 
 

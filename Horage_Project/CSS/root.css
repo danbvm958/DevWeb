@@ -1,22 +1,24 @@
 :root {
-    /* Couleurs de base */
-    --color-red-dark: #8B0000; /* Rouge foncé */
-    --color-red-medium: #B22222; /* Rouge moyen */
-    --color-red-light: #ff4444; /* Rouge clair */
-    --color-red-hover: #7a0a14; /* Rouge sombre pour les survols */
-    --color-black: #000000; /* Noir */
-    --color-gray-dark: #1A1A1A; /* Gris très foncé */
-    --color-gray-medium: #222; /* Gris foncé */
-    --color-gray-light: #333; /* Gris moyen */
-    --color-gray-border: #444; /* Gris pour les bordures */
-    --color-white: white; /* Blanc */
-    --color-rod: #ffffff;
-    --color-textform : #ffffff;
-    --color-orange: #ffa500; /* Orange */
-    --color-blue: #007bff; /* Bleu */
-    --color-purple: #800080; /* Violet */
+    --color-border : #444; /* Bordures */
+    --color-rod: #ffffff; /* boutons et barres login, inscription et sidebar profil */
+    --color-nav: #B22222; /* boutons et barres de navigation */
     --color-search-button: #6b0710; /* Rouge sombre pour les boutons de recherche */
     --color-search-button-hover: rgb(44, 11, 11); /* Rouge très sombre pour les survols de boutons de recherche */
     --color-search-form-group: #771f1f; /* Rouge foncé pour les groupes de formulaire de recherche */
+    --color-background: #1A1A1A; /* couleur de fond */
+    --color-hover: #7a0a14; /* Hover bouton, effet lorsque le pointeur passe sur le bouton */
+    --color-travelbutton: #ffffff; /* survol pour travel card */
+    --color-nav-light: #ff4444; /* Même couleur que --color-nav, mais avec un teint plus clair */
+    --color-backgroundform: #222; /* Background pour les formulaires */
+    --color-background-profile: 	#2C2C2C; /* La même couleur que la boîte du profil utilisateur */
+    --color-border-dark: #8B0000; /* Rouge foncé */
+    --color-redlight-root: #ff4444; /* rouge clair */
+    --color-white: white; /* Blanc */
+    --color-orange: #ffa500; /* Orange */
+    --color-blue: #007bff; /* Bleu */
+    --color-purple: #800080; /* Violet */
     --color-green:#33ff00;
+    
+    /* Couleurs de base */
+
 }

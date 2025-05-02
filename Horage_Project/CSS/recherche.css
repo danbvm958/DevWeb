@@ -22,7 +22,7 @@
 .intro h2.tr {
     font-family: 'Creepster', cursive;
     font-size: 3rem;
-    color: var(--color-red-medium);
+    color: var(--color-nav);
     text-shadow: 2px 2px 5px black;
     margin-bottom: 10px;
 }
@@ -34,13 +34,16 @@
 
 /* Formulaire stylisé */
 .formulaire_search {
-    background-color: var(--color-gray-light);
+    background-color: var(--color-background-profile);
     padding: 25px;
     margin: 0 auto 40px auto;
     border-radius: 10px;
     box-shadow: 0px 0px 15px rgba(0,0,0,0.7);
     width: 60%;
     max-width: 700px;
+}
+.submit_search {
+    color: white !important;
 }
 
 .form-group {
@@ -91,7 +94,7 @@
 }
 
 .pagination-btn {
-    background-color: var(--color-red-medium);
+    background-color: var(--color-nav);
     color: var(--color-rod);
     padding: 10px 15px;
     border-radius: 8px;

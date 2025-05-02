@@ -11,7 +11,7 @@ body {
     text-align: center;
     font-family: 'Creepster', cursive;
     margin: 10px;
-    background: linear-gradient(to top, var(--color-red-medium), var(--color-white));
+    background: linear-gradient(to top, var(--color-nav), var(--color-white));
     -webkit-background-clip: text; 
     color: transparent;
     margin: 50px;
@@ -20,15 +20,15 @@ body {
 .hero1 {
     text-align: left;
     margin: 70px;
-    background-color: var(--color-gray-dark);
+    background-color: var(--color-background);
     padding: 30px;
     border-radius: 10px;
-    border: 1px solid var(--color-red-dark);
+    border: 1px solid var(--color-border-dark);
 }
 
 #subtitle {
     text-align: left;
-    border-bottom: 2px solid var(--color-red-dark);
+    border-bottom: 2px solid var(--color-border-dark);
     padding: 50px;
     text-transform: uppercase;
     margin-bottom: 100px;
@@ -41,15 +41,15 @@ body {
 }
 
 .step-card {
-    border: 1px solid var(--color-gray-border);
+    border: 1px solid var(--color-border);
     padding: 30px;
     margin-bottom: 20px;
-    background-color: var(--color-gray-medium);
+    background-color: var(--color-background-form);
     border-radius: 5px;
 }
 
 .step-card strong {
-    color: var(--color-red-light);
+    color: var(--color-nav-light);
     font-size: 1.2rem;
 }
 
@@ -61,7 +61,7 @@ body {
 
 .step-options li {
     padding: 8px 0;
-    border-bottom: 1px solid var(--color-gray-border);
+    border-bottom: 1px solid var(--color-border);
     color: var(--color-white);
 }
 
@@ -87,12 +87,12 @@ body {
 }
 
 .btn-modify {
-    background-color: var(--color-gray-light);
+    background-color: var(--color-background-profile);
     color: var(--color-white);
 }
 
 .btn-confirm {
-    background-color: var(--color-red-medium);
+    background-color: var(--color-nav);
     color: var(--color-white);
 }
 
@@ -101,18 +101,18 @@ body {
 }
 
 .btn-modify:hover {
-    background-color: var(--color-gray-border);
+    background-color: var(--color-border);
 }
 
 .btn-confirm:hover {
-    background-color: var(--color-red-dark);
+    background-color: var(--color-border-dark);
 }
 
 footer {
     background-color: var(--color-black);
     padding: 30px;
     text-align: center;
-    border-top: 2px solid var(--color-red-dark);
+    border-top: 2px solid var(--color-border-dark);
 }
 
 @media (max-width: 768px) {

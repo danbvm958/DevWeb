@@ -97,7 +97,7 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
                 <input type="text" id="mot_cle" name="mot_cle" placeholder="Ex : Forêt" value="<?= htmlspecialchars($mot_cle) ?>">
             </div>
             <div style="text-align:right;">
-                <input type="submit" value="Rechercher">
+                <input type="submit" value="Rechercher" class="submit_search">
             </div>
         </form>
     </div>

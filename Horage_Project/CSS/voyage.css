@@ -10,7 +10,7 @@
 }
 
 .travel-card {
-    background-color: var(--color-gray-light);
+    background-color: var(--color-background-profile);
     color: var(--color-white);
     padding: 20px;
     border-radius: 10px;
@@ -28,7 +28,7 @@
 }
 
 .travel-card h3 {
-    color: var(--color-red-light);
+    color: var(--color-nav-light);
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
@@ -40,7 +40,7 @@
 
 .travel-card .btn {
     display: inline-block;
-    background-color: var(--color-red-medium);
+    background-color: var(--color-nav);
     color: var(--color-rod);
     padding: 10px;
     text-decoration: none;
@@ -50,14 +50,14 @@
 
 .travel-card .btn:hover {
     background-color: var(--color-travelbutton);
-    color: var(--color-red-medium);
+    color: var(--color-hover);
 }
 
 .price {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: var(--color-red-light);
+    background-color: var(--color-nav-light);
     color: var(--color-rod);
     padding: 10px;
     border-radius: 5px;
@@ -105,7 +105,7 @@ input[type="submit"] {
 }
 
 .pagination-btn {
-    background-color: var(--color-red-medium);
+    background-color: var(--color-nav);
     color: var(--color-rod);
     padding: 10px 15px;
     border-radius: 8px;

@@ -11,7 +11,7 @@ html, body {
     width: 100%;
     height: 100%;
     text-align: center;
-    background-color: var(--color-gray-dark);
+    background-color: var(--color-background);
     color: var(--color-white);
 }
 
@@ -24,7 +24,7 @@ h1 {
     font-family: 'Creepster', cursive;
     letter-spacing: 5px;
     font-size: 8rem;
-    background: linear-gradient(to top, var(--color-red-medium), var(--color-white));
+    background: linear-gradient(to top, var(--color-nav), var(--color-white));
     -webkit-background-clip: text; 
     color: transparent;
 }
@@ -39,7 +39,7 @@ ul {
 }
 
 .nav {
-    background-color: var(--color-red-medium);
+    background-color: var(--color-nav) !important;
     padding: 10px;
 }
 
@@ -57,7 +57,7 @@ a.a1:hover {
 }
 
 footer {
-    background-color: var(--color-red-medium);
+    background-color: var(--color-nav);
     padding: 25px;
     color: var(--color-rod);
 }
@@ -69,7 +69,7 @@ h2 {
 }
 
 .button_go {
-    background-color: var(--color-red-medium);
+    background-color: var(--color-nav);
     border-radius: 50px;
     padding: 10px;
     width: 150px;

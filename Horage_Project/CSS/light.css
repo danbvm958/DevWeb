@@ -1,27 +1,24 @@
 :root {
-
-
-    --color-red-dark: #121212;            
-    --color-red-medium: #121212;          
-    --color-red-light: black;
-    --color-red-hover: #333333;           
-    --color-black: #ffffff;               
-    --color-gray-dark: #C2B280;          
-    --color-gray-medium: #e6e6e6;
-    --color-gray-light: 	#A89F91;
-    --color-rod: #ffffff;
-    --color-textform : #ffffff;
-    --color-gray-border: #cccccc;
-    --color-white: #ffffff;  
+    --color-nav: black; /* boutons et barres de navigation */
+    --color-rod: #ffffff; /* barres */
+    --color-border: #121212; /* bordures */
+    --color-background: #C2B280;  /* background */
+    --color-hover: #333333; /* Hover bouton, effet lorsque le pointeur passe sur le bouton */
+    --color-nav-light: #2c2c2c; /* Même couleur que --color-nav, mais avec un teint plus clair */
+    --color-background-form: #cac5c5; /* Background pour les formulaires */
+    --color-background-profile: #A89F91; /* La même couleur que la boîte du profil utilisateur */
+    --color-border-dark: #121212; /* foncé */
+    --color-redlight-root: black; /* ne concerne pas light.css */
+    --color-white: #F5F5F5;  
     --color-travelbutton: #ffffff;             
     --color-orange: #ff9900;
     --color-blue: #007bff;
     --color-purple: #9933cc;
     --color-search-button: #121212;
-    --color-search-button-hover: #333333;
+    --color-search-button-hover: #343131;
     --color-search-form-group: #fce4e4;
     --color-green: #228B22;
-    --color-bordure: #121212;
+
 }
 
 body {
@@ -52,7 +49,7 @@ h1, h2, h3 {
 
 .card, .box, .container {
     background-color: var(--color-gray-light);
-    border: 1px solid var(--color-gray-border);
+    border: 1px solid var(--color-border);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
