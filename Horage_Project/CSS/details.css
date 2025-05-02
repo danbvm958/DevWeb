@@ -158,6 +158,7 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
     letter-spacing: 1px;
+    display: inline;
 }
 
 .options {

@@ -140,5 +140,15 @@
         "birthdate": "2005-04-15",
         "type": "normal",
         "travel": []
+    },
+    {
+        "username": "tombvm",
+        "email": "tom@gmail.com",
+        "password": "$2y$10$ktY4HOPbPbVnNdWhxb9M.uxvW5ydF8bFHOYJJqorlLUvRyTdCX\/Z2",
+        "nom": "tom",
+        "prenom": "bvm",
+        "birthdate": "2005-09-09",
+        "type": "normal",
+        "travel": []
     }
 ]

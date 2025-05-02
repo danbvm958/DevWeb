@@ -131,65 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
         <h2>Copyright © Horage - Tous droits réservés</h2>
         <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
     </footer>
-
-    <script>
-document.querySelectorAll(".edit-btn").forEach(button => {
-    button.addEventListener("click", function () {
-        let span = this.previousElementSibling;
-        let field = span.parentElement.querySelector("strong").textContent.toLowerCase().replace(" :", ""); 
-
-        let input = document.createElement("input");
-        input.type = "text";
-        input.value = span.textContent;
-        input.dataset.field = field; 
-
-        span.replaceWith(input);
-        input.focus();
-
-        input.addEventListener("blur", function () {
-            updateUser(input);
-        });
-
-        input.addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {
-                updateUser(input);
-            }
-        });
-    });
-});
-
-function updateUser(input) {
-    let field = input.dataset.field;
-    let newValue = input.value.trim();
-
-    if (newValue === "") {
-        alert("Le champ ne peut pas être vide !");
-        return;
-    }
-
-    let formData = new FormData();
-    formData.append("field", field);
-    formData.append("value", newValue);
-
-    fetch("modif_user.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log("Réponse serveur:", data);
-
-        if (data.includes("réussie")) {
-            let span = document.createElement("span");
-            span.textContent = newValue;
-            input.replaceWith(span);
-        } else {
-            alert("Erreur : " + data);
-        }
-    })
-    .catch(error => console.error("Erreur :", error));
-}
-
-    </script>
+    <script src="js/profil_user.js"></script>
 </body>
 </html>

@@ -270,7 +270,11 @@ function afficherPrix($prix) {
             </div>
         </div>
         <?php endforeach; ?>
+        <div class="option-group etape"> 
+            <h3>Prix :</h3><h3 class="prix"> 0$</h3>
+        </div>
     </section>
+
     
     <div class="actions">
         <a href="Reserve.php" class="btn">Retour aux voyages</a>
@@ -284,5 +288,16 @@ function afficherPrix($prix) {
     <h2>Copyright © Horage - Tous droits réservés</h2>
     <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
     </footer>
+    <script>
+        const voyageData = {
+            prixBase: <?= $voyageSelectionne['tarification']['prix_par_personne'] ?>,
+            reductions: <?= json_encode($voyageSelectionne['tarification']['reductions']) ?>,
+            placesDisponibles: <?= $voyageSelectionne['places_disponibles'] ?>
+        };
+        function formatPrix(prix) {
+            return prix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+    </script>
+    <script src="js/details.js"></script>
 </body>
 </html>
