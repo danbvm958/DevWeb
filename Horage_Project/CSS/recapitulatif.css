@@ -1,6 +1,10 @@
-@import 'main.css';
-@import 'root.css';
-
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+        
+body {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    font-family: 'Arial', sans-serif;
+}
 
 #main_title {
     font-size: 2.4rem;
@@ -16,28 +20,118 @@
 .hero1 {
     text-align: left;
     margin: 70px;
+    background-color: var(--color-gray-dark);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid var(--color-red-dark);
 }
-
 
 #subtitle {
     text-align: left;
-    border-bottom: 2px solid #8B0000;
+    border-bottom: 2px solid var(--color-red-dark);
     padding: 50px;
     text-transform: uppercase;
     margin-bottom: 100px;
+    color: var(--color-white);
+    margin-left: 70px;
 }
 
-li.parent {
-    border: 1px solid grey;
+.steps-container {
+    margin: 0 70px 50px;
+}
+
+.step-card {
+    border: 1px solid var(--color-gray-border);
     padding: 30px;
+    margin-bottom: 20px;
+    background-color: var(--color-gray-medium);
+    border-radius: 5px;
 }
 
-.sub:hover {
-    background-color:#8B0000 ; 
-    color: white; 
-    transform: scale(1.1);  
+.step-card strong {
+    color: var(--color-red-light);
+    font-size: 1.2rem;
 }
 
-.sub {
+.step-options {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 15px;
+}
+
+.step-options li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-gray-border);
+    color: var(--color-white);
+}
+
+.step-options li:last-child {
+    border-bottom: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 50px 0 100px;
+}
+
+.btn {
     cursor: pointer;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-transform: uppercase;
+}
+
+.btn-modify {
+    background-color: var(--color-gray-light);
+    color: var(--color-white);
+}
+
+.btn-confirm {
+    background-color: var(--color-red-medium);
+    color: var(--color-white);
+}
+
+.btn:hover {
+    transform: scale(1.1);
+}
+
+.btn-modify:hover {
+    background-color: var(--color-gray-border);
+}
+
+.btn-confirm:hover {
+    background-color: var(--color-red-dark);
+}
+
+footer {
+    background-color: var(--color-black);
+    padding: 30px;
+    text-align: center;
+    border-top: 2px solid var(--color-red-dark);
+}
+
+@media (max-width: 768px) {
+    .hero1, #subtitle, .steps-container {
+        margin: 20px;
+    }
+    
+    #subtitle {
+        padding: 20px;
+        margin-bottom: 50px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .btn {
+        width: 80%;
+    }
 }

@@ -23,6 +23,7 @@ if ($users === null && json_last_error() !== JSON_ERROR_NONE) {
         <link rel="stylesheet" href="CSS/admin.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+        <script src="js/themeSwitcher.js" defer></script>
     </head>
     <body>
     <header>

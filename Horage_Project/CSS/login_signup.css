@@ -39,7 +39,7 @@ input {
     border: 1px solid var(--color-gray-border);
     border-radius: 5px;
     background-color: var(--color-gray-light);
-    color: var(--color-white);
+    color: var(--color-rod);
     font-size: 1rem;
 }
 
@@ -64,4 +64,31 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: var(--color-red-dark);
     transform: scale(1.05);
+}
+
+/* Styles pour les erreurs */
+.error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+/* Styles pour les champs invalides */
+input:invalid {
+    border-color: red;
+}
+
+/* Styles pour les icônes œil */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    flex-grow: 1;
+}
+
+.password-container button {
+    margin-left: 5px;
 }

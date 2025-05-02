@@ -12,7 +12,7 @@ main {
 .hero_discover {
     margin: 80px;
     text-align: center;
-    border: 1px solid #B3B3B3;
+    border: 1px solid var(--color-bordure);
     padding: 120px;
     background-image: url("../img_horage/maison_hantee.webp");
     background-size: cover;
@@ -21,7 +21,7 @@ main {
 .hero_discover2 {
     margin: 80px;
     text-align: center;
-    border: 1px solid #B3B3B3;
+    border: 1px solid var(--color-bordure);
     padding: 120px;
     background-image: url("../img_horage/foret.webp");
     background-size: cover;
@@ -39,7 +39,7 @@ main {
 }
 
 .hero2 {
-    border-top: 1px solid #B3B3B3;
+    border-top: 2px solid var(--color-bordure);
     padding-top: 100px;
     margin: 80px;
     margin-bottom: 140px;
@@ -49,7 +49,7 @@ main {
 }
 
 .img_comment {
-    border: 1px solid #B3B3B3;
+    border: 1px solid var(--color-bordure);
 }
 
 .commentaire {
@@ -75,4 +75,8 @@ main {
 footer {
     background-color: var(--color-red-medium);
     padding: 25px;
+}
+
+.accroche {
+    color: var(--color-rod)
 }

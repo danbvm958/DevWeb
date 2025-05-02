@@ -71,6 +71,7 @@ $control = md5($control_string);
 <head>
     <meta charset="UTF-8">
     <title>Confirmation de paiement</title>
+    <script src="js/themeSwitcher.js" defer></script>
     <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
         .payment-box { border: 1px solid #ddd; padding: 20px; border-radius: 5px; }

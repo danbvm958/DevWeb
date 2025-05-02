@@ -1,6 +1,13 @@
 <?php
 session_start();
 ?>
+<script>
+// En développement seulement - à supprimer en production
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    localStorage.removeItem('theme');
+    localStorage.removeItem('theme_v1'); // Supprime les anciennes versions
+}
+</script>
 <!DOCTYPE>
 <html>
     <head>
@@ -9,6 +16,7 @@ session_start();
         <link rel="stylesheet" href="CSS/accueil.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+        <script src="js/themeSwitcher.js" defer></script>
     </head>
     <body>
         <header>

@@ -1,0 +1,67 @@
+:root {
+
+
+    --color-red-dark: #121212;            
+    --color-red-medium: #121212;          
+    --color-red-light: black;
+    --color-red-hover: #333333;           
+    --color-black: #ffffff;               
+    --color-gray-dark: #C2B280;          
+    --color-gray-medium: #e6e6e6;
+    --color-gray-light: 	#A89F91;
+    --color-rod: #ffffff;
+    --color-textform : #ffffff;
+    --color-gray-border: #cccccc;
+    --color-white: #ffffff;  
+    --color-travelbutton: #ffffff;             
+    --color-orange: #ff9900;
+    --color-blue: #007bff;
+    --color-purple: #9933cc;
+    --color-search-button: #121212;
+    --color-search-button-hover: #333333;
+    --color-search-form-group: #fce4e4;
+    --color-green: #228B22;
+    --color-bordure: #121212;
+}
+
+body {
+    background-color: var(--color-gray-dark);
+    color: var(--color-black); 
+    font-family: Arial, sans-serif;
+}
+
+
+h1, h2, h3 {
+    color: var(--color-white); 
+}
+
+
+.nav {
+    background-color: var(--color-red-medium);
+    color: var(--color-white);
+}
+
+.nav a {
+    color: var(--color-white);
+}
+
+.nav a:hover {
+    background-color: var(--color-red-hover);
+}
+
+
+.card, .box, .container {
+    background-color: var(--color-gray-light);
+    border: 1px solid var(--color-gray-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.theme-button {
+    background-color: #333;
+    color: #f2f2f2;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}

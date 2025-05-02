@@ -28,8 +28,8 @@ main.profile-container {
 .menu-btn {
     display: inline-block;
     background-color: transparent;
-    color: var(--color-white);
-    border: 2px solid var(--color-white);
+    color: var(--color-rod);
+    border: 2px solid var(--color-rod);
     padding: 10px;
     font-size: 1rem;
     cursor: pointer;
@@ -41,19 +41,19 @@ main.profile-container {
 
 .menu-btn:hover,
 .menu-btn.active {
-    background-color: var(--color-white);
+    background-color: var(--color-rod);
     color: var(--color-red-medium);
     font-weight: bold;
 }
 
 .logout {
     background-color: var(--color-red-dark);
-    border-color: var(--color-white);
+    border-color: var(--color-rod);
     margin-top: auto;
 }
 
 .logout:hover {
-    background-color: var(--color-white);
+    background-color: var(--color-rod);
     color: var(--color-red-dark);
 }
 
@@ -100,7 +100,7 @@ main.profile-container {
 }
 
 .edit-btn:hover {
-    color: var(--color-white);
+    color: var(--color-rod);
 }
 
 .vip-container {

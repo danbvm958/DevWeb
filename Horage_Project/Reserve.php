@@ -28,6 +28,7 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
     <title>Nos offres - Horage</title>
     <link rel="stylesheet" href="CSS/voyage.css?v=<?php echo time(); ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+    <script src="js/themeSwitcher.js" defer></script>
 </head>
 <body>
 

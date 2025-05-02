@@ -45,6 +45,7 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Voyages - Horage</title>
     <link rel="stylesheet" href="CSS/profil.css">
+    <script src="js/themeSwitcher.js" defer></script>
 </head>
 <body>
 

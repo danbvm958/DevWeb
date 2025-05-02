@@ -34,6 +34,7 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
     <title>Recherche - Horage</title>
     <link rel="stylesheet" href="CSS/recherche.css?v=<?= time() ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+    <script src="js/themeSwitcher.js" defer></script>
 </head>
 <body>
 

@@ -17,6 +17,7 @@ $user = $_SESSION['user'];
     <title>Profil - Horage</title>
     <link rel="stylesheet" href="CSS/profil.css?v=<?= time() ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+    <script src="js/themeSwitcher.js" defer></script>
 </head>
 <body>
 <header>

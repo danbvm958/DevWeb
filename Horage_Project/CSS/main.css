@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
-@import 'root.css';
+
 
 * {
     margin: 0;
@@ -45,12 +45,12 @@ ul {
 
 a {
     text-decoration: none;
-    color: var(--color-white);
+    color: var(--color-rod);
     font-size: 1.0rem;
 }
 
 a.a1:hover {
-    border-top: 3px solid var(--color-white);
+    border-top: 3px solid var(--color-rod);
     padding-top: 10px;
     background-color: rgba(64, 200, 130, 0.15);
     padding: 10px;
@@ -59,6 +59,7 @@ a.a1:hover {
 footer {
     background-color: var(--color-red-medium);
     padding: 25px;
+    color: var(--color-rod);
 }
 
 h2 {
@@ -97,6 +98,33 @@ a.a2:hover {
 
 main {
     margin: 100px;
+}
+
+/* Styles pour les erreurs */
+.error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+/* Styles pour les champs invalides */
+input:invalid {
+    border-color: red;
+}
+
+/* Styles pour les icônes œil */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    flex-grow: 1;
+}
+
+.password-container button {
+    margin-left: 5px;
 }
 
 @media screen and (max-width: 1300px) {

@@ -135,6 +135,7 @@ function afficherPrix($prix) {
     <title><?= htmlspecialchars($voyageSelectionne['titre']) ?> - Horage</title>
     <link rel="stylesheet" href="CSS/details.css?v=<?= time() ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+    <script src="js/themeSwitcher.js" defer></script>
 </head>
 <body>
 <header>

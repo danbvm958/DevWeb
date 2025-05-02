@@ -67,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="CSS/login_signup.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+    <script src="js/themeSwitcher.js" defer></script>
 </head>
 <body>
 <header>
@@ -143,5 +144,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2>Copyright © Horage - Tous droits réservés</h2>
         <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
     </footer>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const usernameInput = document.querySelector('input[name="username"]');
+    const passwordInput = document.querySelector('input[name="password"]');
+    
+    // Fonction pour afficher les erreurs
+    function showError(input, message) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error';
+        errorDiv.textContent = message;
+        input.parentNode.insertBefore(errorDiv, input.nextSibling);
+    }
+    
+    // Fonction pour supprimer les erreurs existantes
+    function clearErrors() {
+        const errors = document.querySelectorAll('.error');
+        errors.forEach(error => error.remove());
+    }
+    
+    // Validation en temps réel
+    usernameInput.addEventListener('input', function() {
+        clearErrors();
+        if (this.value.length < 3) {
+            showError(this, "Le nom d'utilisateur doit faire au moins 3 caractères");
+        }
+    });
+    
+    passwordInput.addEventListener('input', function() {
+        clearErrors();
+        if (this.value.length < 6) {
+            showError(this, "Le mot de passe doit faire au moins 6 caractères");
+        }
+    });
+    
+    // Validation avant soumission
+    form.addEventListener('submit', function(e) {
+        clearErrors();
+        let isValid = true;
+        
+        if (usernameInput.value.length < 3) {
+            showError(usernameInput, "Le nom d'utilisateur doit faire au moins 3 caractères");
+            isValid = false;
+        }
+        
+        if (passwordInput.value.length < 6) {
+            showError(passwordInput, "Le mot de passe doit faire au moins 6 caractères");
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
 </body>
 </html>

@@ -12,7 +12,7 @@
 
 .btn-vip {
     background-color: var(--color-blue);
-    color: var(--color-white);
+    color: var(--color-rod);
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -27,7 +27,7 @@
 
 .btn-blocked { 
     background-color: var(--color-purple);
-    color: var(--color-white); 
+    color: var(--color-rod); 
 }
 
 .btn-blocked:hover {
@@ -80,7 +80,7 @@ th {
     font-family: 'Creepster', cursive;
     letter-spacing: 5px;
     font-size: 4rem;
-    background: linear-gradient(to top, var(--color-red-medium), var(--color-white));
+    background: linear-gradient(to top, var(--color-red-medium), var(--color-rod));
     -webkit-background-clip: text; 
     color: transparent;
 }

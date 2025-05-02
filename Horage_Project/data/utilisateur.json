@@ -150,5 +150,15 @@
         "birthdate": "2005-09-09",
         "type": "normal",
         "travel": []
+    },
+    {
+        "username": "kylian",
+        "email": "fzeinxfhdx@gmail.com",
+        "password": "$2y$10$T6GwVsmbUVF2.vv7BQens.a7jsSK2s9XCnX\/Vzx.AsPKlPSWqyTlS",
+        "nom": "Kylian",
+        "prenom": "Mbappe",
+        "birthdate": "2005-04-15",
+        "type": "normal",
+        "travel": []
     }
 ]

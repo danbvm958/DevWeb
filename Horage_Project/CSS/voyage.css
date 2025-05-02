@@ -41,7 +41,7 @@
 .travel-card .btn {
     display: inline-block;
     background-color: var(--color-red-medium);
-    color: var(--color-white);
+    color: var(--color-rod);
     padding: 10px;
     text-decoration: none;
     border-radius: 5px;
@@ -49,7 +49,7 @@
 }
 
 .travel-card .btn:hover {
-    background-color: var(--color-white);
+    background-color: var(--color-travelbutton);
     color: var(--color-red-medium);
 }
 
@@ -58,7 +58,7 @@
     top: 20px;
     right: 20px;
     background-color: var(--color-red-light);
-    color: var(--color-white);
+    color: var(--color-rod);
     padding: 10px;
     border-radius: 5px;
     font-size: 1.2rem;
@@ -94,3 +94,36 @@ input[type="submit"]:hover {
 input[type="submit"] {
     cursor: pointer;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px auto;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    background-color: var(--color-red-medium);
+    color: var(--color-rod);
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.pagination-btn:hover {
+    background-color: var(--color-search-button-hover);
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+}
+
+.pagination-btn.active {
+    background-color: var(--color-search-button);
+    cursor: default;
+    pointer-events: none;
+    font-weight: bold;
+}
+

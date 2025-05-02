@@ -19,6 +19,7 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
     <title>Profil - Horage</title>
     <link rel="stylesheet" href="CSS/profil.css">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
+    <script src="js/themeSwitcher.js" defer></script>
 </head>
 <body>
 <header>

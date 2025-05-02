@@ -1,0 +1,40 @@
+:root {
+    /* Couleurs de base - Version blanc cassé/noir profond */
+    --color-red-dark: #121212;        /* Texte noir */
+    --color-red-medium: #121212;       /* Texte noir */
+    --color-red-light: #121212;        /* Texte noir */
+    --color-red-hover: #333333;        /* Noir plus clair au survol */
+    
+    --color-black: #F0F0F0;            /* Fond blanc cassé */
+    --color-gray-dark: #F0F0F0;        /* Fond */
+    --color-gray-medium: #F0F0F0;      /* Fond */
+    --color-gray-light: #F0F0F0;       /* Fond */
+    --color-gray-border: #121212;      /* Bordure noire */
+    --color-rod: #ffffff;
+    --color-white: #121212;
+    --color-travelbutton: #A89F91;            /* Texte noir */
+    --color-textform : #121212;
+    
+    --color-orange: #121212;           /* Texte noir */
+    --color-blue: #121212;             /* Texte noir */
+    --color-purple: #121212;           /* Texte noir */
+    
+    --color-search-button: #121212;    /* Bouton noir */
+    --color-search-button-hover: #333333; /* Noir clair au survol */
+    --color-search-form-group: #F0F0F0; /* Fond blanc cassé */
+    
+    --color-green: #121212;            /* Texte noir */
+    --color-bordure: #121212;          /* Bordure noire */
+
+    /* Taille de texte augmentée */
+    font-size: 18px;
+}
+
+#themeToggle {
+    font-size: 28px;
+    padding: 15px;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border: 3px solid var(--color-white);
+}
+

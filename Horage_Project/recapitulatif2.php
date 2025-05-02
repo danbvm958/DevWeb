@@ -62,6 +62,7 @@ $options_choisies = $voyage_sauvegarde['options_choisies'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Récapitulatif du voyage - Horage</title>
     <link rel="stylesheet" href="CSS/recapitulatif.css?v=<?php echo time(); ?>">
+    <script src="js/themeSwitcher.js" defer></script>
 </head>
 <body>
 <header>
