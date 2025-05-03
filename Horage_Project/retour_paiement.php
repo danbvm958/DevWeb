@@ -1,5 +1,4 @@
 <?php
-// retour_paiement.php
 session_start();
 require('getapikey.php');
 
@@ -37,6 +36,7 @@ if ($control === $expected_control) {
             
             foreach ($users as &$user) {
                 if ($user['email'] === $_SESSION['user']['email']) {
+                    // Ajouter le voyage aux voyages achetés
                     if (!isset($user['voyages'])) {
                         $user['voyages'] = [];
                     }
@@ -53,6 +53,15 @@ if ($control === $expected_control) {
                     ];
                     
                     $user['voyages'][] = $voyage_data;
+                    
+                    // Supprimer le voyage du panier (version corrigée)
+                    if (isset($user['panier'])) {
+                        $voyage_id_to_remove = $_SESSION['pending_payment']['voyage_id'];
+                        $user['panier'] = array_filter($user['panier'], function($item) use ($voyage_id_to_remove) {
+                            return $item['voyage_id'] !== $voyage_id_to_remove;
+                        });
+                    }
+                    
                     break;
                 }
             }
@@ -63,20 +72,34 @@ if ($control === $expected_control) {
             // Supprimer les données temporaires
             unset($_SESSION['pending_payment']);
             
-            echo "<h1>Paiement réussi!</h1>";
-            echo "<p>Transaction: $transaction</p>";
-            echo "<p>Montant: $montant €</p>";
-            echo "<p>Votre voyage a été enregistré dans votre compte.</p>";
+            // Message de succès
+            $_SESSION['payment_message'] = [
+                'type' => 'success',
+                'title' => 'Paiement réussi!',
+                'content' => "Transaction: $transaction<br>Montant: $montant €<br>Votre voyage a été enregistré dans votre compte."
+            ];
         } else {
-            echo "<h1>Paiement réussi mais erreur d'enregistrement</h1>";
-            echo "<p>Contactez le support avec votre numéro de transaction: $transaction</p>";
+            $_SESSION['payment_message'] = [
+                'type' => 'warning',
+                'title' => 'Paiement réussi mais erreur d\'enregistrement',
+                'content' => "Contactez le support avec votre numéro de transaction: $transaction"
+            ];
         }
     } else {
-        echo "<h1>Paiement refusé</h1>";
+        $_SESSION['payment_message'] = [
+            'type' => 'error',
+            'title' => 'Paiement refusé',
+            'content' => 'Votre paiement a été refusé par le système de paiement.'
+        ];
     }
 } else {
-    echo "<h1>Erreur: Données de paiement invalides</h1>";
+    $_SESSION['payment_message'] = [
+        'type' => 'error',
+        'title' => 'Erreur: Données de paiement invalides',
+        'content' => 'Les données de paiement n\'ont pas pu être vérifiées.'
+    ];
 }
 
 header("Location: profil_travel.php");
+exit();
 ?>
