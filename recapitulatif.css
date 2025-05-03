@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+@import 'main.css';
+
+
+/* Conteneur principal */
+main {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--color-background-profile);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Section héros */
+.hero1 {
+    background-color: var(--color-background-form);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px solid var(--color-border);
+}
+
+
+
+/* Titres */
+#main_title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--color-nav-light);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#subtitle {
+    font-size: 1.8rem;
+    margin: 30px 0 20px;
+    color: var(--color-nav-light);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 10px;
+}
+
+/* Styles des étapes */
+
+ul:not(.nav ul) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+}
+
+.parent {
+    background-color: var(--color-background-form);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid var(--color-nav);
+}
+
+.parent strong {
+    font-size: 1.2rem;
+    color: var(--color-nav-light);
+}
+
+.parent ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.parent li {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--color-border);
+}
+
+.parent li:last-child {
+    border-bottom: none;
+}
+
+
+/* Boutons  */
+
+
+.sub {
+    background-color: var(--color-nav);
+    color: var(--color-rod);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    margin: 10px 5px;
+    display: inline-block;
+}
+
+.sub:hover {
+    background-color: var(--color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design */
+
+@media screen and (max-width: 768px) {
+    main {
+        margin: 20px;
+        padding: 15px;
+    }
+    
+    #main_title {
+        font-size: 1.8rem;
+    }
+    
+    #subtitle {
+        font-size: 1.4rem;
+    }
+    
+    .sub {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
