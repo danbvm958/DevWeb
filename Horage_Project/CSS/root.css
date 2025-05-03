@@ -9,7 +9,7 @@
     --color-hover: #7a0a14; /* Hover bouton, effet lorsque le pointeur passe sur le bouton */
     --color-travelbutton: #ffffff; /* survol pour travel card */
     --color-nav-light: #ff4444; /* Même couleur que --color-nav, mais avec un teint plus clair */
-    --color-backgroundform: #222; /* Background pour les formulaires */
+    --color-background-form: #353535; /* Background pour les formulaires */
     --color-background-profile: 	#2C2C2C; /* La même couleur que la boîte du profil utilisateur */
     --color-border-dark: #8B0000; /* Rouge foncé */
     --color-redlight-root: #ff4444; /* rouge clair */
