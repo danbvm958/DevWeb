@@ -89,6 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
                         <li>
                             <a href="accueil.php" class="a1">contacts</a>
                         </li>
+                        <li><a href="panier.php" class="a1">Panier</a></li>
                     </ul>
                 </div>
         </header>

@@ -60,6 +60,7 @@ else {
                     <li><a href="login.php" class="a1">Connexion</a></li>
                 <?php endif; ?>
                 <li><a href="accueil.php" class="a1">contacts</a></li>
+                <li><a href="panier.php" class="a1">Panier</a></li>
             </ul>
         </div>
     </header>

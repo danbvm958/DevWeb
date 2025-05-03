@@ -74,6 +74,7 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
             <?php endif; ?>
 
             <li><a href="contact.php" class="a1">Contacts</a></li>
+            <li><a href="panier.php" class="a1">Panier</a></li>
         </ul>
     </div>
 </header>

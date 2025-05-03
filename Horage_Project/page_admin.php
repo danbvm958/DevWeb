@@ -51,6 +51,7 @@ if ($users === null && json_last_error() !== JSON_ERROR_NONE) {
             }
             ?>
             <li><a href="<?= $pageProfil ?>" class="a1">Mon Profil</a></li>
+            <li><a href="panier.php" class="a1">Panier</a></li>
         </ul>
     </div>
 </header>

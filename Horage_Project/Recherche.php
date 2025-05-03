@@ -80,6 +80,7 @@ $voyages_a_afficher = array_slice($voyages_filtres, $offset, $voyages_par_page);
                         <li>
                             <a href="accueil.php" class="a1">contacts</a>
                         </li>
+                        <li><a href="panier.php" class="a1">Panier</a></li>
                     </ul>
                 </div>
         </header>

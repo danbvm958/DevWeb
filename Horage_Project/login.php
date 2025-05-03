@@ -121,6 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ?>
             <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
             <li><a href="accueil.php" class="a1">contacts</a></li>
+            <li><a href="panier.php" class="a1">Panier</a></li>
         </ul>
     </div>
 </header>
