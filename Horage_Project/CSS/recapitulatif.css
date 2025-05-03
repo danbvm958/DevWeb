@@ -1,137 +1,124 @@
 @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
-        
-body {
-    background-color: var(--color-dark);
-    color: var(--color-white);
-    font-family: 'Arial', sans-serif;
-}
+@import 'main.css';
 
-#main_title {
-    font-size: 2.4rem;
-    text-align: center;
-    font-family: 'Creepster', cursive;
-    margin: 10px;
-    background: linear-gradient(to top, var(--color-nav), var(--color-white));
-    -webkit-background-clip: text; 
-    color: transparent;
-    margin: 50px;
-}
 
-.hero1 {
-    text-align: left;
-    margin: 70px;
-    background-color: var(--color-background);
+/* Conteneur principal */
+main {
+    max-width: 1200px;
+    margin: 40px auto;
     padding: 30px;
-    border-radius: 10px;
-    border: 1px solid var(--color-border-dark);
+    background-color: var(--color-background-profile);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Section héros */
+.hero1 {
+    background-color: var(--color-background-form);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px solid var(--color-border);
+}
+
+
+
+/* Titres */
+#main_title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--color-nav-light);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 #subtitle {
-    text-align: left;
-    border-bottom: 2px solid var(--color-border-dark);
-    padding: 50px;
-    text-transform: uppercase;
-    margin-bottom: 100px;
-    color: var(--color-white);
-    margin-left: 70px;
-}
-
-.steps-container {
-    margin: 0 70px 50px;
-}
-
-.step-card {
-    border: 1px solid var(--color-border);
-    padding: 30px;
-    margin-bottom: 20px;
-    background-color: var(--color-background-form);
-    border-radius: 5px;
-}
-
-.step-card strong {
+    font-size: 1.8rem;
+    margin: 30px 0 20px;
     color: var(--color-nav-light);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 10px;
+}
+
+/* Styles des étapes */
+
+ul:not(.nav ul) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+}
+
+.parent {
+    background-color: var(--color-background-form);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid var(--color-nav);
+}
+
+.parent strong {
     font-size: 1.2rem;
+    color: var(--color-nav-light);
 }
 
-.step-options {
-    list-style: none;
+.parent ul {
+    margin-top: 10px;
     padding-left: 20px;
-    margin-top: 15px;
 }
 
-.step-options li {
+.parent li {
     padding: 8px 0;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-white);
+    border-bottom: 1px dashed var(--color-border);
 }
 
-.step-options li:last-child {
+.parent li:last-child {
     border-bottom: none;
 }
 
-.form-actions {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin: 50px 0 100px;
-}
 
-.btn {
-    cursor: pointer;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: all 0.3s;
-    text-transform: uppercase;
-}
+/* Boutons  */
 
-.btn-modify {
-    background-color: var(--color-background-profile);
-    color: var(--color-white);
-}
 
-.btn-confirm {
+.sub {
     background-color: var(--color-nav);
-    color: var(--color-white);
+    color: var(--color-rod);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    margin: 10px 5px;
+    display: inline-block;
 }
 
-.btn:hover {
-    transform: scale(1.1);
+.sub:hover {
+    background-color: var(--color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-modify:hover {
-    background-color: var(--color-border);
-}
+/* Responsive design */
 
-.btn-confirm:hover {
-    background-color: var(--color-border-dark);
-}
-
-footer {
-    background-color: var(--color-black);
-    padding: 30px;
-    text-align: center;
-    border-top: 2px solid var(--color-border-dark);
-}
-
-@media (max-width: 768px) {
-    .hero1, #subtitle, .steps-container {
+@media screen and (max-width: 768px) {
+    main {
         margin: 20px;
+        padding: 15px;
+    }
+    
+    #main_title {
+        font-size: 1.8rem;
     }
     
     #subtitle {
-        padding: 20px;
-        margin-bottom: 50px;
+        font-size: 1.4rem;
     }
     
-    .form-actions {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-    }
-    
-    .btn {
-        width: 80%;
+    .sub {
+        width: 100%;
+        margin: 5px 0;
     }
 }
