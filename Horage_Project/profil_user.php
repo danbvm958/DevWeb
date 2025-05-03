@@ -97,7 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
         <aside class="sidebar">
             <a href="profil_user.php" class="menu-btn active">Profil</a>
             <a href="profil_travel.php" class="menu-btn">Voyages prévus</a>
-            <a href="#parametres" class="menu-btn">Paramètres</a>
             <a href="logout.php" class="menu-btn logout">Se déconnecter</a>
         </aside>
 

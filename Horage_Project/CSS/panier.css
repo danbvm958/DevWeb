@@ -1,0 +1,217 @@
+@import '../CSS/root.css';
+@import '../CSS/main.css';
+
+.panier-container {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--color-redlight-root);
+}
+
+.voyage-item {
+    background-color: var(--color-background-profile);
+    border: 2px solid var(--color-border-dark);
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.voyage-item:hover {
+    border-color: var(--color-redlight-root);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
+.voyage-titre {
+    font-family: 'Creepster', cursive;
+    letter-spacing: 2px;
+    color: var(--color-redlight-root);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.voyage-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.voyage-details {
+    flex: 1;
+    min-width: 300px; 
+    color: var(--color-white);
+}
+
+.voyage-prix {
+    flex: 0 0 auto;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: var(--color-green);
+    align-self: center;
+}
+
+.options-list {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 5px 15px;
+    margin-bottom: 0;
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.8rem;
+    color: var(--color-rod);
+    font-size: 1.1rem;
+    width: 100%;
+    word-break: break-word;
+}
+
+.option-item:before {
+    content: "🕷";
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+}
+
+.option-nom {
+    color: var(--color-white);
+    font-weight: bold;
+}
+
+.option-choix {
+    font-weight: bold;
+    color: var(--color-green);
+    margin-left: 5px;
+}
+
+.option-prix {
+    color: var(--color-orange);
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.actions-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.btn-supprimer {
+    background-color: #c0392b;
+    color: var(--color-white); 
+    border: 1px solid #c0392b;
+}
+
+.btn-supprimer:hover {
+    background-color: #c0392b; 
+    border-color: #c0392b;
+    transform: scale(1.05);
+}
+
+.btn-payer {
+    background-color: var(--color-green);
+    color: var(--color-background);
+}
+
+.btn-payer:hover {
+    background-color: #2ecc71;
+    transform: scale(1.05);
+}
+
+.total-panier {
+    text-align: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--color-nav);
+    color: var(--color-rod);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    width: 100%;
+    box-sizing: border-box; /* Inclut padding dans la largeur */
+}
+
+.panier-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-vider-panier {
+    background-color: #c0392b;
+    color: var(--color-white);
+    border: 1px solid #c0392b;
+}
+
+.btn-vider-panier:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+    transform: scale(1.05);
+}
+
+.panier-vide {
+    padding: 50px;
+    background-color: var(--color-background-profile);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-rod);
+    font-size: 1.2rem;
+}
+
+.a2 {
+    display: inline-block;
+    color: var(--color-green);
+    font-size: 1rem;
+    transition: transform 0.1s ease-in-out, font-size 0.1s ease-in-out;
+}
+
+.a2:hover {
+    transform: scale(1.1);
+    font-size: 1.1rem;
+}
+
+@media screen and (max-width: 1300px) {
+    .voyage-info {
+        flex-direction: column;
+    }
+
+    .voyage-prix {
+        text-align: left;
+        margin-top: 10px;
+    }
+
+    .actions-buttons, .panier-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

@@ -72,13 +72,16 @@ foreach ($panier as $voyage) {
                 <li><a href="presentation.php" class="a1">Presentation</a></li>
                 <li><a href="Reserve.php" class="a1">Nos offres</a></li>
                 <li><a href="Recherche.php" class="a1">reserver</a></li>
-                <li>
-                    <?php if (isset($_SESSION['user'])): ?>
-                        <a href="profil_<?= $_SESSION['user']['type'] ?>.php" class="a1">Profil</a>
-                    <?php else: ?>
-                        <a href="login.php" class="a1">Connexion</a>
-                    <?php endif; ?>
-                </li>
+                <?php if (isset($_SESSION['user'])): ?>
+                <?php if ($_SESSION['user']['type'] == "vip"):?>
+                    <li><a href="profil_vip.php" class="a1">Profil</a></li>
+                <?php else: ?>
+                    <li><a href="profil_user.php" class="a1">Profil</a></li>
+                <?php endif;?>
+                
+            <?php else: ?>
+                <li><a href="login.php" class="a1">Connexion</a></li>
+            <?php endif; ?>
                 <li><a href="accueil.php" class="a1">contacts</a></li>
                 <li><a href="panier.php" class="a1">Panier</a></li>
             </ul>

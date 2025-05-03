@@ -52,10 +52,8 @@ if (!$user_updated) {
 // Sauvegarder les modifications
 file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
 
-// Nettoyer la session du paiement VIP
 unset($_SESSION['vip_payment']);
 
-// Redirection vers le profil avec confirmation
-header("Location: profil_user.php?status=vip_success");
+header("Location: profil_vip.php");
 exit();
 ?>
