@@ -16,6 +16,5 @@ Difficultés Rencontrées
 L'un des premiers obstacles fut la définition de la charte graphique. Trouver les bonnes couleurs et harmoniser l'ensemble des pages a demandé plusieurs essais et ajustements. Nous avons cherché à créer une atmosphère immersive tout en maintenant une navigation claire et fluide.
 Malheureusement, le PC de Chady a subi une panne imprévue, entraînant des retards dans le développement du projet. Ceci a provoqué quelques oublis et le manque de certains détails dans la version phase 2 du site.
 D'un point de vue technique, le panier à poser beaucoup de difficulté, pour le tri zied n’a pas réussi à mettre plusieurs option en même temps  et le tri nombre d’étape n’a pas marché.
-À ce stade, quelques éléments restent encore à affiner :
-	-le tri et certaines pages du site
+
 Fait par : Chady Zied Dan 
