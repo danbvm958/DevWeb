@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['user']) || $_SESSION['user']['type'] !== 'admin') {
+    // Redirection vers la page de connexion OU vers une page d'erreur
+    header('Location: accueil.php'); // ou une autre page de ton choix
+    exit;
+}
+
 $jsonFile = 'data/utilisateur.json';
 $jsonData = file_get_contents($jsonFile);
 $users = json_decode($jsonData, true);
