@@ -82,7 +82,7 @@ $voyages_filtres = array_values($voyages_filtres);
             <option value="prix_total">Prix</option>
             <option value="date">Date</option>
             <option value="duree">Durée</option>
-            <option value="etapes">Nombre d'étapes</option>
+            <!-- <option value="etapes">Nombre d'étapes</option> --> <!-- SUPPRIMÉ -->
         </select>
         <select id="sensTri" style="margin-left:8px;">
             <option value="asc">Croissant</option>
@@ -94,7 +94,7 @@ $voyages_filtres = array_values($voyages_filtres);
         <?php if (!empty($voyages_filtres)) : ?>
             <?php foreach ($voyages_filtres as $voyage) : ?>
                 <?php
-                // Calcul sûr de la durée
+                // Calcul sûr de la durée en jours
                 $duree = 0;
                 if (isset($voyage['duree']) && is_numeric($voyage['duree'])) {
                     $duree = (int)$voyage['duree'];
@@ -108,21 +108,20 @@ $voyages_filtres = array_values($voyages_filtres);
                     }
                 }
 
-                // Calcul sûr du nombre d'étapes
-                $etapes = 0;
-                if (isset($voyage['etapes']) && is_array($voyage['etapes'])) {
-                    $etapes = count($voyage['etapes']);
-                }
+                // Calcul sûr du nombre d'étapes, toujours avec "liste_etapes"
+                $etapes = (isset($voyage['liste_etapes']) && is_array($voyage['liste_etapes'])) ? count($voyage['liste_etapes']) : 0;
                 ?>
                 <div class="travel-card"
                     data-prix="<?= htmlspecialchars($voyage['prix_total']) ?>"
                     data-date="<?= htmlspecialchars($voyage['dates']['debut']) ?>"
                     data-duree="<?= $duree ?>"
-                    data-etapes="<?= $etapes ?>">
+                    <!-- data-etapes="<?= $etapes ?>" SUPPRIMÉ -->
+                    >
                     <div class="price"><?= htmlspecialchars($voyage['prix_total']) ?>€</div>
                     <h3><?= htmlspecialchars($voyage['titre']) ?></h3>
                     <p>Date: <?= htmlspecialchars($voyage['dates']['debut']) ?></p>
                     <p>Description: <?= htmlspecialchars($voyage['description']) ?></p>
+                    <p>Nombre d'étapes : <?= $etapes ?></p>
                     <a href="voyages_details.php?id=<?= urlencode($voyage['id_voyage']) ?>" class="btn">Voir plus</a>
                 </div>
             <?php endforeach; ?>
@@ -141,36 +140,35 @@ $voyages_filtres = array_values($voyages_filtres);
 function trierVoyages() {
     const type = document.getElementById('triVoyages').value;
     const sens = document.getElementById('sensTri').value;
-    let cards = Array.from(document.querySelectorAll('.travel-card'));
+
+    const cards = Array.from(document.querySelectorAll('.travel-card'));
 
     cards.sort((a, b) => {
-        let valA, valB;
-        if(type === 'prix_total') {
+        let valA = 0, valB = 0;
+
+        if (type === 'prix_total') {
             valA = parseFloat(a.dataset.prix) || 0;
             valB = parseFloat(b.dataset.prix) || 0;
-        } else if(type === 'date') {
-            valA = new Date(a.dataset.date) || new Date(0);
-            valB = new Date(b.dataset.date) || new Date(0);
-        } else if(type === 'duree') {
+        } else if (type === 'date') {
+            valA = new Date(a.dataset.date).getTime() || 0;
+            valB = new Date(b.dataset.date).getTime() || 0;
+        } else if (type === 'duree') {
             valA = parseInt(a.dataset.duree, 10) || 0;
             valB = parseInt(b.dataset.duree, 10) || 0;
-        } else if(type === 'etapes') {
-            valA = parseInt(a.dataset.etapes, 10) || 0;
-            valB = parseInt(b.dataset.etapes, 10) || 0;
         }
-        if(sens === "asc") {
-            return valA > valB ? 1 : valA < valB ? -1 : 0;
-        } else {
-            return valA < valB ? 1 : valA > valB ? -1 : 0;
-        }
+        // Bloc "etapes" SUPPRIMÉ
+
+        return sens === 'asc' ? valA - valB : valB - valA;
     });
 
     const container = document.getElementById('voyagesContainer');
     cards.forEach(card => container.appendChild(card));
 }
+
 document.getElementById('triVoyages').addEventListener('change', trierVoyages);
 document.getElementById('sensTri').addEventListener('change', trierVoyages);
 window.addEventListener('DOMContentLoaded', trierVoyages);
 </script>
+
 </body>
 </html>
