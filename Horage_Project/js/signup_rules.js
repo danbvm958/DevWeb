@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         birthdate: document.querySelector('input[name="birthdate"]')
     };
     
+    // Fonctions utilitaires
     function showError(input, message) {
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error';
@@ -45,10 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return age >= 18;
     }
     
+    // Validation en temps réel
     Object.keys(inputs).forEach(key => {
         inputs[key].addEventListener('input', function() {
             clearErrors();
             
+            // Validation spécifique pour chaque champ
             if (key === 'mail1' && !validateEmail(this.value)) {
                 showError(this, "Email invalide");
             }
@@ -71,10 +74,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Validation avant soumission
     form.addEventListener('submit', function(e) {
         clearErrors();
         let isValid = true;
         
+        // Vérification des champs vides
         Object.keys(inputs).forEach(key => {
             if (!inputs[key].value.trim()) {
                 showError(inputs[key], "Ce champ est obligatoire");
@@ -82,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // Validation spécifique
         if (!validateEmail(inputs.mail1.value)) {
             showError(inputs.mail1, "Email invalide");
             isValid = false;
@@ -112,23 +118,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Fonctionnalité œil pour les mots de passe
     function togglePasswordVisibility(input, button) {
         if (input.type === 'password') {
             input.type = 'text';
             button.textContent = '👁️';
-            button.classList.add('large');
         } else {
             input.type = 'password';
             button.textContent = '👁️';
-            button.classList.remove('large');
         }
     }
     
+    // Ajout des boutons œil
     [inputs.password1, inputs.password2].forEach(input => {
         const eyeButton = document.createElement('button');
         eyeButton.type = 'button';
         eyeButton.textContent = '👁️';
-        eyeButton.className = 'eye-button';
+        eyeButton.style.marginLeft = '5px';
+        eyeButton.style.background = 'none';
+        eyeButton.style.border = 'none';
+        eyeButton.style.cursor = 'pointer';
         
         eyeButton.addEventListener('click', () => {
             togglePasswordVisibility(input, eyeButton);
@@ -137,11 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
         input.parentNode.appendChild(eyeButton);
     });
     
+    // Compteurs de caractères
     function setupCharacterCounter(input, maxLength) {
         const counter = document.createElement('div');
         counter.className = 'character-counter';
-        input.insertAdjacentElement('afterend', counter);
-
+        counter.style.fontSize = '0.8em';
+        counter.style.color = '#666';
+        input.parentNode.appendChild(counter);
+        
         input.addEventListener('input', () => {
             const remaining = maxLength - input.value.length;
             counter.textContent = `${input.value.length}/${maxLength} caractères`;
@@ -157,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Configuration des compteurs
     setupCharacterCounter(inputs.username, 20);
     setupCharacterCounter(inputs.password1, 30);
     setupCharacterCounter(inputs.password2, 30);
