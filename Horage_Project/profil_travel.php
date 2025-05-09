@@ -1,41 +1,35 @@
 <?php 
 session_start();
-
-// Charger les utilisateurs depuis le fichier JSON
-$jsonData = file_get_contents('data/utilisateur.json');
-if (!$jsonData) {
-    die("Erreur : Impossible de lire le fichier utilisateur.json");
-}
-
-$users = json_decode($jsonData, true);
-if (!is_array($users)) {
-    die("Erreur : Le fichier utilisateur.json ne contient pas un tableau valide");
+//Connection 
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
 }
 
 // Vérifier si l'utilisateur est connecté
 if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
     $username = $_SESSION['user']['username'];
 
-    $userFound = false;
-    foreach ($users as $user) {
-        if ($user['username'] === $username) {
-            $_SESSION['user']['voyages'] = isset($user['voyages']) ? $user['voyages'] : [];
-            $userFound = true;
-            break;
-        }
-    }
+    $stmt = $pdo->prepare("SELECT Id FROM  utilisateur WHERE NomUtilisateur = ?");
+    $stmt->execute([$username]);
+    $Idutilisateur = $stmt->fetch(PDO::FETCH_ASSOC)['Id'];
+    $stmt = $pdo->prepare("SELECT * FROM  voyage_payee WHERE IdUtilisateur = ?");
+    $stmt->execute([$Idutilisateur]);
+    $Data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT * FROM  voyages WHERE IdVoyage = ?");
 
-    if (!$userFound) {
+    if (!$Idutilisateur) {
         die("Erreur : Utilisateur non trouvé dans utilisateur.json");
     }
 
-    $voyages = $_SESSION['user']['voyages'];
 } else {
     header("Location: login.php");
     exit();
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +75,7 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
 
 <main class="profile-container">
     <aside class="sidebar">
-        <?php if ($_SESSION['user']['type'] == "VIP"):?>
+        <?php if ($_SESSION['user']['type'] == "vip"):?>
             <a href="profil_vip.php" class="menu-btn">Profil</a></li>
         <?php else: ?>
             <a href="profil_user.php" class="menu-btn">Profil</a></li>
@@ -96,14 +90,20 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
         <h2>Mes Voyages</h2>
         
         <div class="travels">
-            <?php if (!empty($voyages)): ?>
-                <?php foreach ($voyages as $voyage): ?>
+            <?php if (!empty($Data)): ?>
+                <?php foreach ($Data as $info): ?>
+                    <?php 
+                        $stmt->execute([$info['IdVoyage']]);
+                        $voyage=$stmt->fetch(PDO::FETCH_ASSOC);
+                        $NbPersonne = $info['NbAdultes'] + $info['NbEnfants'];
+                        $_SESSION['user']['voyages'][] = $info;
+                    ?>
                     <div class="travel-card">
-                        <div class="price">€ <?= htmlspecialchars($voyage['montant']) ?></div>
-                        <h3><?= htmlspecialchars($voyage['voyage_titre']) ?></h3>
-                        <p>Date d'achat: <?= htmlspecialchars($voyage['date_achat']) ?></p>
-                        <p>Nombre de personnes: <?= htmlspecialchars($voyage['nombre_personnes']) ?></p>
-                        <a href="recapitulatif2.php?id_voyage=<?= urlencode($voyage['voyage_id']) ?>" class="btn">Voir plus</a>
+                        <div class="price">€ <?= htmlspecialchars($info['Prix']) ?></div>
+                        <h3><?= htmlspecialchars($voyage['Titre']) ?></h3>
+                        <p>Date d'achat: <?= htmlspecialchars($info['DatePaiement']) ?></p>
+                        <p>Nombre de personnes: <?= htmlspecialchars($NbPersonne) ?></p>
+                        <a href="recapitulatif2.php?id_voyage=<?= urlencode($info['IdVoyage']) ?>" class="btn">Voir plus</a>
 
                     </div>
                 <?php endforeach; ?>

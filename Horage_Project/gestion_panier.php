@@ -1,37 +1,18 @@
 <?php
 
-function supprimerVoyageDuPanier($email, $voyageId) {
-    $filePath = 'data/utilisateur.json';
-    
-    $utilisateurs = json_decode(file_get_contents($filePath), true);
-    
-    foreach ($utilisateurs as &$utilisateur) {
-        if ($utilisateur['email'] === $email) {
-            foreach ($utilisateur['panier'] as $key => $voyage) {
-                if ($voyage['voyage_id'] == $voyageId) {
-                    unset($utilisateur['panier'][$key]);
-                    $utilisateur['panier'] = array_values($utilisateur['panier']);
-                    file_put_contents($filePath, json_encode($utilisateurs, JSON_PRETTY_PRINT));
-                    return true;
-                }
-            }
+$pending_payment = $_SESSION['pending_payment']
+function supprimerVoyageDuPanier($voyageId) {
+    $index = 0;
+    foreach($pending_payment as $voyage){
+        if($voyage['voyage_id'] == $voyageId){
+            break;
         }
+    $index++;
     }
-    return false;
+    unset($pending_payment[$index]);
 }
 
 function viderPanier($email) {
-    $filePath = 'data/utilisateur.json';
-    
-    $utilisateurs = json_decode(file_get_contents($filePath), true);
-    
-    foreach ($utilisateurs as &$utilisateur) {
-        if ($utilisateur['email'] === $email) {
-            $utilisateur['panier'] = [];
-            file_put_contents($filePath, json_encode($utilisateurs, JSON_PRETTY_PRINT));
-            return true;
-        }
-    }
-    return false;
+    unset($pending_payment);
 }
 ?>

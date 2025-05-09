@@ -7,44 +7,40 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-require_once 'gestion_panier.php';
+// Initialiser le panier depuis la session
+$panier = isset($_SESSION['pending_payment']) ? $_SESSION['pending_payment'] : [];
 
-// Charger les données de l'utilisateur
-$utilisateurs = json_decode(file_get_contents('data/utilisateur.json'), true);
-$utilisateur = null;
-
-foreach ($utilisateurs as $u) {
-    if ($u['email'] === $_SESSION['user']['email']) {
-        $utilisateur = $u;
-        break;
-    }
-}
-
-// Gestion du panier
-$panier = $utilisateur['panier'] ?? [];
-
-// Traitement des actions
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    switch ($_POST['action']) {
-        case 'supprimer':
-            if (isset($_POST['voyage_id'])) {
-                supprimerVoyageDuPanier($_SESSION['user']['email'], $_POST['voyage_id']);
-            }
-            break;
-        case 'vider':
-            viderPanier($_SESSION['user']['email']);
-            break;
-    }
-    
-    // Rafraîchir la page pour éviter resoumission
-    header('Location: panier.php');
-    exit();
-}
-
-// Calcul du total
+// Calculer le total général
 $totalGeneral = 0;
 foreach ($panier as $voyage) {
     $totalGeneral += $voyage['prix_total'];
+}
+
+// Traitement des actions (vider ou supprimer)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action'])) {
+        switch ($_POST['action']) {
+            case 'vider':
+                $_SESSION['pending_payment'] = [];
+                $panier = [];
+                $totalGeneral = 0;
+                break;
+                
+            case 'supprimer':
+                if (isset($_POST['voyage_id'])) {
+                    foreach ($panier as $key => $voyage) {
+                        if ($voyage['voyage_id'] == $_POST['voyage_id']) {
+                            unset($_SESSION['pending_payment'][$key]);
+                            // Réindexer le tableau après suppression
+                            $_SESSION['pending_payment'] = array_values($_SESSION['pending_payment']);
+                            header('Location: panier.php');
+                            exit();
+                        }
+                    }
+                }
+                break;
+        }
+    }
 }
 ?>
 
@@ -57,7 +53,6 @@ foreach ($panier as $voyage) {
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="CSS/panier.css?v=<?= time() ?>">
-    
 </head>
 <body>
     <header>
@@ -99,26 +94,28 @@ foreach ($panier as $voyage) {
                         <p><a href="Reserve.php" class="a2">Découvrez nos offres effrayantes</a></p>
                     </div>
                 <?php else: ?>
-                    <?php foreach ($panier as $voyage): ?>
+                    <?php foreach ($panier as $index => $voyage): ?>
                         <div class="voyage-item">
-                            <h3 class="voyage-titre"><?= htmlspecialchars($voyage['voyage_titre']) ?></h3>
+                            <h3 class="voyage-titre"><?= htmlspecialchars($voyage['voyage_titre'] ?? '') ?></h3>
                             <div class="voyage-info">
                                 <div class="voyage-details">
                                     <p>Nombre de personnes: <?= $voyage['nombre_personnes'] ?> (Adultes: <?= $voyage['nb_adultes'] ?>, Enfants: <?= $voyage['nb_enfants'] ?>)</p>
-                                    <ul class="options-list">
-                                        <?php foreach ($voyage['options_choisies'] as $etape => $options): ?>
-                                            <?php foreach ($options as $option): ?>
-                                                <li class="option-item">
-                                                    <span class="option-nom"><?= htmlspecialchars($option['nom']) ?>: </span>
-                                                    <span class="option-choix"><?= htmlspecialchars($option['choix']) ?></span>
-                                                    <span class="option-prix"><?= $option['prix']?> €</span>
-                                                </li>
+                                    <?php if (!empty($voyage['options_choisies'])): ?>
+                                        <ul class="options-list">
+                                            <?php foreach ($voyage['options_choisies'] as $etape => $options): ?>
+                                                <?php foreach ($options as $option): ?>
+                                                    <li class="option-item">
+                                                        <span class="option-nom"><?= htmlspecialchars($option['nom'] ?? '') ?>: </span>
+                                                        <span class="option-choix"><?= htmlspecialchars($option['choix'] ?? '') ?></span>
+                                                        <span class="option-prix"><?= $option['prix'] ?? 0 ?> €</span>
+                                                    </li>
+                                                <?php endforeach; ?>
                                             <?php endforeach; ?>
-                                        <?php endforeach; ?>
-                                    </ul>
+                                        </ul>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="voyage-prix">
-                                    <?= number_format($voyage['prix_total'] / 100, 4, ',', ' ') ?> €
+                                    <?= number_format($voyage['prix_total'], 2, ',', ' ') ?> €
                                 </div>
                             </div>
                             <div class="actions-buttons">
@@ -127,14 +124,15 @@ foreach ($panier as $voyage) {
                                     <input type="hidden" name="voyage_id" value="<?= $voyage['voyage_id'] ?>">
                                     <button type="submit" class="btn btn-supprimer">Supprimer</button>
                                 </form>
-    
 
-                                
                                 <form method="post" action="vers_CyBank.php" style="display: inline;">
+                                    <?php
+                                    // Stocker l'index dans la session avant soumission
+                                    $_SESSION['npayment'] = $index;
+                                    ?>
                                     <input type="hidden" name="voyage_id" value="<?= $voyage['voyage_id'] ?>">
                                     <input type="hidden" name="nombre_personnes" value="<?= $voyage['nombre_personnes'] ?>">
                                     <input type="hidden" name="prix_total" value="<?= $voyage['prix_total'] ?>">
-                                    <input type="hidden" name="voyage_titre" value="<?= htmlspecialchars($voyage['voyage_titre']) ?>">
                                     <button type="submit" class="btn btn-payer">Payer</button>
                                 </form>
                             </div>
@@ -142,7 +140,7 @@ foreach ($panier as $voyage) {
                     <?php endforeach; ?>
                     
                     <div class="total-panier">
-                        Total du panier: <?= number_format($totalGeneral / 100, 2, ',', ' ') ?> €
+                        Total du panier: <?= number_format($totalGeneral, 2, ',', ' ') ?> €
                     </div>
                     <div class="panier-actions">
                         <form method="post" style="display: inline;">

@@ -6,8 +6,14 @@ function afficherPrix($prix) {
     return number_format($prix, 2, ',', ' ') . ' €';
 }
 
-// Charger les voyages depuis voyages.json
-$voyages = json_decode(file_get_contents('data/voyages.json'), true)['voyages'];
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
 
 // Récupérer l'id du voyage depuis l'URL
 $id_voyage = $_GET['id_voyage'] ?? null;
@@ -16,42 +22,45 @@ if (!$id_voyage) {
     die('Identifiant du voyage manquant.');
 }
 
-// Charger les données utilisateur depuis la session (adapter si nécessaire)
 $utilisateur = $_SESSION['user'] ?? null;
 if (!$utilisateur) {
     die('Utilisateur non connecté.');
 }
 
-// Trouver le voyage sauvegardé dans les données utilisateur
-$voyage_sauvegarde = null;
-foreach ($utilisateur['voyages'] as $v) {
-    if ($v['voyage_id'] === $id_voyage) {
-        $voyage_sauvegarde = $v;
-        break;
-    }
-}
-
-if (!$voyage_sauvegarde) {
-    die('Voyage sauvegardé introuvable.');
-}
-
-// Rechercher le voyage demandé
-$voyage = null;
-foreach ($voyages as $v) {
-    if ($v['id_voyage'] === $id_voyage) {
-        $voyage = $v;
-        break;
-    }
-}
+// Récupérer les informations du voyage
+$stmt = $pdo->prepare("SELECT * FROM voyages WHERE IdVoyage = ?");
+$stmt->execute([$id_voyage]);
+$voyage = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$voyage) {
-    die('Voyage introuvable dans la liste des voyages.');
+    die('Voyage introuvable.');
 }
 
-// Données du voyage
-$nombre_personnes = $voyage_sauvegarde['nombre_personnes'];
-$prix_total = $voyage_sauvegarde['montant'];
-$options_choisies = $voyage_sauvegarde['options_choisies'];
+// Récupérer les étapes du voyage
+$stmt = $pdo->prepare("SELECT * FROM etapes WHERE IdVoyage = ? ORDER BY DateArrive");
+$stmt->execute([$id_voyage]);
+$etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Récupérer les options commandées pour ce voyage
+$stmt = $pdo->prepare("SELECT oc.*, co.Nom, co.Prix, oe.NomOption 
+                       FROM options_commande oc
+                       JOIN choix_options co ON oc.IdChoix = co.IdChoix
+                       JOIN options_etape oe ON oc.IdOption = oe.IdOption
+                       WHERE oc.IdCommande IN (SELECT IdCommande FROM voyage_payee WHERE IdVoyage = ? AND IdUtilisateur = ?)");
+$stmt->execute([$id_voyage, $utilisateur['id']]);
+$options_commandees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Organiser les options par étape
+$options_par_etape = [];
+foreach ($options_commandees as $option) {
+    $options_par_etape[$option['IdEtape']][] = $option;
+}
+
+$stmt = $pdo->prepare("SELECT * FROM voyage_payee WHERE IdVoyage = ? AND IdUtilisateur = ?");
+$stmt->execute([$id_voyage, $_SESSION['user']['id']]);
+$vp=$stmt->fetch(PDO::FETCH_ASSOC);
+$prix_total = $vp['Prix'] ;
+
 
 ?>
 
@@ -66,76 +75,77 @@ $options_choisies = $voyage_sauvegarde['options_choisies'];
 </head>
 <body>
 <header>
-                <div class="header_1">
-                    <h1>Horage</h1>
-                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-                </div>   
+    <div class="header_1">
+        <h1>Horage</h1>
+        <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
+    </div>   
 
-                <div class="nav">
-                    <ul>
-                        <li>
-                            <a href="accueil.php" class="a1">Accueil</a>
-                        </li>
-                        
-                        <li>
-                            <a href="presentation.php" class="a1">Presentation</a>
-                        </li>
-                        
-                        <li>
-                            <a href="Reserve.php" class="a1">Nos offres</a>
-                        </li>
+    <div class="nav">
+        <ul>
+            <li>
+                <a href="accueil.php" class="a1">Accueil</a>
+            </li>
+            
+            <li>
+                <a href="presentation.php" class="a1">Presentation</a>
+            </li>
+            
+            <li>
+                <a href="Reserve.php" class="a1">Nos offres</a>
+            </li>
 
-                        <li>
-                            <a href="Recherche.php" class="a1">reserver</a>
-                        </li>
-                        
-                        <?php
-                        $pageProfil = 'login.php'; // par défaut, page connexion
+            <li>
+                <a href="Recherche.php" class="a1">reserver</a>
+            </li>
+            
+            <?php
+            $pageProfil = 'login.php'; // par défaut, page connexion
 
-                        if (isset($_SESSION['user'])) {
-                            $typeUser = $_SESSION['user']['type'];
-                            $pageProfil = match ($typeUser) {
-                                'admin'  => 'profil_admin.php',
-                                'normal' => 'profil_user.php',
-                                default  => 'profil_vip.php',
-                            };
-                        }
-                        ?>
-                        <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
+            if (isset($_SESSION['user'])) {
+                $typeUser = $_SESSION['user']['type'];
+                $pageProfil = match ($typeUser) {
+                    'admin'  => 'profil_admin.php',
+                    'basic' => 'profil_user.php',
+                    default  => 'profil_vip.php',
+                };
+            }
+            ?>
+            <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
 
-
-                        <li>
-                            <a href="accueil.php" class="a1">contacts</a>
-                        </li>
-                    </ul>
-                </div>
-        </header>
+            <li>
+                <a href="accueil.php" class="a1">contacts</a>
+            </li>
+        </ul>
+    </div>
+</header>
 
 <main>
     <div class="hero1">
-        <h2 id="main_title"><?= htmlspecialchars($voyage['titre']) ?></h2>
-        <p><strong>Description :</strong> <?= htmlspecialchars($voyage['description']) ?></p>
-        <p><strong>Dates :</strong> Du <?= htmlspecialchars($voyage['dates']['debut']) ?> au <?= htmlspecialchars($voyage['dates']['fin']) ?> (<?= htmlspecialchars($voyage['dates']['duree']) ?>)</p>
-        <p><strong>Nombre de personnes :</strong> <?= $nombre_personnes ?></p>
+        <h2 id="main_title"><?= htmlspecialchars($voyage['Titre']) ?></h2>
+        <p><strong>Description :</strong> <?= htmlspecialchars($voyage['Description']) ?></p>
+        <p><strong>Dates :</strong> Du <?= date('d/m/Y', strtotime($voyage['DateDebut'])) ?> au <?= date('d/m/Y', strtotime($voyage['DateFin'])) ?></p>
+        <p><strong>Places disponibles :</strong> <?= htmlspecialchars($voyage['PlacesDispo']) ?></p>
         <p><strong>Prix total :</strong> <?= afficherPrix($prix_total) ?></p>
     </div>
 
     <h3 id="subtitle">Étapes du voyage</h3>
     <ul>
-        <?php foreach ($voyage['liste_etapes'] as $etape) : ?>
+        <?php foreach ($etapes as $etape) : ?>
             <li class="parent">
-                <strong><?= htmlspecialchars($etape['titre']) ?></strong> - <?= htmlspecialchars($etape['position']['ville']) ?>
+                <strong><?= htmlspecialchars($etape['Titre']) ?></strong> - 
+                <?= htmlspecialchars($etape['Position']) ?> 
+                (<?= date('d/m/Y', strtotime($etape['DateArrive'])) ?> au <?= date('d/m/Y', strtotime($etape['DateDepart'])) ?>)
                 <ul>
-                <?php if (isset($options_choisies[$etape['id_etape']])): ?>
-    <?php foreach ($options_choisies[$etape['id_etape']] as $choix_data): ?>
-        <li>
-            <?= htmlspecialchars($choix_data['choix']) ?> - <?= afficherPrix($choix_data['prix']) ?>
-        </li>
-    <?php endforeach; ?>
-<?php else: ?>
-    <li>Aucune option choisie</li>
-<?php endif; ?>
-
+                    <?php if (isset($options_par_etape[$etape['IdEtape']])): ?>
+                        <?php foreach ($options_par_etape[$etape['IdEtape']] as $option): ?>
+                            <li>
+                                <strong><?= htmlspecialchars($option['NomOption']) ?>:</strong> 
+                                <?= htmlspecialchars($option['Nom']) ?> - <?= afficherPrix($option['Prix']*($vp['NbAdultes']+$vp['NbEnfants'])) ?>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li>Aucune option choisie pour cette étape</li>
+                    <?php endif; ?>
                 </ul>
             </li>
         <?php endforeach; ?>

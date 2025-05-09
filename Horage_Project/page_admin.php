@@ -7,13 +7,20 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['type'] !== 'admin') {
     exit;
 }
 
-$jsonFile = 'data/utilisateur.json';
-$jsonData = file_get_contents($jsonFile);
-$users = json_decode($jsonData, true);
-
-if ($users === null && json_last_error() !== JSON_ERROR_NONE) {
-    die("Erreur lors de la lecture du fichier JSON: " . json_last_error_msg());
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
 }
+
+$stmt = $pdo->prepare("SELECT * from utilisateur");
+$stmt->execute();
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -74,29 +81,29 @@ if ($users === null && json_last_error() !== JSON_ERROR_NONE) {
             <th>Profil</th>
         </tr>
         <?php foreach ($users as $user): ?>
-            <?php if ($user['type'] !== 'admin'): ?>
+            <?php if ($user['Types'] !== 'admin'): ?>
             <tr>
-                <td><?= htmlspecialchars($user['nom']) ?></td>
-                <td><?= htmlspecialchars($user['prenom']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
+                <td><?= htmlspecialchars($user['Nom']) ?></td>
+                <td><?= htmlspecialchars($user['Prenom']) ?></td>
+                <td><?= htmlspecialchars($user['Email']) ?></td>
                 <td>
                     <button 
-                        class="btn btn-toggle-vip <?= ($user['type']=='vip') ? 'btn-vip' : 'btn-blocked' ?>" 
-                        data-email="<?= htmlspecialchars($user['email']) ?>"
-                        data-type="<?= htmlspecialchars($user['type']) ?>">
-                        <?= ($user['type'] == 'vip') ? 'Oui' : 'Non' ?>
+                        class="btn btn-toggle-vip <?= ($user['Types']=='vip') ? 'btn-vip' : 'btn-blocked' ?>" 
+                        data-email="<?= htmlspecialchars($user['Email']) ?>"
+                        data-type="<?= htmlspecialchars($user['Types']) ?>">
+                        <?= ($user['Types'] == 'vip') ? 'Oui' : 'Non' ?>
                     </button>
                 </td>
                 <td>
                     <button 
                         class="btn btn-toggle-bloc <?= (!empty($user['bloque']) && $user['bloque']) ? 'btn-blocked' : 'btn-vip' ?>" 
-                        data-email="<?= htmlspecialchars($user['email']) ?>"
+                        data-email="<?= htmlspecialchars($user['Email']) ?>"
                         data-bloque="<?= !empty($user['bloque']) ? 'oui' : 'non' ?>">
                         <?= (!empty($user['bloque']) && $user['bloque']) ? 'Oui' : 'Non' ?>
                     </button>
                 </td>
                 <td>
-                    <a href="profil_user_admin.php?email=<?= urlencode($user['email']) ?>" class="btn btn-profile">Voir</a>
+                    <a href="profil_user_admin.php?email=<?= urlencode($user['Email']) ?>" class="btn btn-profile">Voir</a>
                 </td>
             </tr>
             <?php endif; ?>

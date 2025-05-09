@@ -36,9 +36,8 @@ if (!is_numeric($prix_total)) {
 if (!isset($_SESSION['pending_payment'])) {
     die("Erreur : Pas de voyage en attente de paiement.");
 }
-
 $transaction = generateTransactionID();
-$montant = number_format((float)$_SESSION['pending_payment']['prix_total'], 2, '.', '');
+$montant = number_format((float)$_SESSION['pending_payment'][$_SESSION['npayment']]['prix_total'], 2, '.', '');
 $vendeur = "MI-1_A"; // ton code vendeur
 $retour = "http://localhost/horage_project/retour_paiement.php?session=" . session_id();
 // Récupération API Key

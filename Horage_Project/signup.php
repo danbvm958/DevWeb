@@ -1,23 +1,19 @@
 <?php
-$jsonFile = 'data/utilisateur.json';
 session_start();
-function loadUsers($file) {
-    if (!file_exists($file)) {
-        return [];
-    }
-    $data = file_get_contents($file);
-    return json_decode($data, true) ?? [];
+
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
 }
 
 // Vérifie si l'utilisateur est déjà connecté
 if (isset($_SESSION['user'])) {
     header("Location: profil_user.php"); // Redirige vers la page de profil
     exit();
-}
-
-
-function saveUsers($file, $users) {
-    file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
 }
 
 
@@ -49,41 +45,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password1 !== $password2) {
         $errors[] = "Les mots de passe ne correspondent pas.";
     }
-
-    $users = loadUsers($jsonFile);
+    $hash = password_hash($password1, PASSWORD_DEFAULT);
+    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE Email = ? OR NomUtilisateur = ? ");
+    $stmt->execute([$mail1, $username]);
+    $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (empty($errors)) {
-        foreach ($users as $user) {
-            if ($user['email'] == $mail1) {
+        foreach ($utilisateurs as $utilisateur) {
+            if ($utilisateur['Email'] == $mail1) {
                 $errors[] = "L'email est déjà utilisé.";
                 break;
             }
-            if ($user['username'] == $username) {
+            if ($utilisateur['NomUtilisateur'] == $username) {
                 $errors[] = "Le nom d'utilisateur est déjà pris.";
                 break;
             }
         }
     }
+
     if (empty($errors)) {
-        $newUser = [
-            'username' => $username,
-            'email' => $mail1,
-            'password' => password_hash($password1, PASSWORD_DEFAULT),
-            'nom' => $nom,
-            'prenom' => $prenom,
-            'birthdate' => $birthdate,
-            'type' => 'normal',
-            'travel' => [],
-            'panier' => []
-        ];
-        $users[] = $newUser;
-        saveUsers($jsonFile, $users);
+        $stmt = $pdo->prepare("INSERT INTO utilisateur (NomUtilisateur,Email, MotDePasse, Nom, Prenom, Anniversaire, Types) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$username,$mail1,$hash, $nom, $prenom, $birthdate, "normal"]);
+        header("Location: login.php");
     }
-    header("Location: login.php");
+    
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="fr">

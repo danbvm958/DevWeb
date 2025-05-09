@@ -1,15 +1,21 @@
 <?php  
-$json = file_get_contents('data/voyages.json');
-$voyages = json_decode($json, true)['voyages'];
 session_start();
-// Ajouter un identifiant unique basé sur l'ordre initial du fichier JSON
-foreach ($voyages as $key => $voyage) {
-    $voyages[$key]['id'] = $key;
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
 }
+$stmt = $pdo->prepare("SELECT * FROM voyages");
+$stmt->execute();
+$voyages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 // Trier les voyages du plus récent au plus ancien
 usort($voyages, function ($a, $b) {
-    return strtotime($b['dates']['debut']) - strtotime($a['dates']['debut']);
+    return strtotime($a['DateDebut']) - strtotime($b['DateDebut']);
 });
 
 $voyages_par_page = 3;
@@ -86,11 +92,11 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
             <?php if (!empty($voyages_a_afficher)) : ?>
                 <?php foreach ($voyages_a_afficher as $voyage) : ?>
                     <div class="travel-card">
-                        <div class="price"><?= htmlspecialchars($voyage['prix_total']) ?>€</div>
-                        <h3><?= htmlspecialchars($voyage['titre']) ?></h3>
-                        <p>Date: <?= htmlspecialchars($voyage['dates']['debut']) ?></p>
-                        <p>Description: <?= htmlspecialchars($voyage['description']) ?></p>
-                        <a href="voyages_details.php?id=<?= urlencode($voyage['id_voyage']) ?>" class="btn">Voir plus</a>
+                        <div class="price"><?= htmlspecialchars($voyage['PrixBase']) ?>€</div>
+                        <h3><?= htmlspecialchars($voyage['Titre']) ?></h3>
+                        <p>Date: <?= htmlspecialchars($voyage['DateDebut']) ?></p>
+                        <p>Description: <?= htmlspecialchars($voyage['Description']) ?></p>
+                        <a href="voyages_details.php?id=<?= urlencode($voyage['IdVoyage']) ?>" class="btn">Voir plus</a>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>

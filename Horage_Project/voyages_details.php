@@ -2,93 +2,45 @@
 session_start();
 
 if (!isset($_SESSION['user'])) {
-    header("Location: signup.php");
+    header("Location: login.php");
     exit;
 }
 
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-
-$jsonFile = __DIR__ . '/data/voyages.json';
-
-if (!file_exists($jsonFile)) {
-    die("Erreur: Fichier de données introuvable");
-}
-
-$jsonContent = file_get_contents($jsonFile);
-$data = json_decode($jsonContent, true);
-
-if (json_last_error() !== JSON_ERROR_NONE) {
-    die("Erreur JSON: " . json_last_error_msg());
-}
-
-
-if (empty($data['voyages']) || !is_array($data['voyages'])) {
-    die("Erreur: Aucun voyage disponible");
-}
-
-
 $idVoyage = $_GET['id'] ?? null;
+
+
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
 
 if (empty($idVoyage)) {
     header("Location: Reserve.php");
     exit;
 }
 
+$stmt = $pdo->prepare("SELECT * FROM voyages WHERE IdVoyage = ?");
+$stmt->execute([$idVoyage]);
+$voyage = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$voyageSelectionne = null;
-foreach ($data['voyages'] as $voyage) {
-    if (isset($voyage['id_voyage']) && $voyage['id_voyage'] === $idVoyage) {
-        $voyageSelectionne = $voyage;
-        break;
-    }
+if (empty($voyage)) {
+    header("Location: Reserve.php");
+    exit;
 }
+$stmt = $pdo->prepare("SELECT * FROM etapes WHERE IdVoyage = ?");
+$stmt->execute([$idVoyage]);
+$etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (!$voyageSelectionne) {
-    $idsDisponibles = array_map(function($v) { 
-        return $v['id_voyage'] ?? 'INCONNU'; 
-    }, $data['voyages']);
-    
-    die(sprintf(
-        "Voyage '%s' introuvable. IDs disponibles: %s",
-        htmlspecialchars($idVoyage),
-        implode(', ', $idsDisponibles)
-    ));
-}
-
-
-function calculerPrixTotal($voyage, $nbAdultes, $nbEnfants) {
-    $prixBase = $voyage['tarification']['prix_par_personne'];
-    $reductions = $voyage['tarification']['reductions'];
-    $total = 0;
-    
-    // Réduction groupe
-    $totalPersonnes = $nbAdultes + $nbEnfants;
-    foreach ($reductions as $reduction) {
-        if ($reduction['type_reduction'] === 'groupe' && $totalPersonnes >= $reduction['condition']['min_personnes']) {
-            $prixBase = $reduction['prix_reduit'];
-            break;
-        }
-    }
-    
-    // Prix adultes
-    $total += $nbAdultes * $prixBase;
-    
-    // Réduction enfants
-    foreach ($reductions as $reduction) {
-        if ($reduction['type_reduction'] === 'enfant' && $nbEnfants >= $reduction['condition']['min_enfants']) {
-            $remise = $reduction['remise_par_enfant'];
-            $total += $nbEnfants * ($prixBase - $remise);
-            return $total;
-        }
-    }
-    
-    
-    $total += $nbEnfants * $prixBase;
-    return $total;
-}
+$stmt = $pdo->prepare("SELECT * FROM reduction WHERE IdVoyage = ?");
+$stmt->execute([$idVoyage]);
+$reductions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -101,27 +53,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreur = "Nombre d'adultes invalide";
     } elseif ($nbEnfants < 0) {
         $erreur = "Nombre d'enfants invalide";
-    } elseif (($nbAdultes + $nbEnfants) > $voyageSelectionne['places_disponibles']) {
+    } elseif (($nbAdultes + $nbEnfants) > $voyage['PlacesDispo']) {
         $erreur = "Nombre de places insuffisantes";
     } else {
         
-        $prixTotal = calculerPrixTotal($voyageSelectionne, $nbAdultes, $nbEnfants);
-        
-      
-        $_SESSION['reservation'] = [
-            'voyage_id' => $idVoyage,
-            'voyage_titre' => $voyageSelectionne['titre'],
-            'nb_adultes' => $nbAdultes,
-            'nb_enfants' => $nbEnfants,
-            'prix_total' => $prixTotal,
-            'options' => $optionsChoisies,
-            'dates' => $voyageSelectionne['dates']
-        ];
-        
+        $prixTotal = calculerPrixTotal($voyage, $nbAdultes, $nbEnfants, $pdo, $reductions);
         header("Location: recapitulatif.php");
         exit;
     }
 }
+
+
 
 function afficherPrix($prix) {
     return number_format($prix, 0, '', ' ');
@@ -132,7 +74,7 @@ function afficherPrix($prix) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($voyageSelectionne['titre']) ?> - Horage</title>
+    <title><?= htmlspecialchars($voyage['Titre']) ?> - Horage</title>
     <link rel="stylesheet" href="CSS/details.css?v=<?= time() ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
     <script src="js/themeSwitcher.js" defer></script>
@@ -186,7 +128,7 @@ function afficherPrix($prix) {
         </header>
     
     <main class="container">
-        <h1 id="voyage_title"><?= htmlspecialchars($voyageSelectionne['titre']) ?></h1>
+        <h1 id="voyage_title"><?= htmlspecialchars($voyage['Titre']) ?></h1>
         
         <?php if (isset($erreur)): ?>
             <div class="erreur"><?= htmlspecialchars($erreur) ?></div>
@@ -194,84 +136,110 @@ function afficherPrix($prix) {
         
         <section class="voyage-info">
             <div class="description">
-                <?= htmlspecialchars($voyageSelectionne['description']) ?>
+                <?= htmlspecialchars($voyage['Description']) ?>
             </div>
             
             <div class="meta-info">
-                <p><strong>Dates:</strong> <?= $voyageSelectionne['dates']['debut'] ?> au <?= $voyageSelectionne['dates']['fin'] ?></p>
-                <p><strong>Prix de base:</strong> <?= afficherPrix($voyageSelectionne['tarification']['prix_par_personne']) ?> €/pers</p>
-                <p><strong>Places restantes:</strong> <?= $voyageSelectionne['places_disponibles'] ?></p>
+                <p><strong>Dates:</strong> <?= $voyage['DateDebut'] ?> au <?= $voyage['DateFin'] ?></p>
+                <p><strong>Prix de base:</strong> <?= afficherPrix($voyage['PrixBase']) ?> €/pers</p>
+                <p><strong>Places restantes:</strong> <?= $voyage['PlacesDispo'] ?></p>
                 
                 <div class="reductions">
                     <h3>Réductions disponibles:</h3>
                     <ul>
-                        <?php foreach ($voyageSelectionne['tarification']['reductions'] as $reduction): ?>
-                            <li>
-                                <?php if ($reduction['type_reduction'] === 'groupe'): ?>
-                                    À partir de <?= $reduction['condition']['min_personnes'] ?> personnes : 
-                                    <?= afficherPrix($reduction['prix_reduit']) ?> €/pers
-                                <?php else: ?>
-                                    Pour <?= $reduction['condition']['min_enfants'] ?> enfants ou plus : 
-                                    Réduction de <?= afficherPrix($reduction['remise_par_enfant']) ?> € par enfant
-                                <?php endif; ?>
-                            </li>
-                        <?php endforeach; ?>
+                        <?php
+                        foreach ($reductions as $reduction):
+                            // Décoder le JSON de ConditionReduction
+                            $condition = json_decode($reduction['ConditionReduction'], true);
+
+                            // Vérifier si le type de réduction est "groupe" ou autre
+                            if ($reduction['TypeReduction'] === 'groupe'):
+                                // Affichage pour une réduction de groupe
+                                ?>
+                                <li>
+                                    À partir de <?= $condition['min_personnes'] ?> personnes : 
+                                    <?= afficherPrix($reduction['PrixReduit']) ?> €/pers
+                                </li>
+                                <?php
+                            else: 
+                                // Affichage pour une réduction basée sur le nombre d'enfants
+                                ?>
+                                <li>
+                                    Pour <?= $condition['min_enfants'] ?> enfants ou plus : 
+                                    Réduction de <?= afficherPrix($reduction['PrixReduit']) ?> € par enfant
+                                </li>
+                                <?php 
+                            endif; 
+                        endforeach; 
+                        ?>
                     </ul>
+
                 </div>
             </div>
         </section>
 
-        <form method="POST" action="recapitulatif.php">
-    <input type="hidden" name="voyage_id" value="<?= $voyageSelectionne['id_voyage'] ?>">
+    <form method="POST" action="recapitulatif.php">
+    <input type="hidden" name="voyage_id" value="<?= $voyage['IdVoyage'] ?>">
     <h2>Réservation</h2>
     
     <div class="form-group">
         <label for="nb_adultes">Nombre d'adultes:</label>
-        <input type="number" id="nb_adultes" name="nb_adultes" min="1" max="<?= $voyageSelectionne['places_disponibles'] ?>" value="<?= $_POST['nb_adultes'] ?? 1 ?>" required>
+        <input type="number" id="nb_adultes" name="nb_adultes" min="1" max="<?= $voyage['PlacesDispo'] ?>" value="<?= $_POST['nb_adultes'] ?? 1 ?>" required>
     </div>
     
     <div class="form-group">
         <label for="nb_enfants">Nombre d'enfants (moins de 12 ans):</label>
-        <input type="number" id="nb_enfants" name="nb_enfants" min="0" max="<?= $voyageSelectionne['places_disponibles'] - 1 ?>" value="<?= $_POST['nb_enfants'] ?? 0 ?>">
+        <input type="number" id="nb_enfants" name="nb_enfants" min="0" max="<?= $voyage['PlacesDispo'] - 1 ?>" value="<?= $_POST['nb_enfants'] ?? 0 ?>">
     </div>
     
     <section class="etapes">
         <h2>Personnalisation des options</h2>
         
-        <?php foreach ($voyageSelectionne['liste_etapes'] as $etape): ?>
-        <div class="etape">
-            <h3><?= htmlspecialchars($etape['titre']) ?></h3>
-            
-            <div class="options">
-                <?php foreach ($etape['options'] as $option): ?>
-                <div class="option-group">
-                    <h4><?= htmlspecialchars($option['nom']) ?></h4>
-                    <ul>
-                    <?php foreach ($option['choix'] as $choix): ?>
-                        <li>
-                            <label>
-                                <?php if (strtolower($option['nom']) === 'activité'): ?>
-                                    <input type="checkbox"
-                                        name="options[<?= $etape['id_etape'] ?>][<?= $option['id_option'] ?>][]" 
-                                        value="<?= htmlspecialchars($choix['option']) ?>|<?= $choix['prix'] ?>">
-                                <?php else: ?>
-                                    <input type="radio" 
-                                        name="options[<?= $etape['id_etape'] ?>][<?= $option['id_option'] ?>]" 
-                                        value="<?= htmlspecialchars($choix['option']) ?>|<?= $choix['prix'] ?>"
-                                        required>
-                                <?php endif; ?>
-
-                                <?= htmlspecialchars($choix['option']) ?> (+<?= afficherPrix($choix['prix']) ?> €)
-                            </label>
-                        </li>
-                    <?php endforeach; ?>
-
-                    </ul>
+        <?php
+            foreach ($etapes as $etape): ?>
+                <div class="etape">
+                    <h3><?= htmlspecialchars($etape['Titre']) ?></h3>
+                    
+                    <div class="options">
+                        <?php
+                        // Préparation de la requête pour récupérer les options
+                        $stmtOptions = $pdo->prepare("SELECT * FROM options_etape WHERE IdEtape = ?");
+                        $stmtOptions->execute([$etape['IdEtape']]);
+                        $options = $stmtOptions->fetchAll(PDO::FETCH_ASSOC);
+                        
+                        foreach ($options as $option):
+                            // Récupérer les choix disponibles pour chaque option
+                            $stmtChoix = $pdo->prepare("SELECT * FROM choix_options WHERE IdOption = ?");
+                            $stmtChoix->execute([$option['IdOption']]);
+                            $choixOptions = $stmtChoix->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+                            <div class="option-group">
+                                <h4><?= htmlspecialchars($option['NomOption']) ?></h4>
+                                <ul>
+                                    <?php foreach ($choixOptions as $choix): ?>
+                                        <li>
+                                            <label>
+                                                <?php if (strtolower($option['NomOption']) === 'activité'): ?>
+                                                    <input type="checkbox"
+                                                        name="options[<?= $etape['IdEtape'] ?>][<?= $option['IdOption'] ?>][]"
+                                                        value="<?= htmlspecialchars($choix['Nom']) ?>|<?= htmlspecialchars($choix['Prix']) ?>">
+                                                <?php else: ?>
+                                                    <input type="radio"
+                                                        name="options[<?= $etape['IdEtape'] ?>][<?= $option['IdOption'] ?>]"
+                                                        value="<?= htmlspecialchars($choix['Nom']) ?>|<?= htmlspecialchars($choix['Prix']) ?>"
+                                                        required>
+                                                <?php endif; ?>
+                                                <?= htmlspecialchars($choix['Nom']) ?> (+<?= afficherPrix($choix['Prix']) ?> €)
+                                            </label>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+
         <div class="option-group etape"> 
             <h3>Prix :</h3><h3 class="prix"> 0$</h3>
         </div>
@@ -283,23 +251,23 @@ function afficherPrix($prix) {
         <button type="submit" class="btn btn-primary">Valider la réservation</button>
     </div>
 </form>
-
     </main>
-
     <footer>
     <h2>Copyright © Horage - Tous droits réservés</h2>
     <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
     </footer>
     <script>
         const voyageData = {
-            prixBase: <?= $voyageSelectionne['tarification']['prix_par_personne'] ?>,
-            reductions: <?= json_encode($voyageSelectionne['tarification']['reductions']) ?>,
-            placesDisponibles: <?= $voyageSelectionne['places_disponibles'] ?>
+            prixBase: <?= $voyage['PrixBase'] ?>,
+            reductions: <?= json_encode($reductions) ?>,
+            placesDisponibles: <?= $voyage['PlacesDispo'] ?>
         };
         function formatPrix(prix) {
             return prix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
     </script>
     <script src="js/details.js"></script>
+
+
 </body>
 </html>

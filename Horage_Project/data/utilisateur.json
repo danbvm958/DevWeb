@@ -38,6 +38,97 @@
         "birthdate": "2005-09-09",
         "type": "normal",
         "travel": [],
-        "panier": []
+        "panier": [
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": 0
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            },
+            {
+                "voyage_id": null,
+                "voyage_titre": null,
+                "nombre_personnes": 1,
+                "nb_adultes": 1,
+                "nb_enfants": 0,
+                "options_choisies": [],
+                "prix_total": null
+            }
+        ]
     }
 ]

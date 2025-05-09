@@ -3,9 +3,17 @@ session_start();
 
 // Vérifie si l'utilisateur est déjà connecté
 if (isset($_SESSION['user'])) {
-    // Si l'utilisateur est connecté, redirige vers la page profil ou accueil
     header("Location: profil_user.php"); 
     exit();
+}
+//Connection 
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
 }
 
 $errors = [];
@@ -18,34 +26,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username) || empty($password)) {
         $errors[] = "Tous les champs doivent être remplis.";
     } else {
-        // Lire le fichier utilisateur.json
-        $file = 'data/utilisateur.json';
-        if (file_exists($file)) {
-            $users = json_decode(file_get_contents($file), true);
-        } else {
-            $users = [];
-        }
+        $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE NomUtilisateur = ? OR Email = ?");
+        $stmt->execute([$username, $username]);
+        $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Vérifier si l'utilisateur existe
-        $foundUser = null;
-        foreach ($users as $user) {
-            if ($user['username'] === $username || $user['email'] === $username) {
-                $foundUser = $user;
-                break;
-            }
-        }
-
-        if ($foundUser) {
+        if ($utilisateur) {
             // Vérifier le mot de passe hashé
-            if (password_verify($password, $foundUser['password'])) {
+            if (password_verify($password, $utilisateur['MotDePasse'])) {
                 // Stocker toutes les informations dans la session sous forme de tableau
                 $_SESSION['user'] = [
-                    'username' => $foundUser['username'],
-                    'nom' => $foundUser['nom'],
-                    'prenom' => $foundUser['prenom'],
-                    'email' => $foundUser['email'],
-                    'type' => $foundUser['type'],
-                    'voyages' => isset($foundUser['voyages']) ? $foundUser['voyages'] : []
+                    'username' => $utilisateur['NomUtilisateur'],
+                    'nom' =>$utilisateur['Nom'],
+                    'prenom' => $utilisateur['Prenom'],
+                    'email' =>$utilisateur['Email'],
+                    'type' =>$utilisateur['Types'],
+                    'id' =>$utilisateur['Id']
                 ];
                 header("Location: accueil.php"); // Redirige vers la page d'accueil
                 exit();

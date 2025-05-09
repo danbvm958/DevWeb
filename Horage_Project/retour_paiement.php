@@ -25,52 +25,46 @@ if ($session_id !== session_id()) {
 $api_key = getAPIKey($vendeur);
 $expected_control = md5($api_key . "#" . $transaction . "#" . $montant . "#" . $vendeur . "#" . $status . "#");
 
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}            
+
 if ($control === $expected_control) {
     // Paiement validé
     if ($status === 'accepted') {
         // Récupérer les données du voyage depuis la session
         if (isset($_SESSION['pending_payment'])) {
+            $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE NomUtilisateur = ?");
+            $stmt->execute([$_SESSION['user']['username']]);
+            $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
+            $voyage_data = [
+                'voyage_id' => $_SESSION['pending_payment'][$_SESSION['npayment']]['voyage_id'],
+                'nombre_personnes' => $_SESSION['pending_payment'][$_SESSION['npayment']]['nombre_personnes'],
+                'options_choisies' => $_SESSION['pending_payment'][$_SESSION['npayment']]['options_choisies'],
+                'date_achat' => date('Y-m-d H:i:s'),
+                'transaction_id' => $transaction,
+                'montant' => $montant
+            ];
+            $stmt = $pdo->prepare("INSERT INTO voyage_payee (IdVoyage, IdUtilisateur, DatePaiement, Prix, NbAdultes, NbEnfants) VALUES (?,?,?,?,?,?) ");
+            $stmt->execute([$voyage_data['voyage_id'],$utilisateur['Id'],$voyage_data['date_achat'],$voyage_data['montant'], $_SESSION['pending_payment'][$_SESSION['npayment']]['nombre_adultes'],$_SESSION['pending_payment'][$_SESSION['npayment']]['nombre_enfants']]);
+            $idCommande = $pdo->lastInsertId();
 
-            $users_file = 'data/utilisateur.json';
-            $users = file_exists($users_file) ? json_decode(file_get_contents($users_file), true) : [];
-            
-            foreach ($users as &$user) {
-                if ($user['email'] === $_SESSION['user']['email']) {
-                    // Ajouter le voyage aux voyages achetés
-                    if (!isset($user['voyages'])) {
-                        $user['voyages'] = [];
-                    }
-                    
-                    $voyage_data = [
-                        'voyage_id' => $_SESSION['pending_payment']['voyage_id'],
-                        'voyage_titre' => $_SESSION['pending_payment']['voyage_titre'],
-                        'nombre_personnes' => $_SESSION['pending_payment']['nombre_personnes'],
-                        'options_choisies' => $_SESSION['pending_payment']['options_choisies'],
-                        'etapes_supprimees' => $_SESSION['pending_payment']['etapes_supprimees'],
-                        'date_achat' => date('Y-m-d H:i:s'),
-                        'transaction_id' => $transaction,
-                        'montant' => $montant
-                    ];
-                    
-                    $user['voyages'][] = $voyage_data;
-                    
-                    // Supprimer le voyage du panier (version corrigée)
-                    if (isset($user['panier'])) {
-                        $voyage_id_to_remove = $_SESSION['pending_payment']['voyage_id'];
-                        $user['panier'] = array_filter($user['panier'], function($item) use ($voyage_id_to_remove) {
-                            return $item['voyage_id'] !== $voyage_id_to_remove;
-                        });
-                    }
-                    
-                    break;
+            $stmt= $pdo->prepare("INSERT INTO options_commande (IdCommande,IdEtape,IdOption,IdChoix,Prix) VALUES (?,?,?,?,?) ");
+            foreach($voyage_data['options_choisies'] as $id_etape => $options ){
+                foreach($options as $option){
+                    $stmt->execute([$idCommande,$id_etape,$option['id_option'],$option['id_choix'],$montant]);
                 }
             }
+            $stmt = $pdo->prepare("UPDATE voyage SET PlacesDispo = PlacesDispo - ? WHERE IdVoyage = ?");
+            $stmt->execute([$voyage_data['nombre_personnes'],$voyage_data['voyage_id']]);
+
             
-            // Sauvegarder les modifications
-            file_put_contents($users_file, json_encode($users, JSON_PRETTY_PRINT));
-            
-            // Supprimer les données temporaires
-            unset($_SESSION['pending_payment']);
+            unset($_SESSION['pending_payment'][$_SESSION['npayment']]);
             
             // Message de succès
             $_SESSION['payment_message'] = [

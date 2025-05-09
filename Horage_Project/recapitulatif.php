@@ -1,145 +1,218 @@
 <?php
 session_start();
-
-// Charger les données de voyage
-$json = file_get_contents('data/voyages.json');
-$voyages = json_decode($json, true)['voyages'];
+$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
+$user = 'root';
+$password = '';
+try {
+    $pdo = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
 
 // Vérifier si l'ID du voyage est passé
 if (!isset($_POST['voyage_id'])) {
     die("Voyage introuvable.");
 }
-
-$voyage_id = $_POST['voyage_id'];
-
-// Trouver le voyage sélectionné
-$voyage = null;
-foreach ($voyages as $v) {
-    if ($v['id_voyage'] === $voyage_id) {
-        $voyage = $v;
-        break;
-    }
-}
-
-if (!$voyage) {
-    die("Voyage introuvable.");
-}
-
 // Récupérer les données du formulaire
 $nb_adultes = isset($_POST['nb_adultes']) ? intval($_POST['nb_adultes']) : 0;
 $nb_enfants = isset($_POST['nb_enfants']) ? intval($_POST['nb_enfants']) : 0;
 $nombre_personnes = $nb_adultes + $nb_enfants;
 $options_choisies = isset($_POST['options']) ? $_POST['options'] : [];
+$voyage_id = $_POST['voyage_id'];
+
+// Trouver le voyage sélectionné
+$stmt = $pdo->prepare("SELECT * FROM voyages WHERE IdVoyage = ?");
+$stmt->execute([$voyage_id]);
+$voyage = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Trouver les reductions
+$stmt = $pdo->prepare("SELECT * FROM reduction WHERE IdVoyage = ?");
+$stmt->execute([$voyage_id]);
+$reductions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Trouver les étapes
+$stmt = $pdo->prepare("SELECT * FROM etapes WHERE IdVoyage = ?");
+$stmt->execute([$voyage_id]);
+$etapes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (!$voyage) {
+    die("Voyage introuvable.");
+}
+
+
 
 // Fonction pour afficher le prix avec formatage
 function afficherPrix($prix) {
     return number_format($prix, 2, ',', ' ') . ' €';
 }
 
-// Fonction pour calculer le prix de base avec réductions
-function calculerPrixBase($voyage, $nb_adultes, $nb_enfants) {
-    $prix_base = $voyage['tarification']['prix_par_personne'];
-    $total_personnes = $nb_adultes + $nb_enfants;
+function calculerPrixTotalAvecOptions($pdo, $voyage_id, $nb_adultes, $nb_enfants, $options_choisies) {
+    // 1. Récupérer les informations de base
+    $stmt = $pdo->prepare("SELECT PrixBase FROM voyages WHERE IdVoyage = ?");
+    $stmt->execute([$voyage_id]);
+    $voyage = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    // Appliquer réduction groupe si applicable
-    foreach ($voyage['tarification']['reductions'] as $reduction) {
-        if ($reduction['type_reduction'] === 'groupe' && $total_personnes >= $reduction['condition']['min_personnes']) {
-            $prix_base = $reduction['prix_reduit'];
-            break;
-        }
+    if (!$voyage) {
+        throw new Exception("Voyage introuvable");
     }
     
-    // Calculer prix pour adultes
+    $nombre_personnes = $nb_adultes + $nb_enfants;
+    $prix_total = 0;
+
+    // 2. Appliquer les réductions
+    $stmt = $pdo->prepare("SELECT * FROM reduction WHERE IdVoyage = ?");
+    $stmt->execute([$voyage_id]);
+    $reductions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $prix_base = $voyage['PrixBase'];
+
+    // Réduction groupe
+    foreach ($reductions as $reduction) {
+        if ($reduction['TypeReduction'] === 'groupe') {
+            if ($nombre_personnes >= $reduction['ConditionReduction']) {
+                $prix_base = $reduction['PrixReduit'];
+                break;
+            }
+        }
+    }
+
+    // Prix pour adultes
     $prix_total = $nb_adultes * $prix_base;
-    
-    // Appliquer réduction enfants si applicable
-    foreach ($voyage['tarification']['reductions'] as $reduction) {
-        if ($reduction['type_reduction'] === 'enfant' && $nb_enfants >= $reduction['condition']['min_enfants']) {
-            $prix_enfant = $prix_base - $reduction['remise_par_enfant'];
-            $prix_total += $nb_enfants * $prix_enfant;
-            return $prix_total;
+
+    // Réduction enfants
+    foreach ($reductions as $reduction) {
+        if ($reduction['TypeReduction'] === 'enfant') {
+            if ($nb_enfants >= $reduction['ConditionReduction']) {
+                $prix_enfant = $prix_base - $reduction['PrixReduit'];
+                $prix_total += $nb_enfants * $prix_enfant;
+                break;
+            }
         }
     }
+
+    // Si aucune réduction enfant applicable mais qu'il y a des enfants
+    if ($nb_enfants > 0 && $prix_total == $nb_adultes * $prix_base) {
+        $prix_total += $nb_enfants * $prix_base;
+    }
+
+    // 3. Ajouter le prix des options
+    $etapes_avec_options = [];
     
-    // Si pas de réduction enfant applicable
-    $prix_total += $nb_enfants * $prix_base;
-    return $prix_total;
-}
-
-// Calcul du prix de base avec réductions
-$prix_total = calculerPrixBase($voyage, $nb_adultes, $nb_enfants);
-
-// Ajouter le prix des options choisies
-$etapes_avec_options = [];
-
-foreach ($voyage['liste_etapes'] as $etape) {
-    $etapes_avec_options[$etape['id_etape']] = [];
-
-    if (isset($options_choisies[$etape['id_etape']])) {
-        foreach ($options_choisies[$etape['id_etape']] as $option_id => $choix_data) {
-            // Vérifier si c'est un tableau (checkbox multiple)
+    // Récupérer toutes les options disponibles pour ce voyage
+    $stmt = $pdo->prepare("
+        SELECT oe.IdOption, oe.IdEtape, oe.NomOption, 
+               co.IdChoix, co.Nom, co.Prix
+        FROM options_etape oe
+        JOIN choix_options co ON oe.IdOption = co.IdOption
+        WHERE oe.IdEtape IN (
+            SELECT IdEtape FROM etapes WHERE IdVoyage = ?
+        )
+    ");
+    $stmt->execute([$voyage_id]);
+    $options_disponibles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Organiser les options par étape et par option
+    $options_par_etape = [];
+    foreach ($options_disponibles as $option) {
+        $id_etape = $option['IdEtape'];
+        $id_option = $option['IdOption'];
+        
+        if (!isset($options_par_etape[$id_etape])) {
+            $options_par_etape[$id_etape] = [];
+        }
+        
+        if (!isset($options_par_etape[$id_etape][$id_option])) {
+            $options_par_etape[$id_etape][$id_option] = [
+                'nom' => $option['NomOption'],
+                'choix' => []
+            ];
+        }
+        
+        $options_par_etape[$id_etape][$id_option]['choix'][] = [
+            'IdChoix' => $option['IdChoix'],
+            'Nom' => $option['Nom'],
+            'Prix' => $option['Prix']
+        ];
+    }
+    
+    // Traiter les options choisies
+    foreach ($options_choisies as $id_etape => $options) {
+        if (!isset($options_par_etape[$id_etape])) continue;
+        
+        foreach ($options as $id_option => $choix_data) {
+            if (!isset($options_par_etape[$id_etape][$id_option])) continue;
+            
+            $option = $options_par_etape[$id_etape][$id_option];
+            
             if (is_array($choix_data)) {
-                foreach ($choix_data as $choix_unique) {
-                    list($choix_nom, $choix_prix) = explode('|', $choix_unique);
+                // Cas des checkbox (choix multiples)
+                foreach ($choix_data as $choix_str) {
+                    list($nom_choix, $prix_choix) = explode('|', $choix_str);
                     
-                    foreach ($etape['options'] as $option_categorie) {
-                        foreach ($option_categorie['choix'] as $choix_possible) {
-                            if ($choix_possible['option'] === $choix_nom) {
-                                $etapes_avec_options[$etape['id_etape']][] = [
-                                    'nom' => $option_categorie['nom'],
-                                    'choix' => $choix_nom,
-                                    'prix' => $choix_prix
-                                ];
-                                $prix_total += floatval($choix_prix) * $nombre_personnes;
-                            }
+                    foreach ($option['choix'] as $choix_possible) {
+                        if ($choix_possible['Nom'] === $nom_choix) {
+                            $etapes_avec_options[$id_etape][] = [
+                                'id_etape' => $id_etape, // Ajout de l'ID étape
+                                'id_option' => $id_option, // Ajout de l'ID option
+                                'id_choix' => $choix_possible['IdChoix'], // Ajout de l'ID choix
+                                'nom' => $option['nom'],
+                                'choix' => $nom_choix,
+                                'prix' => $prix_choix
+                            ];
+                            $prix_total += floatval($prix_choix) * $nombre_personnes;
+                            break;
                         }
                     }
                 }
-            } else { // Si ce n'est pas un tableau, c'est un radio (simple)
-                list($choix_nom, $choix_prix) = explode('|', $choix_data);
+            } else {
+                // Cas des radio (choix unique)
+                list($nom_choix, $prix_choix) = explode('|', $choix_data);
                 
-                foreach ($etape['options'] as $option_categorie) {
-                    foreach ($option_categorie['choix'] as $choix_possible) {
-                        if ($choix_possible['option'] === $choix_nom) {
-                            $etapes_avec_options[$etape['id_etape']][] = [
-                                'nom' => $option_categorie['nom'],
-                                'choix' => $choix_nom,
-                                'prix' => $choix_prix
-                            ];
-                            $prix_total += floatval($choix_prix) * $nombre_personnes;
-                        }
+                foreach ($option['choix'] as $choix_possible) {
+                    if ($choix_possible['Nom'] === $nom_choix) {
+                        $etapes_avec_options[$id_etape][] = [
+                            'id_etape' => $id_etape, // Ajout de l'ID étape
+                            'id_option' => $id_option, // Ajout de l'ID option
+                            'id_choix' => $choix_possible['IdChoix'], // Ajout de l'ID choix
+                            'nom' => $option['nom'],
+                            'choix' => $nom_choix,
+                            'prix' => $prix_choix
+                        ];
+                        $prix_total += floatval($prix_choix) * $nombre_personnes;
+                        break;
                     }
                 }
             }
         }
     }
+    
+    return [
+        'prix_total' => $prix_total,
+        'etapes_avec_options' => $etapes_avec_options,
+        'prix_base' => $voyage['PrixBase'],
+        'nombre_personnes' => $nombre_personnes
+    ];
 }
 
-// Appliquer réduction supplémentaire (étudiant, etc.)
-if (isset($_POST['reduction']) && $_POST['reduction'] === 'etudiant') {
-    $prix_total *= 0.9; // 10% de réduction
-}
+
+$resultat = calculerPrixTotalAvecOptions($pdo, $voyage_id, $nb_adultes, $nb_enfants, $options_choisies);
+
+$prix_total = $resultat['prix_total'];
+$etapes_avec_options = $resultat['etapes_avec_options'];
 
 // Stocker en session pour le paiement
-$_SESSION['pending_payment'] = [
-    'voyage_id' => $voyage['id_voyage'],
-    'voyage_titre' => $voyage['titre'],
-    'nombre_personnes' => $nombre_personnes,
+$_SESSION['pending_payment'][] = [
+    'voyage_id' => $voyage_id,
+    'nombre_personnes' => $resultat['nombre_personnes'],
     'nb_adultes' => $nb_adultes,
     'nb_enfants' => $nb_enfants,
     'options_choisies' => $etapes_avec_options,
     'prix_total' => $prix_total
 ];
-$email_utilisateur = $_SESSION['user']['email'];
-$fichier_users = __DIR__ . '/data/utilisateur.json';
-$utilisateurs = json_decode(file_get_contents($fichier_users), true);
-foreach ($utilisateurs as &$user) {
-    if ($user['email'] === $email_utilisateur) {
-        $user['panier'][] = $_SESSION['pending_payment'];
-        break;
-    }
-}
-file_put_contents($fichier_users, json_encode($utilisateurs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+$_SESSION['npayment'] = count($_SESSION['pending_payment'])-1;
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -176,16 +249,17 @@ file_put_contents($fichier_users, json_encode($utilisateurs, JSON_PRETTY_PRINT |
             }
             ?>
             <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
-            <li><a href="accueil.php" class="a1">contacts</a></li>
+            <li><a href="accueil.php" class="a1">Contacts</a></li>
+            <li><a href="panier.php" class="a1">Panier</a></li>
         </ul>
     </div>
 </header>
 
 <main>
     <div class="hero1">
-        <h2 id="main_title"><?= htmlspecialchars($voyage['titre']) ?></h2>
-        <p><strong>Description :</strong> <?= htmlspecialchars($voyage['description']) ?></p>
-        <p><strong>Dates :</strong> Du <?= htmlspecialchars($voyage['dates']['debut']) ?> au <?= htmlspecialchars($voyage['dates']['fin']) ?> (<?= htmlspecialchars($voyage['dates']['duree']) ?>)</p>
+        <h2 id="main_title"><?= htmlspecialchars($voyage['Titre']) ?></h2>
+        <p><strong>Description :</strong> <?= htmlspecialchars($voyage['Description']) ?></p>
+        <p><strong>Dates :</strong> Du <?= htmlspecialchars($voyage['DateDebut']) ?> au <?= htmlspecialchars($voyage['DateFin']) ?> </p>
         <p><strong>Nombre d'adultes :</strong> <?= $nb_adultes ?></p>
         <p><strong>Nombre d'enfants :</strong> <?= $nb_enfants ?></p>
         <p><strong>Prix total :</strong> <?= afficherPrix($prix_total) ?></p>
@@ -193,24 +267,24 @@ file_put_contents($fichier_users, json_encode($utilisateurs, JSON_PRETTY_PRINT |
 
     <h3 id="subtitle">Étapes du voyage</h3>
     <ul>
-        <?php foreach ($voyage['liste_etapes'] as $etape) : ?>
-            <li class="parent">
-                <strong><?= htmlspecialchars($etape['titre']) ?></strong> - <?= htmlspecialchars($etape['position']['ville']) ?>
-                <ul>
-                    <?php if (isset($etapes_avec_options[$etape['id_etape']]) && !empty($etapes_avec_options[$etape['id_etape']])) : ?>
-                        <?php foreach ($etapes_avec_options[$etape['id_etape']] as $option) : ?>
-                            <li>
-                                <strong><?= htmlspecialchars($option['nom']) ?> :</strong> 
-                                <?= htmlspecialchars($option['choix']) ?> - 
-                                <?= afficherPrix($option['prix'] * $nombre_personnes) ?> (<?= afficherPrix($option['prix']) ?> × <?= $nombre_personnes ?> pers)
-                            </li>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <li>Aucune option choisie</li>
-                    <?php endif; ?>
-                </ul>
-            </li>
-        <?php endforeach; ?>
+    <?php foreach ($etapes as $etape) : ?>
+        <li class="parent">
+            <strong><?= htmlspecialchars($etape['Titre']) ?></strong> - <?= htmlspecialchars($etape['Position']) ?>
+            <ul>
+                <?php if (isset($etapes_avec_options[$etape['IdEtape']]) && !empty($etapes_avec_options[$etape['IdEtape']])) : ?>
+                    <?php foreach ($etapes_avec_options[$etape['IdEtape']] as $option) : ?>
+                        <li>
+                            <strong><?= htmlspecialchars($option['nom']) ?> :</strong> 
+                            <?= htmlspecialchars($option['choix']) ?> - 
+                            <?= afficherPrix($option['prix'] * $nombre_personnes) ?> (<?= afficherPrix($option['prix']) ?> × <?= $nombre_personnes ?> pers)
+                        </li>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <li>Aucune option choisie</li>
+                <?php endif; ?>
+            </ul>
+        </li>
+    <?php endforeach; ?>
     </ul>
 
     <!-- Formulaire pour modifier la réservation -->
