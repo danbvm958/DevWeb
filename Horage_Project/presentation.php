@@ -45,7 +45,7 @@ session_start();
                             $pageProfil = match ($typeUser) {
                                 'admin'  => 'profil_admin.php',
                                 'normal' => 'profil_user.php',
-                                default  => 'profil_vip.php',
+                                'vip' => 'profil_user.php',
                             };
                         }
                         ?>

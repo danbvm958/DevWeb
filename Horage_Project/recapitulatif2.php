@@ -106,7 +106,7 @@ $prix_total = $vp['Prix'] ;
                 $pageProfil = match ($typeUser) {
                     'admin'  => 'profil_admin.php',
                     'basic' => 'profil_user.php',
-                    default  => 'profil_vip.php',
+                    'vip' => 'profil_user.php',
                 };
             }
             ?>

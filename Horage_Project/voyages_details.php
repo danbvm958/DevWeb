@@ -112,7 +112,6 @@ function afficherPrix($prix) {
                             $pageProfil = match ($typeUser) {
                                 'admin'  => 'profil_admin.php',
                                 'normal' => 'profil_user.php',
-                                default  => 'profil_vip.php',
                             };
                         }
                         ?>
