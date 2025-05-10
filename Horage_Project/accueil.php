@@ -51,7 +51,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
                             $pageProfil = match ($typeUser) {
                                 'admin'  => 'profil_admin.php',
                                 'normal' => 'profil_user.php',
-                                'vip' => 'profil_user.php',
+                                default  => 'profil_vip.php',
                             };
                         }
                         ?>
@@ -59,7 +59,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 
 
                         <li>
-                            <a href="accueil.php" class="a1">contacts</a>
+                            <a href="contact.php" class="a1">contacts</a>
                         </li>
                         <li><a href="panier.php" class="a1">Panier</a></li>
                     </ul>

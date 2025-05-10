@@ -45,7 +45,7 @@ session_start();
                             $pageProfil = match ($typeUser) {
                                 'admin'  => 'profil_admin.php',
                                 'normal' => 'profil_user.php',
-                                'vip' => 'profil_user.php',
+                                default  => 'profil_vip.php',
                             };
                         }
                         ?>
@@ -53,7 +53,7 @@ session_start();
 
 
                         <li>
-                            <a href="accueil.php" class="a1">contacts</a>
+                            <a href="contact.php" class="a1">contacts</a>
                         </li>
                         <li><a href="panier.php" class="a1">Panier</a></li>
                     </ul>

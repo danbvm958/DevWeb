@@ -57,7 +57,12 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
             <li><a href="Recherche.php" class="a1">Réserver</a></li>
 
             <?php if (isset($_SESSION['user'])): ?>
-                <li><a href="profil_user.php" class="a1">Profil</a></li>
+                <?php if ($_SESSION['user']['type'] == "vip"):?>
+                    <li><a href="profil_vip.php" class="a1">Profil</a></li>
+                <?php else: ?>
+                    <li><a href="profil_user.php" class="a1">Profil</a></li>
+                <?php endif;?>
+                
             <?php else: ?>
                 <li><a href="login.php" class="a1">Connexion</a></li>
             <?php endif; ?>
@@ -70,7 +75,11 @@ if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
 
 <main class="profile-container">
     <aside class="sidebar">
+        <?php if ($_SESSION['user']['type'] == "vip"):?>
+            <a href="profil_vip.php" class="menu-btn">Profil</a></li>
+        <?php else: ?>
             <a href="profil_user.php" class="menu-btn">Profil</a></li>
+        <?php endif;?>
         <a href="profil_travel.php" class="menu-btn active">Voyages prévus</a>
         <form action="logout.php" method="post">
             <button type="submit" class="menu-btn logout">Se déconnecter</button>

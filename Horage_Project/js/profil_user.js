@@ -16,13 +16,6 @@ edit.forEach((button)=>{
         NewInput.type="text";
         span.replaceWith(NewInput);
 
-        NewInput.addEventListener('keydown', (event) => {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                ValidButton.click(); 
-            }
-        });
-
         const ValidButton=document.createElement('button');
         ValidButton.type="button";
         ValidButton.className="edit-btn"

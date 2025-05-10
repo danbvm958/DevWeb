@@ -106,14 +106,14 @@ $prix_total = $vp['Prix'] ;
                 $pageProfil = match ($typeUser) {
                     'admin'  => 'profil_admin.php',
                     'basic' => 'profil_user.php',
-                    'vip' => 'profil_user.php',
+                    default  => 'profil_vip.php',
                 };
             }
             ?>
             <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
 
             <li>
-                <a href="accueil.php" class="a1">contacts</a>
+                <a href="contact.php" class="a1">contacts</a>
             </li>
         </ul>
     </div>

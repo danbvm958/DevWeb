@@ -60,7 +60,7 @@ $user = $_SESSION['user'];
 
 
                         <li>
-                            <a href="accueil.php" class="a1">contacts</a>
+                            <a href="contact.php" class="a1">contacts</a>
                         </li>
                         <li><a href="panier.php" class="a1">Panier</a></li>
                     </ul>

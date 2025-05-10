@@ -68,10 +68,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><a href="Reserve.php" class="a1">Nos offres</a></li>
                 <li><a href="Recherche.php" class="a1">reserver</a></li>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <li><a href="profil_user.php" class="a1">Profil</a></li>
+                <?php if ($_SESSION['user']['type'] == "vip"):?>
+                    <li><a href="profil_vip.php" class="a1">Profil</a></li>
                 <?php else: ?>
-                    <li><a href="login.php" class="a1">Connexion</a></li>
-                <?php endif; ?>
+                    <li><a href="profil_user.php" class="a1">Profil</a></li>
+                <?php endif;?>
+                
+            <?php else: ?>
+                <li><a href="login.php" class="a1">Connexion</a></li>
+            <?php endif; ?>
                 <li><a href="accueil.php" class="a1">contacts</a></li>
                 <li><a href="panier.php" class="a1">Panier</a></li>
             </ul>
@@ -121,7 +126,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </form>
 
                                 <form method="post" action="vers_CyBank.php" style="display: inline;">
-                                    <input type="hidden" name="voyage_index" value="<?= $index ?>">
+                                    <?php
+                                    // Stocker l'index dans la session avant soumission
+                                    $_SESSION['npayment'] = $index;
+                                    ?>
                                     <input type="hidden" name="voyage_id" value="<?= $voyage['voyage_id'] ?>">
                                     <input type="hidden" name="nombre_personnes" value="<?= $voyage['nombre_personnes'] ?>">
                                     <input type="hidden" name="prix_total" value="<?= $voyage['prix_total'] ?>">

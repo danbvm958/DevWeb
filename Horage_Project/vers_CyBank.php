@@ -36,14 +36,9 @@ if (!is_numeric($prix_total)) {
 if (!isset($_SESSION['pending_payment'])) {
     die("Erreur : Pas de voyage en attente de paiement.");
 }
-
-$index = $_POST['voyage_index'];
-if(isset($index)){
-    $_SESSION['npayment'] = $_POST['voyage_index'];
-}
 $transaction = generateTransactionID();
 $montant = number_format((float)$_SESSION['pending_payment'][$_SESSION['npayment']]['prix_total'], 2, '.', '');
-$vendeur = "MI-1_A";
+$vendeur = "MI-1_A"; // ton code vendeur
 $retour = "http://localhost/horage_project/retour_paiement.php?session=" . session_id();
 // Récupération API Key
 $api_key = getAPIKey($vendeur);
@@ -64,6 +59,10 @@ if (!is_numeric($montant)) {
 // Construction de la valeur de contrôle
 $control_string = $api_key . "#" . $transaction . "#" . $montant . "#" . $vendeur . "#" . $retour . "#";
 $control = md5($control_string);
+?>
+
+<?php
+// [Tout le code PHP précédent reste identique jusqu'à la fin des vérifications]
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +90,6 @@ $control = md5($control_string);
         <h2>Confirmez votre paiement</h2>
         <p>Montant : <strong><?= htmlspecialchars($montant) ?> €</strong></p>
         <p>Vous serez redirigé vers le service sécurisé CY Bank</p>
-        <?php unset($_SESSION['npayment']); ?>
         
         <form action="https://www.plateforme-smc.fr/cybank/index.php" method="POST">
             <input type="hidden" name="transaction" value="<?= htmlspecialchars($transaction) ?>">

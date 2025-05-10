@@ -35,6 +35,6 @@ $_SESSION['user']['type']= "vip";
 
 unset($_SESSION['vip_payment']);
 
-header("Location: profil_user.php");
+header("Location: profil_vip.php");
 exit();
 ?>

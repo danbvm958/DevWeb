@@ -244,12 +244,12 @@ $_SESSION['npayment'] = count($_SESSION['pending_payment'])-1;
                 $pageProfil = match ($typeUser) {
                     'admin'  => 'profil_admin.php',
                     'normal' => 'profil_user.php',
-                    'vip' => 'profil_user.php',
+                    default  => 'profil_vip.php',
                 };
             }
             ?>
             <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
-            <li><a href="accueil.php" class="a1">Contacts</a></li>
+            <li><a href="contact.php" class="a1">Contacts</a></li>
             <li><a href="panier.php" class="a1">Panier</a></li>
         </ul>
     </div>

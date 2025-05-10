@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
                             $pageProfil = match ($typeUser) {
                                 'admin'  => 'profil_admin.php',
                                 'normal' => 'profil_user.php',
-                                'vip' => 'profil_user.php',
+                                default  => 'profil_vip.php',
                             };
                         }
                         ?>

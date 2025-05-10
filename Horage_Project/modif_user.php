@@ -7,6 +7,8 @@ if (!isset($_SESSION['user']['username'])) {
     exit();
 }
 
+$username = $_SESSION['user']['username']; // Identifiant unique de l'utilisateur
+
 // Vérifier si les données sont envoyées
 if (isset($_POST['field'], $_POST['value'])) {
     $field = $_POST['field'];
@@ -18,32 +20,37 @@ if (isset($_POST['field'], $_POST['value'])) {
         echo "Champ non autorisé.";
         exit();
     }
-    switch($field){
-        case 'username':
-            $nfield = 'NomUtilisateur';
-            break;
-        case 'nom':
-            $nfield = 'Nom';
-            break;
-        case 'prenom':
-            $nfield = 'Prenom';
-            break;
-        case 'email':
-            $nfield = 'Email';
-            break;
+
+    // Charger le fichier JSON
+    $file = 'data/utilisateur.json';
+    if (!file_exists($file)) {
+        echo "Fichier utilisateur introuvable.";
+        exit();
     }
 
-    $dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
-    $user = 'root';
-    $password = '';
-    try {
-        $pdo = new PDO($dsn, $user, $password);
-    } catch (PDOException $e) {
-        die("Erreur de connexion : " . $e->getMessage());
+    $users = json_decode(file_get_contents($file), true);
+    if ($users === null) {
+        echo "Erreur de lecture du fichier JSON.";
+        exit();
     }
 
-    $stmt = $pdo->prepare("UPDATE utilisateur SET $nfield = ? WHERE Id = ?");
-    $stmt->execute([$value,$_SESSION['user']['id']]);
+    // Rechercher l'utilisateur et modifier la valeur
+    $updated = false;
+    foreach ($users as &$user) {
+        if ($user['username'] === $username) {
+            $user[$field] = $value;
+            $updated = true;
+            break;
+        }
+    }
+
+    if (!$updated) {
+        echo "Utilisateur non trouvé.";
+        exit();
+    }
+
+    // Sauvegarder les modifications dans le fichier JSON
+    file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
 
     // Mettre à jour la session
     $_SESSION['user'][$field] = $value;
