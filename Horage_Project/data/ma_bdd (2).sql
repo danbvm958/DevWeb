@@ -579,8 +579,8 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`NomUtilisateur`, `Email`, `MotDePasse`, `Nom`, `Prenom`, `Anniversaire`, `Types`, `Id`) VALUES
-('danbvm', 'dan@gmail.com', '$2y$10$Quy17FNHqgyCly43SgWhq.aPXOmSY6485UZcZPLF7N2EWF.zDmla.', 'Bavamian', 'Dan', '2005-09-09', 'basic', 2),
-('hp', 'harry@gmail.com', '$2y$10$uIOAWm4aHPpSQB9pIX5DPevuQoLe89zcQaroPaI5sGRXvcz0svQ/O', 'potter', 'Harry', '1990-06-01', 'basic', 3);
+('danbvm', 'dan@gmail.com', '$2y$10$Quy17FNHqgyCly43SgWhq.aPXOmSY6485UZcZPLF7N2EWF.zDmla.', 'Bavamian', 'Dan', '2005-09-09', "normal", 2),
+('hp', 'harry@gmail.com', '$2y$10$uIOAWm4aHPpSQB9pIX5DPevuQoLe89zcQaroPaI5sGRXvcz0svQ/O', 'potter', 'Harry', '1990-06-01', "normal", 3);
 
 -- --------------------------------------------------------
 
