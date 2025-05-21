@@ -2,7 +2,7 @@
 require_once 'session.php';
 DemarrageSession();
 $pdo = DemarrageSQL();
-if(VerificationConnexion == 0){
+if(VerificationConnexion() == 0){
     header(Location : "accueil.php");
 }
 
