@@ -104,7 +104,5 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('theme_v3', themeId);
         setCookie('user_theme', themeId, 365); // Cookie valable 1 an
         
-        // Si l'utilisateur est connecté, vous pourriez aussi sauvegarder côté serveur
-        // via une requête AJAX ici si nécessaire
     }
 });

@@ -1,26 +1,19 @@
 <?php
-session_start();
+// On inclut le fichier de session nécessaire
+require_once 'session.php';
+// Je démarre la connexion à la base de données
+$pdo = DemarrageSQL();
+// On démarre la session
+DemarrageSession();
 
-$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
-$user = 'root';
-$password = '';
-try {
-    $pdo = new PDO($dsn, $user, $password);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
-
-// Vérifie si l'utilisateur est déjà connecté
-if (isset($_SESSION['user'])) {
-    header("Location: profil_user.php"); // Redirige vers la page de profil
-    exit();
-}
-
-
+// Je crée un tableau pour stocker les erreurs
 $errors = [];
+// On initialise un message de succès vide
 $successMessage = "";
 
+// On vérifie si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Je récupère et nettoie les données du formulaire
     $username = trim($_POST['username']);
     $mail1 = trim($_POST['mail1']);
     $mail2 = trim($_POST['mail2']);
@@ -30,26 +23,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $prenom = trim($_POST['prenom']);
     $birthdate = trim($_POST['birthdate']);
 
-    if (empty($username) || empty($mail1) || empty($mail2) || empty($password1) || empty($password2) || empty($nom) || empty($prenom)) {
+    // On vérifie que tous les champs sont remplis
+    if (empty($username) || empty($mail1) || empty($mail2) || empty($password1) || empty($password2) || empty($nom) || empty($prenom) || empty($birthdate)) {
         $errors[] = "Tous les champs doivent être remplis.";
     }
 
+    // Validation de la date de naissance
+    if (!empty($birthdate)) {
+        // Je crée des objets DateTime pour comparer les dates
+        $today = new DateTime();
+        $inputDate = new DateTime($birthdate);
+        
+        // On vérifie que la date n'est pas dans le futur
+        if ($inputDate > $today) {
+            $errors[] = "La date de naissance ne peut pas être dans le futur.";
+        }
+    }
+
+    // Je vérifie que les emails correspondent
     if ($mail1 !== $mail2) {
         $errors[] = "Les emails ne correspondent pas.";
     }
 
+    // On valide le format de l'email
     if (!filter_var($mail1, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "L'email n'est pas valide.";
     }
 
+    // Je vérifie que les mots de passe correspondent
     if ($password1 !== $password2) {
         $errors[] = "Les mots de passe ne correspondent pas.";
     }
+
+    // On hache le mot de passe pour le stockage sécurisé
     $hash = password_hash($password1, PASSWORD_DEFAULT);
+    // Je prépare la requête pour vérifier si l'email ou le nom d'utilisateur existe déjà
     $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE Email = ? OR NomUtilisateur = ? ");
     $stmt->execute([$mail1, $username]);
     $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Si pas d'erreurs jusqu'ici, on vérifie les doublons
     if (empty($errors)) {
         foreach ($utilisateurs as $utilisateur) {
             if ($utilisateur['Email'] == $mail1) {
@@ -63,77 +76,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    // Si aucune erreur, on procède à l'inscription
     if (empty($errors)) {
+        // J'insère le nouvel utilisateur dans la base de données
         $stmt = $pdo->prepare("INSERT INTO utilisateur (NomUtilisateur,Email, MotDePasse, Nom, Prenom, Anniversaire, Types) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$username,$mail1,$hash, $nom, $prenom, $birthdate, "normal"]);
+        // On redirige vers la page de connexion
         header("Location: login.php");
+        exit;
     }
-    
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Je définis les métadonnées de la page -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- On donne un titre à la page -->
     <title>Inscription - Horage</title>
+    <!-- Je lie la feuille de style CSS -->
     <link rel="stylesheet" href="CSS/login_signup.css">
+    <!-- On définit l'icône du site -->
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
-    <script src="js/themeSwitcher.js" defer></script>
+    <!-- Je charge les scripts JavaScript -->
+    <script src="js/ThemeSwitcher.js" defer></script>
     <script src="js/signup_rules.js" defer></script>
+    <script src="js/navHighlighter.js" defer></script>
 </head>
 <body>
-<header>
-                <div class="header_1">
-                    <h1>Horage</h1>
-                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-                </div>   
-
-                <div class="nav">
-                    <ul>
-                        <li>
-                            <a href="accueil.php" class="a1">Accueil</a>
-                        </li>
-                        
-                        <li>
-                            <a href="presentation.php" class="a1">Presentation</a>
-                        </li>
-                        
-                        <li>
-                            <a href="Reserve.php" class="a1">Nos offres</a>
-                        </li>
-
-                        <li>
-                            <a href="Recherche.php" class="a1">reserver</a>
-                        </li>
-                        
-                        <?php
-                        $pageProfil = 'login.php'; // par défaut, page connexion
-
-                        if (isset($_SESSION['user'])) {
-                            $typeUser = $_SESSION['user']['type'];
-                            $pageProfil = match ($typeUser) {
-                                'admin'  => 'profil_admin.php',
-                                'normal' => 'profil_user.php',
-                                default  => 'profil_vip.php',
-                            };
-                        }
-                        ?>
-                        <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
-
-
-                        <li>
-                            <a href="contact.php" class="a1">contacts</a>
-                        </li>
-                        <li><a href="panier.php" class="a1">Panier</a></li>
-                    </ul>
-                </div>
-        </header>
+<?php 
+    // On affiche le header du site
+    AfficherHeader();
+?>
 
     <main>
+        <!-- Conteneur du formulaire d'inscription -->
         <div class="form-container">
             <h1>Inscription à Horage</h1>
+            <!-- Formulaire d'inscription -->
             <form action="signup.php" method="POST">
 
                 <label>Nom:</label>
@@ -143,7 +125,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" name="prenom" placeholder="Entrez votre prenom" required />
 
                 <label>Date de naissance :</label>
-                <input type="date" name="birthdate" required />
+                <input type="date" name="birthdate" max="<?php echo date('Y-m-d'); ?>" required />
+                <?php if (in_array("La date de naissance ne peut pas être dans le futur.", $errors)): ?>
+                    <!-- On affiche l'erreur si la date est invalide -->
+                    <div class="error">Date invalide (future)</div>
+                <?php endif; ?>
 
                 <label>Nom d'utilisateur:</label>
                 <input type="text" name="username" placeholder="Entrez un nom d'utilisateur" required />
@@ -183,16 +169,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <br/>
                 <?php if ($successMessage): ?>
+                <!-- On affiche le message de succès s'il existe -->
                 <div class="success-message"><?php echo $successMessage; ?></div>
                 <?php endif; ?>
                 <input type="submit" value="S'inscrire" />
             </form>
 
             <br>
+            <!-- Lien vers la page de connexion -->
             <a href="login.php">Déjà membre ?</a>
         </div>
     </main>
 
+    <!-- Pied de page -->
     <footer>
         <h2>Copyright © Horage - Tous droits réservés</h2>
         <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>

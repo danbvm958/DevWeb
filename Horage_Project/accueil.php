@@ -1,72 +1,33 @@
 <?php
-session_start();
-?>
-<script>
-// En développement seulement - à supprimer en production
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    localStorage.removeItem('theme');
-    localStorage.removeItem('theme_v1'); // Supprime les anciennes versions
-}
-</script>
-<!DOCTYPE>
+        // Nous incluons le fichier de session et demarrons la session
+        require_once 'session.php';
+        DemarrageSession();
+    ?>
+    <!DOCTYPE>
 <html>
     <head>
+        <!-- Je définis le titre de la page -->
         <title>Page d'accueil - Horage</title>
+        <!-- On spécifie l'encodage des caractères -->
         <meta charset="UTF-8">
+        <!-- Je lie la feuille de style CSS -->
         <link rel="stylesheet" href="CSS/accueil.css">
+        <!-- On adapte la page pour les appareils mobiles -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Je définis l'icône de la page (favicon) -->
         <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
-        <script src="js/themeSwitcher.js" defer></script>
+        <!-- On charge les scripts JavaScript avec defer pour qu'ils s'exécutent après le chargement de la page -->
+        <script src="js/ThemeSwitcher.js" defer></script>
+        <script src="js/navHighlighter.js" defer></script>
+        <script src="js/localStorageCleanup.js" defer></script>
     </head>
     <body>
-        <header>
-                <div class="header_1">
-                    <h1>Horage</h1>
-                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-                </div>   
-
-                <div class="nav">
-                    <ul>
-                        <li>
-                            <a href="accueil.php" class="a1">Accueil</a>
-                        </li>
-                        
-                        <li>
-                            <a href="presentation.php" class="a1">Presentation</a>
-                        </li>
-                        
-                        <li>
-                            <a href="Reserve.php" class="a1">Nos offres</a>
-                        </li>
-
-                        <li>
-                            <a href="Recherche.php" class="a1">reserver</a>
-                        </li>
-                        
-                        <?php
-                        $pageProfil = 'login.php'; // par défaut, page connexion
-
-                        if (isset($_SESSION['user'])) {
-                            $typeUser = $_SESSION['user']['type'];
-                            $pageProfil = match ($typeUser) {
-                                'admin'  => 'profil_admin.php',
-                                'normal' => 'profil_user.php',
-                                default  => 'profil_vip.php',
-                            };
-                        }
-                        ?>
-                        <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
-
-
-                        <li>
-                            <a href="contact.php" class="a1">contacts</a>
-                        </li>
-                        <li><a href="panier.php" class="a1">Panier</a></li>
-                    </ul>
-                </div>
-        </header>
-
+    <?php
+        // Affichons le header
+        afficherHeader();
+    ?>
         <main>
+            <!-- Section hero principale avec texte et boutons -->
             <section class="hero">
                 <img src="img_horage/sang.png" alt="sang" width="80px" id="sang">
                 <div class="hero_txt">
@@ -85,6 +46,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
                 </div>
             </section>
             <br><br><br><br><br>
+            <!-- Section galerie photo -->
             <h2 id="galerie">Galerie photo</h2>
             <section class="hero3">
                 <div class="first_place">
@@ -100,6 +62,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
                 	<img src="https://www.petitfute.com/medias/mag/18294/originale/17032-eastern-state-penitentiary.jpg" width="350" class="img_comment">
                 </div>
             </section>
+            <!-- Section des commentaires clients -->
             <section class="hero2">
                 <div class="comment">
                     <img src="img_horage/femme1.webp" width="50px" height="50px" class="img_comment">
@@ -128,9 +91,14 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
             </section>
         </main>
 
+        <!-- Pied de page avec copyright -->
         <footer>
             <h2>Copyright © Horage - Tous droits réservés</h2>
             <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
         </footer>
     </body>
 </html>
+<?php
+// On démarre la session PHP
+session_start();
+?>

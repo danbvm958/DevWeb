@@ -6,13 +6,13 @@
     gap: 2rem; /* espacement entre les contacts */
     align-items: flex-start; /* aligne tout à gauche */
   }
-  
+
   .contacts a {
     display: flex;
     align-items: center;
     text-decoration: none;
   }
-  
+
   .contacts img {
     float: left;
     max-width: 300px;
@@ -22,10 +22,9 @@
   .contacts .contact-item {
     display: flex;
     align-items: center;
-    gap: 1.5rem; /* espace entre image et texte */
+    gap: 1.5rem;
   }
 
 .description {
     margin-left: 60px;
 }
-  

@@ -1,12 +1,7 @@
 <?php
-session_start();
+require_once 'session.php';
+DemarrageSession();
 require('getapikey.php'); // Pour la connexion CY Bank
-
-if (!isset($_SESSION['user']) || !is_array($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
-}
-
 $user = $_SESSION['user'];
 
 // Traitement du paiement VIP (invisible)
@@ -14,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
     $transaction = bin2hex(random_bytes(12));
     $montant = "60000.00";
     $vendeur = "MI-1_A";
-    $retour = "http://localhost/horage_project/retour_paiement2.php?session=".session_id();
+    $retour = "https://horage.infinityfreeapp.com/Horage_Project/retour_paiement2.php?session=".session_id();
     $api_key = getAPIKey($vendeur);
     $control = md5($api_key."#".$transaction."#".$montant."#".$vendeur."#".$retour."#");
     
@@ -43,58 +38,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
     <title>Profil - Horage</title>
     <link rel="stylesheet" href="CSS/profil.css?v=<?= time() ?>">
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
-    <script src="js/themeSwitcher.js" defer></script>
+    <script src="js/ThemeSwitcher.js" defer></script>
+    <script src="js/navHighlighter.js" defer></script>
     
 </head>
 <body>
-<header>
-                <div class="header_1">
-                    <h1>Horage</h1>
-                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-                </div>   
-
-                <div class="nav">
-                    <ul>
-                        <li>
-                            <a href="accueil.php" class="a1">Accueil</a>
-                        </li>
-                        
-                        <li>
-                            <a href="presentation.php" class="a1">Presentation</a>
-                        </li>
-                        
-                        <li>
-                            <a href="Reserve.php" class="a1">Nos offres</a>
-                        </li>
-
-                        <li>
-                            <a href="Recherche.php" class="a1">reserver</a>
-                        </li>
-                        
-                        <?php
-                        $pageProfil = 'login.php'; // par défaut, page connexion
-
-                        if (isset($_SESSION['user'])) {
-                            $typeUser = $_SESSION['user']['type'];
-                            $pageProfil = match ($typeUser) {
-                                'admin'  => 'profil_admin.php',
-                                'normal' => 'profil_user.php',
-                                default  => 'profil_vip.php',
-                            };
-                        }
-                        ?>
-                        <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
-
-
-                        <li>
-                            <a href="accueil.php" class="a1">contacts</a>
-                        </li>
-                        <li><a href="panier.php" class="a1">Panier</a></li>
-                    </ul>
-                </div>
-        </header>
+<?php 
+    
+    AfficherHeader();
+?>
 
     <main class="profile-container">
+        <!-- Bouton pour ouvrir/fermer la sidebar -->
+        <button class="sidebar-toggle">☰</button>
+        
+        <!-- Overlay (fond semi-transparent) -->
+        <div class="overlay"></div>
         <aside class="sidebar">
             <a href="profil_user.php" class="menu-btn active">Profil</a>
             <a href="profil_travel.php" class="menu-btn">Voyages prévus</a>
@@ -133,5 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
         <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
     </footer>
     <script src="js/profil_user.js"></script>
+    <script src="js/sidebar.js"></script>
 </body>
 </html>

@@ -1,7 +1,8 @@
 <?php
-session_start();
+require_once 'session.php';
+$pdo = DemmarageSession();
 
-if (!isset($_SESSION['user'])) {
+if (VerificationConnexion() == 0) {
     header('Location: login.php');
     exit();
 }

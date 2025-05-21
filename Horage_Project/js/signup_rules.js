@@ -174,3 +174,23 @@ document.addEventListener('DOMContentLoaded', function() {
     setupCharacterCounter(inputs.password1, 30);
     setupCharacterCounter(inputs.password2, 30);
 });
+
+
+        // Blocage des dates futures côté client
+        // On attend que le DOM soit chargé
+        document.addEventListener('DOMContentLoaded', function() {
+            // Je sélectionne le champ de date de naissance
+            const birthdateInput = document.querySelector('input[name="birthdate"]');
+            // On définit la date d'aujourd'hui comme maximum
+            const today = new Date().toISOString().split('T')[0];
+            
+            birthdateInput.max = today;
+            
+            // J'ajoute un écouteur pour vérifier la date saisie
+            birthdateInput.addEventListener('change', function() {
+                if (this.value > today) {
+                    this.value = '';
+                    alert("La date de naissance ne peut pas être dans le futur.");
+                }
+            });
+        });

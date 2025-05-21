@@ -1,19 +1,12 @@
 <?php
-session_start();
-
+require_once 'session.php';
+$pdo = DemarrageSQL();
+DemarrageSession();
 // Fonction pour afficher les prix proprement
 function afficherPrix($prix) {
     return number_format($prix, 2, ',', ' ') . ' €';
 }
 
-$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
-$user = 'root';
-$password = '';
-try {
-    $pdo = new PDO($dsn, $user, $password);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
 
 // Récupérer l'id du voyage depuis l'URL
 $id_voyage = $_GET['id_voyage'] ?? null;
@@ -71,53 +64,13 @@ $prix_total = $vp['Prix'] ;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Récapitulatif du voyage - Horage</title>
     <link rel="stylesheet" href="CSS/recapitulatif.css?v=<?php echo time(); ?>">
-    <script src="js/themeSwitcher.js" defer></script>
+    <script src="js/ThemeSwitcher.js" defer></script>
+    <script src="js/navHighlighter.js" defer></script>
 </head>
 <body>
-<header>
-    <div class="header_1">
-        <h1>Horage</h1>
-        <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-    </div>   
-
-    <div class="nav">
-        <ul>
-            <li>
-                <a href="accueil.php" class="a1">Accueil</a>
-            </li>
-            
-            <li>
-                <a href="presentation.php" class="a1">Presentation</a>
-            </li>
-            
-            <li>
-                <a href="Reserve.php" class="a1">Nos offres</a>
-            </li>
-
-            <li>
-                <a href="Recherche.php" class="a1">reserver</a>
-            </li>
-            
-            <?php
-            $pageProfil = 'login.php'; // par défaut, page connexion
-
-            if (isset($_SESSION['user'])) {
-                $typeUser = $_SESSION['user']['type'];
-                $pageProfil = match ($typeUser) {
-                    'admin'  => 'profil_admin.php',
-                    'basic' => 'profil_user.php',
-                    default  => 'profil_vip.php',
-                };
-            }
-            ?>
-            <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
-
-            <li>
-                <a href="contact.php" class="a1">contacts</a>
-            </li>
-        </ul>
-    </div>
-</header>
+<?php 
+    AfficherHeader();
+?>
 
 <main>
     <div class="hero1">

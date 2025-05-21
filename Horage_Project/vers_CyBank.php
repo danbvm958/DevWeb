@@ -36,10 +36,15 @@ if (!is_numeric($prix_total)) {
 if (!isset($_SESSION['pending_payment'])) {
     die("Erreur : Pas de voyage en attente de paiement.");
 }
+
+$index = $_POST['voyage_index'];
+if(isset($index)){
+    $_SESSION['npayment'] = $_POST['voyage_index'];
+}
 $transaction = generateTransactionID();
 $montant = number_format((float)$_SESSION['pending_payment'][$_SESSION['npayment']]['prix_total'], 2, '.', '');
-$vendeur = "MI-1_A"; // ton code vendeur
-$retour = "http://localhost/horage_project/retour_paiement.php?session=" . session_id();
+$vendeur = "MI-1_A";
+$retour = "https://horage.infinityfreeapp.com/Horage_Project/retour_paiement.php?session=" . session_id();
 // Récupération API Key
 $api_key = getAPIKey($vendeur);
 
@@ -61,16 +66,13 @@ $control_string = $api_key . "#" . $transaction . "#" . $montant . "#" . $vendeu
 $control = md5($control_string);
 ?>
 
-<?php
-// [Tout le code PHP précédent reste identique jusqu'à la fin des vérifications]
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Confirmation de paiement</title>
-    <script src="js/themeSwitcher.js" defer></script>
+    <script src="js/ThemeSwitcher.js" defer></script>
+    <script src="js/navHighlighter.js" defer></script>
     <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
         .payment-box { border: 1px solid #ddd; padding: 20px; border-radius: 5px; }
@@ -90,6 +92,7 @@ $control = md5($control_string);
         <h2>Confirmez votre paiement</h2>
         <p>Montant : <strong><?= htmlspecialchars($montant) ?> €</strong></p>
         <p>Vous serez redirigé vers le service sécurisé CY Bank</p>
+        <?php unset($_SESSION['npayment']); ?>
         
         <form action="https://www.plateforme-smc.fr/cybank/index.php" method="POST">
             <input type="hidden" name="transaction" value="<?= htmlspecialchars($transaction) ?>">

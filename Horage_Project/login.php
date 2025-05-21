@@ -1,39 +1,32 @@
 <?php
-session_start();
-
-// Vérifie si l'utilisateur est déjà connecté
-if (isset($_SESSION['user'])) {
-    header("Location: profil_user.php"); 
-    exit();
-}
-//Connection 
-$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
-$user = 'root';
-$password = '';
-try {
-    $pdo = new PDO($dsn, $user, $password);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
-
+// On inclut les fichiers nécessaires pour la session et la base de données
+require_once 'session.php';
+// Je démarre la connexion SQL
+$pdo = DemarrageSQL();
+// On démarre la session utilisateur
+DemarrageSession();
+// Je crée un tableau pour stocker les erreurs
 $errors = [];
 
+// On vérifie si la méthode de requête est POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Je récupère le nom d'utilisateur et le mot de passe
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Vérifie si les champs sont remplis
+    // On vérifie si les champs sont vides
     if (empty($username) || empty($password)) {
         $errors[] = "Tous les champs doivent être remplis.";
     } else {
+        // Je prépare la requête SQL pour chercher l'utilisateur
         $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE NomUtilisateur = ? OR Email = ?");
         $stmt->execute([$username, $username]);
         $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($utilisateur) {
-            // Vérifier le mot de passe hashé
+            // On vérifie si le mot de passe correspond
             if (password_verify($password, $utilisateur['MotDePasse'])) {
-                // Stocker toutes les informations dans la session sous forme de tableau
+                // Je stocke les informations de l'utilisateur dans la session
                 $_SESSION['user'] = [
                     'username' => $utilisateur['NomUtilisateur'],
                     'nom' =>$utilisateur['Nom'],
@@ -42,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'type' =>$utilisateur['Types'],
                     'id' =>$utilisateur['Id']
                 ];
-                header("Location: accueil.php"); // Redirige vers la page d'accueil
+                // On redirige vers la page d'accueil après connexion
+                header("Location: accueil.php");
                 exit();
             } else {
                 $errors[] = "Mot de passe incorrect.";
@@ -57,12 +51,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Je définis le titre de la page -->
     <title>Login - Horage</title>
+    <!-- On spécifie l'encodage des caractères -->
     <meta charset="UTF-8">
+    <!-- Je lie la feuille de style CSS -->
     <link rel="stylesheet" href="CSS/login_signup.css">
+    <!-- On adapte la page pour les appareils mobiles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Je définis l'icône de la page (favicon) -->
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
     <style>
+        /* On style le bouton pour afficher/masquer le mot de passe */
         .eye-button {
             margin-left: 5px;
             background: none;
@@ -72,63 +72,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transition: transform 0.2s;
         }
         
+        /* Je rend le bouton plus grand quand on passe la souris */
         .eye-button.large {
             transform: scale(1.3);
         }
         
+        /* On style le compteur de caractères */
         .character-counter {
             font-size: 0.8em;
             color: #666;
         }
         
+        /* Je définis le style des messages d'erreur */
         .error {
             color: red;
             font-size: 0.8em;
             margin-top: 5px;
         }
     </style>
-    <script src="js/themeSwitcher.js" defer></script>
+    <!-- On charge les scripts JavaScript avec defer pour qu'ils s'exécutent après le chargement de la page -->
+    <script src="js/ThemeSwitcher.js" defer></script>
     <script src="js/login_rules.js" defer></script>
+    <script src="js/navHighlighter.js" defer></script>
 </head>
 <body>
-<header>
-    <div class="header_1">
-        <h1>Horage</h1>
-        <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-    </div>   
-
-    <div class="nav">
-        <ul>
-            <li><a href="accueil.php" class="a1">Accueil</a></li>
-            <li><a href="presentation.php" class="a1">Presentation</a></li>
-            <li><a href="Reserve.php" class="a1">Nos offres</a></li>
-            <li><a href="Recherche.php" class="a1">reserver</a></li>
-            <?php
-            $pageProfil = 'login.php';
-            if (isset($_SESSION['user'])) {
-                $typeUser = $_SESSION['user']['type'];
-                $pageProfil = match ($typeUser) {
-                    'admin'  => 'profil_admin.php',
-                    'normal' => 'profil_user.php',
-                    default  => 'profil_vip.php',
-                };
-            }
-            ?>
-            <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
-            <li><a href="contact.php" class="a1">contacts</a></li>
-            <li><a href="panier.php" class="a1">Panier</a></li>
-        </ul>
-    </div>
-</header>
+<?php 
+    // J'affiche le header du site
+    AfficherHeader();
+?>
 
 <main>
+    <!-- Conteneur principal du formulaire -->
     <div class="form-container">
         <h1>Connexion à Horage</h1>
+        <!-- Formulaire de connexion -->
         <form action="login.php" method="POST">
             <label>Nom d'utilisateur ou mail :</label>
             <input type="text" name="username" placeholder="Entrez un nom d'utilisateur ou un email" required maxlength="20" />
             <div class="character-counter" id="username-counter">0/20 caractères</div>
             <?php if (in_array("Utilisateur non trouvé.", $errors)): ?>
+                <!-- On affiche l'erreur si l'utilisateur n'existe pas -->
                 <div class="error">Utilisateur non trouvé.</div>
             <?php endif; ?>
 
@@ -136,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="password" id="password-input" placeholder="Entrez un mot de passe" required maxlength="30" />
             <div class="character-counter" id="password-counter">0/30 caractères</div>
             <?php if (in_array("Mot de passe incorrect.", $errors)): ?>
+                <!-- J'affiche l'erreur si le mot de passe est incorrect -->
                 <div class="error">Mot de passe incorrect.</div>
             <?php endif; ?>
 
@@ -143,10 +127,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <br/>
+        <!-- Liens vers l'inscription et la récupération de mot de passe -->
         <a href="signup.php">Rejoignez les Voyageurs de l'Ombre</a>
+        <br/>
+        <a href="MdpOublie.php">Mot de passe oublié ?</a>
     </div>
 </main>
 
+<!-- Pied de page avec copyright -->
 <footer>
     <h2>Copyright © Horage - Tous droits réservés</h2>
     <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>

@@ -1,12 +1,6 @@
 <?php
-session_start();
-
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
-    exit();
-}
-
+require_once 'session.php';
+DemarrageSession();
 // Initialiser le panier depuis la session
 $panier = isset($_SESSION['pending_payment']) ? $_SESSION['pending_payment'] : [];
 
@@ -53,36 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="CSS/panier.css?v=<?= time() ?>">
+    <script src="js/ThemeSwitcher.js" defer></script>
+    <script src="js/navHighlighter.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="header_1">
-            <h1>Horage</h1>
-            <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-        </div>   
-
-        <div class="nav">
-            <ul>
-                <li><a href="accueil.php" class="a1">Accueil</a></li>
-                <li><a href="presentation.php" class="a1">Presentation</a></li>
-                <li><a href="Reserve.php" class="a1">Nos offres</a></li>
-                <li><a href="Recherche.php" class="a1">reserver</a></li>
-                <?php if (isset($_SESSION['user'])): ?>
-                <?php if ($_SESSION['user']['type'] == "vip"):?>
-                    <li><a href="profil_vip.php" class="a1">Profil</a></li>
-                <?php else: ?>
-                    <li><a href="profil_user.php" class="a1">Profil</a></li>
-                <?php endif;?>
-                
-            <?php else: ?>
-                <li><a href="login.php" class="a1">Connexion</a></li>
-            <?php endif; ?>
-                <li><a href="accueil.php" class="a1">contacts</a></li>
-                <li><a href="panier.php" class="a1">Panier</a></li>
-            </ul>
-        </div>
-    </header>
-
+    <?php 
+        
+        AfficherHeader();
+    ?>
     <main>
         <div class="panier-container">
             <h2>Mon Panier</h2>
@@ -126,10 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </form>
 
                                 <form method="post" action="vers_CyBank.php" style="display: inline;">
-                                    <?php
-                                    // Stocker l'index dans la session avant soumission
-                                    $_SESSION['npayment'] = $index;
-                                    ?>
+                                    <input type="hidden" name="voyage_index" value="<?= $index ?>">
                                     <input type="hidden" name="voyage_id" value="<?= $voyage['voyage_id'] ?>">
                                     <input type="hidden" name="nombre_personnes" value="<?= $voyage['nombre_personnes'] ?>">
                                     <input type="hidden" name="prix_total" value="<?= $voyage['prix_total'] ?>">

@@ -1,12 +1,12 @@
 <?php
-session_start();
-require('getapikey.php');
-
-// Vérifier que l'utilisateur est connecté
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
+require_once 'session.php';
+DemarrageSession();
+$pdo = DemarrageSQL();
+if (VerificationConnexion() == 0){
+    header(Location : "accueil.php");
 }
+
+require('getapikey.php');
 
 // Récupérer les paramètres de l'URL
 $transaction = $_GET['transaction'] ?? '';
@@ -24,15 +24,7 @@ if ($session_id !== session_id()) {
 // Valider la valeur de contrôle
 $api_key = getAPIKey($vendeur);
 $expected_control = md5($api_key . "#" . $transaction . "#" . $montant . "#" . $vendeur . "#" . $status . "#");
-
-$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
-$user = 'root';
-$password = '';
-try {
-    $pdo = new PDO($dsn, $user, $password);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}            
+    
 
 if ($control === $expected_control) {
     // Paiement validé

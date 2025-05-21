@@ -2,41 +2,89 @@
 @import 'voyage.css';
 @import 'root.css';
 
-main.profile-container {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin: 50px auto;
-    background-color: var(--color-background-form);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(255, 0, 0, 0.5);
-}
-
-/* --- MENU LATÉRAL --- */
+/* --- Sidebar stylée comme un menu latéral --- */
 .sidebar {
-    width: 20%;
+    width: 250px;
+    height: 100vh;
     background-color: var(--color-nav);
-    padding: 20px;
-    border-radius: 10px;
+    padding: 80px 15px 15px 15px;
+    position: fixed;
+    left: -250px; /* Cachée par défaut */
+    top: 0;
+    transition: left 0.3s ease;
+    z-index: 1000;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     gap: 0.45rem;
 }
 
+.sidebar.active {
+    left: 0; /* Visible quand la classe "active" est ajoutée */
+}
+
+/* Bouton pour ouvrir/fermer la sidebar */
+.sidebar-toggle {
+    font-family: Arial, sans-serif;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    z-index: 1001;
+    border: none;
+    padding: 10px;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Overlay pour le reste de la page */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+
+.profile-container {
+    display: flex;
+    width: 90%; /* Légèrement réduit pour mieux centrer */
+    max-width: 1200px; /* Largeur maximale */
+    margin: 50px auto; /* Centrage horizontal */
+    background-color: var(--color-background-form);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(255, 0, 0, 0.5);
+    position: relative;
+}
+
+.profile-container.sidebar-active {
+    margin-left: 250px; /* Décale le contenu quand la sidebar est ouverte */
+}
+
 .menu-btn {
-    display: inline-block;
+    display: block; /* Changez de inline-block à block pour mieux contrôler la largeur */
     background-color: transparent;
     color: var(--color-rod);
-    border: 2px solid var(--color-rod);
-    padding: 10px;
-    font-size: 1rem;
+    border: 1px solid var(--color-rod);
+    padding: 8px 12px;
+    font-size: 0.9rem; /* Diminuez la taille de la police */
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 4px; /* Bordure légèrement moins arrondie */
     text-decoration: none;
-    transition: 0.3s;
-    flex: 1;
+    transition: all 0.2s ease; /* Animation plus rapide */
+    width: 100%; /* Prend toute la largeur disponible */
+    text-align: center; /* Texte centré */
+    margin-bottom: 0.3rem; /* Espacement réduit entre les boutons */
 }
 
 .menu-btn:hover,
@@ -49,7 +97,6 @@ main.profile-container {
 .logout {
     background-color: var(--color-border-dark);
     border-color: var(--color-rod);
-    margin-top: auto;
 }
 
 .logout:hover {
@@ -59,8 +106,8 @@ main.profile-container {
 
 /* --- CONTENU PROFIL --- */
 .profile-content {
-    width: 75%;
-    text-align: left;
+    width: calc(100% - 250px); /* Ajusté en fonction de la sidebar */
+    margin-left: 250px; /* Correspond à la largeur de la sidebar */
     padding: 20px;
 }
 
@@ -77,6 +124,7 @@ main.profile-container {
     background-color: var(--color-background-profile);
     padding: 20px;
     border-radius: 10px;
+    flex-direction: column;
 }
 
 .profile-pic {

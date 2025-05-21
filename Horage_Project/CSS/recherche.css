@@ -1,12 +1,12 @@
 @import 'main.css';
 @import 'root.css';
-@import 'voyage.css';
+
 /* Section Intro stylisée */
 .intro {
     text-align: center;
     color: var(--color-white);
     padding: 30px;
-    margin: 40px auto;
+    margin: 60px auto;
     border-radius: 10px;
     position: relative;
     width: 70%;
@@ -14,8 +14,7 @@
 
 .intro #sang {
     position: absolute;
-    right: 320px;
-    top: 60px;
+    right: 43%;
     width: 60px;
 }
 
@@ -42,6 +41,7 @@
     width: 60%;
     max-width: 700px;
 }
+
 .submit_search {
     color: white !important;
 }
@@ -84,6 +84,77 @@
     box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
 }
 
+/* Travel Cards */
+#voyagesContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+.travel-card {
+    background-color: var(--color-background-profile);
+    color: var(--color-white);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
+    text-align: center;
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.travel-card:hover {
+    transform: scale(1.05);
+}
+
+.travel-card h3 {
+    color: var(--color-nav-light);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.travel-card p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.travel-card .btn {
+    display: inline-block;
+    background-color: var(--color-nav);
+    color: var(--color-rod);
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.travel-card .btn:hover {
+    background-color: var(--color-travelbutton);
+    color: var(--color-hover);
+}
+
+.price {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--color-nav-light);
+    color: var(--color-rod);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+h2.tv {
+    text-align: left;
+    border-bottom: 2px solid #8B0000;
+    padding: 50px;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -115,4 +186,62 @@
     pointer-events: none;
     font-weight: bold;
 }
+
+button, .bouton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover, .bouton:hover {
+  background-color: #c82333;
+}
+
+/* Pour les menus déroulants */
+select {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+}
+
+.search-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-combo {
+    display: flex;
+    gap: 10px;
+}
+
+.submit_search {
+    align-self: flex-start;
+    margin-bottom: 15px;
+}
+
+.filter-item label {
+    text-align: left;
+    display: block;
+    color: var(--color-white);
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+}
+
+.filter-combo {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start; /* Aligne les éléments à gauche */
+}
+
 

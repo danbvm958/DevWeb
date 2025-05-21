@@ -1,13 +1,7 @@
 <?php  
-session_start();
-$dsn = 'mysql:host=localhost;dbname=ma_bdd;charset=utf8';
-$user = 'root';
-$password = '';
-try {
-    $pdo = new PDO($dsn, $user, $password);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
+require_once 'session.php';
+DemarrageSession();
+$pdo = DemarrageSQL();
 $stmt = $pdo->prepare("SELECT * FROM voyages");
 $stmt->execute();
 $voyages = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,59 +26,17 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nos offres - Horage</title>
-    <link rel="stylesheet" href="CSS/voyage.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="CSS/voyage.css">
     <link rel="stylesheet" href="css/main.css">
-    <script src="js/themeSwitcher.js" defer></script>
+    <script src="js/ThemeSwitcher.js" defer></script>
+    <script src="js/navHighlighter.js" defer></script>
     <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
 </head>
 <body>
 
-<header>
-                <div class="header_1">
-                    <h1>Horage</h1>
-                    <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
-                </div>   
-
-                <div class="nav">
-                    <ul>
-                        <li>
-                            <a href="accueil.php" class="a1">Accueil</a>
-                        </li>
-                        
-                        <li>
-                            <a href="presentation.php" class="a1">Presentation</a>
-                        </li>
-                        
-                        <li>
-                            <a href="Reserve.php" class="a1">Nos offres</a>
-                        </li>
-
-                        <li>
-                            <a href="Recherche.php" class="a1">reserver</a>
-                        </li>
-                        
-                        <?php
-                        $pageProfil = 'login.php'; // par défaut, page connexion
-
-                        if (isset($_SESSION['user'])) {
-                            $typeUser = $_SESSION['user']['type'];
-                            $pageProfil = match ($typeUser) {
-                                'admin'  => 'profil_admin.php',
-                                'normal' => 'profil_user.php',
-                                default  => 'profil_vip.php',
-                            };
-                        }
-                        ?>
-                        <li><a href="<?= $pageProfil ?>" class="a1"><?= isset($_SESSION['user']) ? 'Profil' : 'Connexion' ?></a></li>
-
-
-                        <li>
-                            <a href="contact.php" class="a1">contacts</a>
-                        </li>
-                        <li><a href="panier.php" class="a1">Panier</a></li>
-                    </ul>
-                </div>
-        </header>
+<?php 
+    AfficherHeader();
+?>
 
     <main>
         <h2 class="tv">Les plus récents 🔍</h2>
@@ -119,11 +71,13 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
             <?php endif; ?>
         </div>
         <?php endif; ?>
+
     </main>
 
     <footer>
         <h2>Copyright © Horage - Tous droits réservés</h2>
         <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
+
     </footer>
 
 </body>

@@ -271,6 +271,48 @@
     border-color: var(--color-nav-light);
 }
 
+/* Style pour les checkboxes - même style que les radios */
+.option-group input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--color-nav);
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* Style quand la checkbox est cochée */
+.option-group input[type="checkbox"]:checked::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-nav-light);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+}
+
+/* Effet au survol */
+.option-group input[type="checkbox"]:hover {
+    border-color: var(--color-nav-light);
+}
+
+/* Style pour les labels des checkboxes */
+.option-group input[type="checkbox"] + label {
+    color: var(--color-white);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Effet au survol du label */
+.option-group input[type="checkbox"] + label:hover {
+    color: var(--color-nav-light);
+}
+
 
 
 /* Responsive desing pour les petits écrans  */
