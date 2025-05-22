@@ -1,11 +1,35 @@
 <?php
+require_once 'session.php';
 DemarrageSession();
 $pdo = DemarrageSQL();
-// On ne fait l'action que si c'est un POST et qu'un email est transmis
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
     $email = $_POST['email'];
-    $stmt = $pdo->prepare("UPDATE utilisateur SET Types = ? WHERE OR Email = ?");
-    $stmt->execute(["bloque",$email]);
-    $_SESSION['user']['type'] = "bloque";
-    
-?>
+
+    $stmt = $pdo->prepare("SELECT Types FROM utilisateur WHERE Email = ?");
+    $stmt->execute([$email]);
+    $currentType = $stmt->fetchColumn();
+
+    if ($currentType === false) {
+        echo json_encode(['success' => false, 'msg' => 'Utilisateur introuvable']);
+        exit;
+    }
+
+    if ($currentType === "bloque") {
+        // Débloquer = repasser en "normal" SYSTEMATIQUEMENT
+        $newType = "normal";
+    } else {
+        // Quel que soit l'état, bloquer = "bloque"
+        $newType = "bloque";
+    }
+
+    $stmt = $pdo->prepare("UPDATE utilisateur SET Types = ? WHERE Email = ?");
+    $stmt->execute([$newType, $email]);
+    echo json_encode([
+        'success' => true,
+        'newType' => $newType
+    ]);
+    exit;
+}
+echo json_encode(['success' => false, 'msg' => 'Requête invalide']);
+exit;

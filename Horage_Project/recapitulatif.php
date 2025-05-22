@@ -52,6 +52,7 @@ $etapes_avec_options = $resultat['etapes_avec_options'];
 // Je stocke les informations de réservation en session pour le paiement
 $_SESSION['pending_payment'][] = [
     'voyage_id' => $voyage_id,
+    'voyage_titre' => $voyage['Titre'],
     'nombre_personnes' => $resultat['nombre_personnes'],
     'nb_adultes' => $nb_adultes,
     'nb_enfants' => $nb_enfants,
@@ -60,6 +61,7 @@ $_SESSION['pending_payment'][] = [
 ];
 // On enregistre l'index du dernier paiement en attente
 $_SESSION['npayment'] = count($_SESSION['pending_payment'])-1;
+
 ?>
 
 <!DOCTYPE html>
@@ -119,7 +121,7 @@ $_SESSION['npayment'] = count($_SESSION['pending_payment'])-1;
     </ul>
 
     <!-- Formulaire pour modifier la réservation -->
-    <form action="voyages_details.php" method="get">
+    <form action="modifier.php" method="get">
         <input type="hidden" name="id" value="<?= $voyage_id ?>">
         <input type="hidden" name="nb_adultes" value="<?= $nb_adultes ?>">
         <input type="hidden" name="nb_enfants" value="<?= $nb_enfants ?>">
@@ -127,13 +129,17 @@ $_SESSION['npayment'] = count($_SESSION['pending_payment'])-1;
     </form>
 
     <!-- Formulaire pour confirmer et payer -->
-    <form action="vers_CyBank.php" method="post">
+        <!-- Formulaire pour confirmer et payer -->
+   
+    
+    <form action="panier.php" method="post">
         <input type="hidden" name="voyage_id" value="<?= $voyage_id ?>">
         <input type="hidden" name="nombre_personnes" value="<?= $nombre_personnes ?>">
         <input type="hidden" name="prix_total" value="<?= $prix_total ?>">
         <input type="hidden" name="voyage_index" value="<?= count($_SESSION['pending_payment'])-1?>">
         <button type="submit" class="sub">Confirmer et payer</button>
     </form>
+
 </main>
 
 <!-- Pied de page -->

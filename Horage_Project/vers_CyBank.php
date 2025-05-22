@@ -1,6 +1,8 @@
 <?php
-session_start();
 require('getapikey.php');
+require_once 'session.php';
+$pdo = DemarrageSQL();
+DemarrageSession();
 
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
@@ -42,7 +44,7 @@ if(isset($index)){
     $_SESSION['npayment'] = $_POST['voyage_index'];
 }
 $transaction = generateTransactionID();
-$montant = number_format((float)$_SESSION['pending_payment'][$_SESSION['npayment']]['prix_total'], 2, '.', '');
+$montant = number_format((float)$prix_total, 2, '.', '');
 $vendeur = "MI-1_A";
 $retour = "https://horage.infinityfreeapp.com/Horage_Project/retour_paiement.php?session=" . session_id();
 // Récupération API Key
@@ -92,7 +94,6 @@ $control = md5($control_string);
         <h2>Confirmez votre paiement</h2>
         <p>Montant : <strong><?= htmlspecialchars($montant) ?> €</strong></p>
         <p>Vous serez redirigé vers le service sécurisé CY Bank</p>
-        <?php unset($_SESSION['npayment']); ?>
         
         <form action="https://www.plateforme-smc.fr/cybank/index.php" method="POST">
             <input type="hidden" name="transaction" value="<?= htmlspecialchars($transaction) ?>">

@@ -50,23 +50,25 @@ edit.forEach((button)=>{
             NewInput.replaceWith(span);
             buttonContainer.replaceWith(button);
         })
-        ValidButton.addEventListener('click',()=>{
-            const NewValue=NewInput.value.trim();
-            modifUser(NewValue,field).then(resultat =>{
-                if (resultat== "Mise à jour réussie."){
-                    // console.log("debug");
-                    NewInput.replaceWith(span);
-                    buttonContainer.replaceWith(button);
-                    span.textContent = NewValue;
-                }
-                else{
-                    NewInput.replaceWith(span);
-                    buttonContainer.replaceWith(button); 
-                }
-            })
-                
+        ValidButton.addEventListener('click', () => {
+    const NewValue = NewInput.value.trim();
+    if (NewValue === "") {
+        alert("Le champ ne peut pas être vide !");
+        NewInput.focus();
+        return; // Bloque la validation si vide
+    }
+    modifUser(NewValue, field).then(resultat => {
+        if (resultat == "Mise à jour réussie.") {
+            NewInput.replaceWith(span);
+            buttonContainer.replaceWith(button);
+            span.textContent = NewValue;
+        } else {
+            NewInput.replaceWith(span);
+            buttonContainer.replaceWith(button);
+        }
+    });
+});
 
-        })
     })
 
 }

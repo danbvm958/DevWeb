@@ -37,11 +37,11 @@
                 <div class="hero_discover_all">
                     <div class="hero_discover">
                         <h2 class="accroche">aventure toi !</h2>
-                        <p class="button_go"><a href="/horage_project/Reserve.php" class="a2">nos offres</a></p>
+                        <p class="button_go"><a href="Reserve.php" class="a2">nos offres</a></p>
                     </div>
                     <div class="hero_discover2">
                         <h2 class="accroche">Reservez ici !</h2>
-                        <p class="button_go"><a href="/horage_project/Recherche.php" class="a2">reservation</a></p>
+                        <p class="button_go"><a href="Recherche.php" class="a2">reservation</a></p>
                     </div>
                 </div>
             </section>

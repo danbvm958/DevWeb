@@ -43,7 +43,7 @@ if ($control === $expected_control) {
                 'montant' => $montant
             ];
             $stmt = $pdo->prepare("INSERT INTO voyage_payee (IdVoyage, IdUtilisateur, DatePaiement, Prix, NbAdultes, NbEnfants) VALUES (?,?,?,?,?,?) ");
-            $stmt->execute([$voyage_data['voyage_id'],$utilisateur['Id'],$voyage_data['date_achat'],$voyage_data['montant'], $_SESSION['pending_payment'][$_SESSION['npayment']]['nombre_adultes'],$_SESSION['pending_payment'][$_SESSION['npayment']]['nombre_enfants']]);
+            $stmt->execute([$voyage_data['voyage_id'],$utilisateur['Id'],$voyage_data['date_achat'],$voyage_data['montant'], $_SESSION['pending_payment'][$_SESSION['npayment']]['nb_adultes'],$_SESSION['pending_payment'][$_SESSION['npayment']]['nb_enfants']]);
             $idCommande = $pdo->lastInsertId();
 
             $stmt= $pdo->prepare("INSERT INTO options_commande (IdCommande,IdEtape,IdOption,IdChoix,Prix) VALUES (?,?,?,?,?) ");
@@ -52,7 +52,7 @@ if ($control === $expected_control) {
                     $stmt->execute([$idCommande,$id_etape,$option['id_option'],$option['id_choix'],$montant]);
                 }
             }
-            $stmt = $pdo->prepare("UPDATE voyage SET PlacesDispo = PlacesDispo - ? WHERE IdVoyage = ?");
+            $stmt = $pdo->prepare("UPDATE voyages SET PlacesDispo = PlacesDispo - ? WHERE IdVoyage = ?");
             $stmt->execute([$voyage_data['nombre_personnes'],$voyage_data['voyage_id']]);
 
             

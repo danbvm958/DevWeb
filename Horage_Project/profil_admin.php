@@ -14,6 +14,7 @@
     <script src="js/ThemeSwitcher.js" defer></script> <!-- On inclut le script pour changer de thème -->
     <script src="js/Profil_admin.js" defer></script> <!-- On inclut le script pour le profil admin -->
     <script src="js/navHighlighter.js" defer></script> <!-- On inclut le script pour surligner la navigation -->
+     <script src="js/sidebar.js"></script> <!-- On inclut le script pour gérer la barre latérale -->
 </head>
 <body>
 <?php
@@ -47,6 +48,6 @@
         <h2>Copyright © Horage - Tous droits réservés</h2> <!-- Pied de page avec copyright -->
         <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
     </footer>
-    <script src="js/sidebar.js"></script> <!-- On inclut le script pour gérer la barre latérale -->
+   
 </body>
 </html>

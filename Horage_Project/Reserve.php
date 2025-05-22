@@ -6,19 +6,11 @@ $stmt = $pdo->prepare("SELECT * FROM voyages");
 $stmt->execute();
 $voyages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 // Trier les voyages du plus récent au plus ancien
 usort($voyages, function ($a, $b) {
     return strtotime($a['DateDebut']) - strtotime($b['DateDebut']);
 });
-
-$voyages_par_page = 3;
-$page_actuelle = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-$offset = ($page_actuelle - 1) * $voyages_par_page;
-$voyages_a_afficher = array_slice($voyages, $offset, $voyages_par_page);
-$nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -40,14 +32,31 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
 
     <main>
         <h2 class="tv">Les plus récents 🔍</h2>
-        <div class="travels">
-            <?php if (!empty($voyages_a_afficher)) : ?>
-                <?php foreach ($voyages_a_afficher as $voyage) : ?>
-                    <div class="travel-card">
+        <div id="voyagesContainer" class="travels">
+            <?php if (!empty($voyages)) : ?>
+                <?php foreach ($voyages as $index => $voyage) : 
+                    $duree = 1;
+                    if (!empty($voyage['DateDebut']) && !empty($voyage['DateFin'])) {
+                        $d1 = new DateTime($voyage['DateDebut']);
+                        $d2 = new DateTime($voyage['DateFin']);
+                        $duree = $d2->diff($d1)->days + 1;
+                    }
+                ?>
+                    <div class="travel-card"
+                        data-index="<?= $index ?>"
+                        data-prix="<?= (int)$voyage['PrixBase'] ?>"
+                        data-date="<?= htmlspecialchars($voyage['DateDebut']) ?>"
+                        data-duree="<?= $duree ?>"
+                        data-pays="<?= htmlspecialchars($voyage['Pays'] ?? '') ?>">
+
                         <div class="price"><?= htmlspecialchars($voyage['PrixBase']) ?>€</div>
                         <h3><?= htmlspecialchars($voyage['Titre']) ?></h3>
-                        <p>Date: <?= htmlspecialchars($voyage['DateDebut']) ?></p>
-                        <p>Description: <?= htmlspecialchars($voyage['Description']) ?></p>
+                        <p><?= htmlspecialchars($voyage['Description']) ?></p>
+                        <p><strong>Durée :</strong> <?= $duree ?> jour(s)</p>
+                        <?php if (!empty($voyage['Pays'])): ?>
+                            <p><strong>Pays :</strong> <?= htmlspecialchars($voyage['Pays']) ?></p>
+                        <?php endif; ?>
+                        <p><strong>Période :</strong> <?= htmlspecialchars($voyage['DateDebut']) ?> - <?= htmlspecialchars($voyage['DateFin']) ?></p>
                         <a href="voyages_details.php?id=<?= urlencode($voyage['IdVoyage']) ?>" class="btn">Voir plus</a>
                     </div>
                 <?php endforeach; ?>
@@ -55,31 +64,83 @@ $nombre_total_pages = ceil(count($voyages) / $voyages_par_page);
                 <p>Aucun voyage disponible.</p>
             <?php endif; ?>
         </div>
-
-        <?php if ($nombre_total_pages > 1): ?>
-        <div class="pagination">
-            <?php if ($page_actuelle > 1): ?>
-                <a class="pagination-btn" href="?page=<?= $page_actuelle - 1 ?>">&laquo; Précédent</a>
-            <?php endif; ?>
-
-            <?php for ($i = 1; $i <= $nombre_total_pages; $i++) : ?>
-                <a class="pagination-btn" href="?page=<?= $i ?>" class="<?= ($i == $page_actuelle) ? 'active' : '' ?>"><?= $i ?></a>
-            <?php endfor; ?>
-
-            <?php if ($page_actuelle < $nombre_total_pages): ?>
-                <a class="pagination-btn" href="?page=<?= $page_actuelle + 1 ?>">Suivant &raquo;</a>
-            <?php endif; ?>
-        </div>
-        <?php endif; ?>
-
+        <div id="pagination-controls" class="pagination"></div>
     </main>
 
     <footer>
         <h2>Copyright © Horage - Tous droits réservés</h2>
         <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
-
     </footer>
 
+    <script>
+    const PAGE_SIZE = 3;
+    let currentPage = 1;
+
+    function getAllCards() {
+        return Array.from(document.querySelectorAll('.travel-card'));
+    }
+
+    function updatePagination() {
+        const container = document.getElementById('voyagesContainer');
+        const cards = getAllCards();
+        const pagination = document.getElementById('pagination-controls');
+        const nPages = Math.ceil(cards.length / PAGE_SIZE) || 1;
+
+        if(currentPage > nPages) currentPage = nPages;
+        if(currentPage < 1) currentPage = 1;
+
+        getAllCards().forEach(card => card.style.display = "none");
+        cards.forEach((card, idx) => {
+            card.style.display = (idx >= (currentPage-1)*PAGE_SIZE && idx < currentPage*PAGE_SIZE) ? "" : "none";
+        });
+
+        pagination.innerHTML = '';
+        if(cards.length === 0) return;
+
+        const prevBtn = document.createElement("a");
+        prevBtn.textContent = "« Précédent";
+        prevBtn.classList.add('pagination-btn');
+        if(currentPage === 1){
+            prevBtn.classList.add('disabled');
+        } else {
+            prevBtn.href = "#";
+            prevBtn.onclick = (e) => { e.preventDefault(); currentPage--; updatePagination(); };
+        }
+        pagination.appendChild(prevBtn);
+
+        const nMaxPagesShow = 3;
+        let first = Math.max(1, currentPage - Math.floor(nMaxPagesShow/2));
+        let last = Math.min(nPages, first + nMaxPagesShow - 1);
+        first = Math.max(1, last - nMaxPagesShow + 1);
+
+        for(let i=first; i<=last; ++i) {
+            let b = document.createElement("a");
+            b.textContent = i;
+            b.classList.add('pagination-btn');
+            if(i === currentPage) {
+                b.classList.add('active');
+            } else {
+                b.href = "#";
+                b.onclick = (e) => { e.preventDefault(); currentPage = i; updatePagination(); };
+            }
+            pagination.appendChild(b);
+        }
+
+        const nextBtn = document.createElement("a");
+        nextBtn.textContent = "Suivant »";
+        nextBtn.classList.add('pagination-btn');
+        if(currentPage === nPages){
+            nextBtn.classList.add('disabled');
+        } else {
+            nextBtn.href = "#";
+            nextBtn.onclick = (e) => { e.preventDefault(); currentPage++; updatePagination(); };
+        }
+        pagination.appendChild(nextBtn);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        updatePagination();
+    });
+    </script>
 </body>
 </html>
-

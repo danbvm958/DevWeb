@@ -1,57 +1,89 @@
-document.querySelectorAll(".edit-btn").forEach(button => {
-    button.addEventListener("click", function () {
-        let span = this.previousElementSibling;
-        let field = span.dataset.field; // Utilisation directe de data-field
+let edit=document.querySelectorAll(".edit-btn");
+let currentEditing=null;
 
-        let input = document.createElement("input");
-        input.type = field === 'email' ? 'email' : 'text';
-        input.value = span.textContent;
-        input.dataset.field = field;
+edit.forEach((button)=>{
+    button.addEventListener('click',()=>{
+        if (currentEditing) {
+            currentEditing.input.replaceWith(currentEditing.span);
+            currentEditing.container.replaceWith(currentEditing.button);
+            currentEditing = null;
+        }
 
-        span.replaceWith(input);
-        input.focus();
+        span=button.previousElementSibling;
+        field=span.getAttribute("data-field");
 
-        input.addEventListener("blur", function () {
-            updateUser(input);
-        });
+        const NewInput=document.createElement('input');
+        NewInput.type="text";
+        span.replaceWith(NewInput);
 
-        input.addEventListener("keypress", function (event) {
+        NewInput.addEventListener('keydown', (event) => {
             if (event.key === "Enter") {
-                updateUser(input);
+                event.preventDefault();
+                ValidButton.click(); 
             }
         });
+
+        const ValidButton=document.createElement('button');
+        ValidButton.type="button";
+        ValidButton.className="edit-btn"
+        ValidButton.textContent="✔️";
+
+        const UnvalidButton=document.createElement('button');
+        UnvalidButton.type="button";
+        UnvalidButton.className="edit-btn"
+        UnvalidButton.textContent="✖️";  
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.append(ValidButton, UnvalidButton);
+
+        span.replaceWith(NewInput);
+        button.replaceWith(buttonContainer);
+
+        currentEditing = {
+            input: NewInput,
+            span: span,
+            button: button,
+            container: buttonContainer
+        };
+
+        UnvalidButton.addEventListener('click',()=>{
+            NewInput.replaceWith(span);
+            buttonContainer.replaceWith(button);
+        })
+        ValidButton.addEventListener('click', () => {
+    const NewValue = NewInput.value.trim();
+    if (NewValue === "") {
+        alert("Le champ ne peut pas être vide !");
+        NewInput.focus();
+        return; // Bloque la validation si vide
+    }
+    modifUser(NewValue, field).then(resultat => {
+        if (resultat == "Mise à jour réussie.") {
+            NewInput.replaceWith(span);
+            buttonContainer.replaceWith(button);
+            span.textContent = NewValue;
+        } else {
+            NewInput.replaceWith(span);
+            buttonContainer.replaceWith(button);
+        }
     });
 });
 
-function updateUser(input) {
-    let field = input.dataset.field;
-    let newValue = input.value.trim();
-
-    if (newValue === "") {
-        alert("Le champ ne peut pas être vide !");
-        return;
-    }
-
-    let formData = new FormData();
-    formData.append("field", field);
-    formData.append("value", newValue);
-
-    fetch("modif_user.php", {
-        method: "POST",
-        body: formData
     })
-    .then(response => response.text())
-    .then(data => {
-        console.log("Réponse serveur:", data);
 
-        if (data.includes("réussie")) {
-            let span = document.createElement("span");
-            span.textContent = newValue;
-            span.dataset.field = field;
-            input.replaceWith(span);
-        } else {
-            alert("Erreur : " + data);
-        }
+}
+
+)
+
+async function modifUser(Value, field){
+    const send = await fetch('modif_user.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `field=${encodeURIComponent(field)}&value=${encodeURIComponent(Value)}`
     })
-    .catch(error => console.error("Erreur :", error));
+    const resultat = await send.text();
+    // console.log(resultat);
+    return resultat;
 }

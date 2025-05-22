@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['vip_payment'])) {
 </head>
 <body>
 <?php 
-    
+    DemarrageSession();
     AfficherHeader();
 ?>
 

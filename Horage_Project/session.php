@@ -39,7 +39,9 @@ function AfficherHeader() {
         $typeUser = $_SESSION['user']['type'];
         $pageProfil = match ($typeUser) {
             'admin'  => 'profil_admin.php',
+            'SuperAdmin'  => 'profil_admin.php',
             'normal' => 'profil_user.php',
+            'vip' => 'profil_user.php',
             default  => 'login.php'
         };
         $profilLabel = 'Profil';
@@ -49,12 +51,12 @@ function AfficherHeader() {
 <header>
     <div class="header_1">
         <h1>Horage</h1>
-        <img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px">
+        <a href="accueil.php"><img src="img_horage/logo-Photoroom.png" alt="logo de Horage" width="200px"></a>
+        
     </div>   
 
     <div class="nav">
         <ul>
-            <li><a href="accueil.php" class="a1">Accueil</a></li>
             <li><a href="presentation.php" class="a1">Presentation</a></li>
             <li><a href="Reserve.php" class="a1">Nos offres</a></li>
             <li><a href="Recherche.php" class="a1">Reserver</a></li>

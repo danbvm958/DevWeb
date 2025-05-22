@@ -15,6 +15,7 @@ if (VerificationConnexion() == 1) {
     $stmt = $pdo->prepare("SELECT Id FROM utilisateur WHERE NomUtilisateur = ?");
     $stmt->execute([$username]);
     $Idutilisateur = $stmt->fetch(PDO::FETCH_ASSOC)['Id'];
+    $typeUtilisateur = $_SESSION['user']['type'];
     
     // On récupère les voyages payés par cet utilisateur
     $stmt = $pdo->prepare("SELECT * FROM voyage_payee WHERE IdUtilisateur = ?");
@@ -87,7 +88,12 @@ if (VerificationConnexion() == 1) {
                     ?>
                     <div class="travel-card">
                         <!-- On affiche les informations du voyage -->
-                        <div class="price">€ <?= htmlspecialchars($info['Prix']) ?></div>
+                        <div class="price">
+                            <?= htmlspecialchars(number_format($info['Prix'], 2)) ?>€
+                           
+                        </div>
+
+
                         <h3><?= htmlspecialchars($voyage['Titre']) ?></h3>
                         <p>Date d'achat: <?= htmlspecialchars($info['DatePaiement']) ?></p>
                         <p>Nombre de personnes: <?= htmlspecialchars($NbPersonne) ?></p>

@@ -14,6 +14,11 @@
             <h2>Accès Interdit</h2>
             <p>Vous avez été banni de notre site. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter l'administration.</p>
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=support@horage.com&su=Demande%20de%20réactivation%20de%20compte" target="_blank" class="a2">Contacter l'administration</a>
+            >
+            </br>
+            <p>Si le problème a été réglé, veuillez cliquer sur le lien ci-dessous.</p>
+             <a href= "login.php" target="_blank" class="a2">Conexion</a>
+
 
         </section>
     </main>

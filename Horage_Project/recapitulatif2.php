@@ -54,6 +54,8 @@ $stmt->execute([$id_voyage, $_SESSION['user']['id']]);
 $vp=$stmt->fetch(PDO::FETCH_ASSOC);
 $prix_total = $vp['Prix'] ;
 
+$typeUtilisateur = $_SESSION['user']['type'];
+
 
 ?>
 
@@ -64,6 +66,7 @@ $prix_total = $vp['Prix'] ;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Récapitulatif du voyage - Horage</title>
     <link rel="stylesheet" href="CSS/recapitulatif.css?v=<?php echo time(); ?>">
+    <link rel="shortcut icon" href="img_horage/logo-Photoroom.png" type="image/x-icon">
     <script src="js/ThemeSwitcher.js" defer></script>
     <script src="js/navHighlighter.js" defer></script>
 </head>
@@ -78,7 +81,14 @@ $prix_total = $vp['Prix'] ;
         <p><strong>Description :</strong> <?= htmlspecialchars($voyage['Description']) ?></p>
         <p><strong>Dates :</strong> Du <?= date('d/m/Y', strtotime($voyage['DateDebut'])) ?> au <?= date('d/m/Y', strtotime($voyage['DateFin'])) ?></p>
         <p><strong>Places disponibles :</strong> <?= htmlspecialchars($voyage['PlacesDispo']) ?></p>
-        <p><strong>Prix total :</strong> <?= afficherPrix($prix_total) ?></p>
+        
+<p><strong>Prix total :</strong> <?= afficherPrix($prix_total) ?>
+    <?php if ($typeUtilisateur === "vip"): ?>
+        <span style="color:green;">(-20% VIP)</span>
+    <?php endif; ?>
+</p>
+
+    
     </div>
 
     <h3 id="subtitle">Étapes du voyage</h3>

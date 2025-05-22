@@ -1,13 +1,24 @@
 <?php 
-    require_once 'session.php';
-    DemarrageSession();
-    if ($_SESSION['user']['type'] !== 'admin'){
-        header(Location : "accueil.php");
-    }
-    $pdo = DemarrageSQL();
-    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE Types != ?");
-    $stmt->execute(["admin"]);
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+require_once 'session.php';
+DemarrageSession();
+
+// Redirection si pas admin ou SuperAdmin
+if ($_SESSION['user']['type'] !== 'admin' && $_SESSION['user']['type'] !== 'SuperAdmin'){
+    header("Location: accueil.php");
+    exit();
+}
+$pdo = DemarrageSQL();
+
+// Si SuperAdmin, voir tous les utilisateurs
+if ($_SESSION['user']['type'] === 'SuperAdmin') {
+    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE Types IN ('normal', 'vip', 'bloque','admin')");
+    $stmt->execute();
+} else {
+    // Sinon, admin NORMAL : ne voir que normal/vip/bloqué
+    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE Types IN ('normal', 'vip', 'bloque')");
+    $stmt->execute();
+}
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -22,17 +33,12 @@
     <script src="js/Admin.js" defer></script>
     <script src="js/navHighlighter.js" defer></script>
     <style>
-        .en-attente {
-            background-color: #bbb !important;
-            color: #fff !important;
-            cursor: not-allowed !important;
-            opacity: 0.7;
-        }
+        
     </style>
 </head>
 <body>
 <?php 
-    AfficherHeader();
+AfficherHeader();
 ?>
 
 <h1 class="pt">Liste des utilisateurs d'Horage</h1>
@@ -42,37 +48,33 @@
             <th>Nom</th>
             <th>Prénom</th>
             <th>E-mail</th>
-            <th>VIP</th>
-            <th>Bloqué</th>
+            <th>Type d'utilisateur</th>
             <th>Profil</th>
         </tr>
         <?php foreach ($users as $user): ?>
-            <?php if ($user['Types'] !== 'admin'): ?>
-            <tr>
-                <td><?= htmlspecialchars($user['Nom']) ?></td>
-                <td><?= htmlspecialchars($user['Prenom']) ?></td>
-                <td><?= htmlspecialchars($user['Email']) ?></td>
-                <td>
-                    <button 
-                        class="btn btn-toggle-vip <?= ($user['Types']=='vip') ? 'btn-vip' : 'btn-blocked' ?>" 
-                        data-email="<?= htmlspecialchars($user['Email']) ?>"
-                        data-type="<?= htmlspecialchars($user['Types']) ?>">
-                        <?= ($user['Types'] == 'vip') ? 'Oui' : 'Non' ?>
-                    </button>
-                </td>
-                <td>
-                    <button 
-                        class="btn btn-toggle-bloc <?= (!empty($user['bloque']) && $user['bloque']) ? 'btn-blocked' : 'btn-vip' ?>" 
-                        data-email="<?= htmlspecialchars($user['Email']) ?>"
-                        data-bloque="<?= !empty($user['bloque']) ? 'oui' : 'non' ?>">
-                        <?= (!empty($user['bloque']) && $user['bloque']) ? 'Oui' : 'Non' ?>
-                    </button>
-                </td>
-                <td>
-                    <a href="profil_user_admin.php?email=<?= urlencode($user['Email']) ?>" class="btn btn-profile">Voir</a>
-                </td>
-            </tr>
-            <?php endif; ?>
+        <tr>
+            <td><?= htmlspecialchars($user['Nom']) ?></td>
+            <td><?= htmlspecialchars($user['Prenom']) ?></td>
+            <td><?= htmlspecialchars($user['Email']) ?></td>
+            
+            <td>
+    <select class="select-type" data-email="<?= htmlspecialchars($user['Email']) ?>">
+        <?php if ($_SESSION['user']['type'] === 'SuperAdmin' && $user['Types'] === 'admin'): ?>
+            <option value="admin" <?= $user['Types'] === 'admin' ? 'selected' : '' ?>>Administrateur</option>
+            <option value="bloque" <?= $user['Types'] === 'bloque' ? 'selected' : '' ?>>Bloqué</option>
+        <?php else: ?>
+            <option value="normal" <?= $user['Types'] === 'normal' ? 'selected' : '' ?>>Normal</option>
+            <option value="vip" <?= $user['Types'] === 'vip' ? 'selected' : '' ?>>VIP</option>
+            <option value="bloque" <?= $user['Types'] === 'bloque' ? 'selected' : '' ?>>Bloqué</option>
+            
+        <?php endif; ?>
+    </select>
+</td>
+
+            <td>
+                <a href="profil_user_admin.php?email=<?= urlencode($user['Email']) ?>" class="btn btn-profile">Voir</a>
+            </td>
+        </tr>
         <?php endforeach; ?>
     </table>
 </div>
@@ -81,6 +83,10 @@
     <h2>Copyright © Horage - Tous droits réservés</h2>
     <p>Le contenu de ce site, incluant, sans s'y limiter, les textes, images, vidéos, logos, graphiques et tout autre élément, est la propriété exclusive d'Horage ou de ses partenaires et est protégé par les lois en vigueur sur la propriété intellectuelle.</p>
 </footer>
+
+<div id="global-loader" style="display:none;">
+  <div class="spinner"></div>
+</div>
 
 </body>
 </html>

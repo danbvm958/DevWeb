@@ -141,3 +141,48 @@ document.addEventListener('DOMContentLoaded', function() {
         affichagePrix.textContent = formatPrix(Math.round(prixTotal));
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const maxPlaces = voyageData.placesDisponibles;
+    const inputAdultes = document.getElementById("nb_adultes");
+    const inputEnfants = document.getElementById("nb_enfants");
+    const form = document.getElementById("reservation-form");
+
+    function mettreAJourLimites() {
+        const nbAdultes = parseInt(inputAdultes.value, 10) || 0;
+        const nbEnfants = parseInt(inputEnfants.value, 10) || 0;
+        const total = nbAdultes + nbEnfants;
+
+        // Réduire automatiquement si dépassement
+        if (total > maxPlaces) {
+            const surplus = total - maxPlaces;
+            if (document.activeElement === inputEnfants && nbEnfants > 0) {
+                inputEnfants.value = nbEnfants - surplus;
+            } else if (document.activeElement === inputAdultes && nbAdultes > 1) {
+                inputAdultes.value = Math.max(1, nbAdultes - surplus);
+            }
+        }
+
+        // Met à jour dynamiquement les limites max
+        const nbAdultesActuel = parseInt(inputAdultes.value, 10) || 0;
+        const nbEnfantsActuel = parseInt(inputEnfants.value, 10) || 0;
+        inputAdultes.max = maxPlaces - nbEnfantsActuel;
+        inputEnfants.max = maxPlaces - nbAdultesActuel;
+    }
+
+    inputAdultes.addEventListener("input", mettreAJourLimites);
+    inputEnfants.addEventListener("input", mettreAJourLimites);
+
+    form.addEventListener("submit", (e) => {
+        const nbAdultes = parseInt(inputAdultes.value, 10) || 0;
+        const nbEnfants = parseInt(inputEnfants.value, 10) || 0;
+        const total = nbAdultes + nbEnfants;
+        if (total > maxPlaces) {
+            e.preventDefault();
+        }
+    });
+
+    // Initialiser les valeurs max dès le chargement
+    mettreAJourLimites();
+});
+
