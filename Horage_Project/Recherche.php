@@ -84,7 +84,7 @@ sort($pays);
             </div>
 
             <div class="filter-item">
-                <label>Tri secondaire</label>
+                <label>Tri secondaire 1</label>
                 <div class="filter-combo">
                     <select id="tri2" class="bouton">
                         <option value="none" selected>Aucun tri</option>
@@ -100,7 +100,7 @@ sort($pays);
             </div>
 
              <div class="filter-item">
-                <label>Tri secondaire</label>
+                <label>Tri secondaire 2</label>
                 <div class="filter-combo">
                     <select id="tri3" class="bouton">
                         <option value="none" selected>Aucun tri</option>
