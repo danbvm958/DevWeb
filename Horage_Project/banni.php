@@ -17,7 +17,7 @@
             >
             </br>
             <p>Si le problème a été réglé, veuillez cliquer sur le lien ci-dessous.</p>
-             <a href= "login.php" target="_blank" class="a2">Conexion</a>
+             <a href= "logout.php" target="_blank" class="a2">Conexion</a>
 
 
         </section>
